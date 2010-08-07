@@ -1,0 +1,32 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Main Thesis entry point       		                                      %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{thesisinfo.tex} %Setup basic thesis info
+						
+\begin{document}
+\frontmatter
+
+\input{front} %Create Title, Abstract(Engrish and Spanish), Acknowledgementes
+
+\tableofcontents %Table of contents
+\listoffigures %List of figures
+\listoftables %List of tables
+
+\input{tables_abbr_sym/abbreviations.tex} %List of acronyms
+
+\mainmatter
+
+\input{chapters/chapter1.tex}%Introduction
+\input{chapters/chapter2.tex}%Theory
+\input{chapters/chapter3.tex}%Experiment explanation and setup
+\input{chapters/chapter4.tex}%Results and conclusion
+
+\appendix
+\makeappendicespage
+
+\input{appendices/appendixA.tex}
+
+\input{back.tex}
+
+\end{document}

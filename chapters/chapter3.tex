@@ -1,0 +1,425 @@
+% chapter3.tex
+% Capitulo 3. Estudio de la plataforma USRP y GNURadio
+%==========================================================================
+\chapter{Estudio de la plataforma USRP y GNURadio}
+
+En este cap\'itulo se aplican los conceptos de la modulaci\'on QPSK para
+analizar el rendimiento de la plataforma USRP. El experimento consta de elaborar
+un programa que realice la modulaci\'on utilizando el lenguaje Python y
+\gnuradio\ bajo el ambiente Linux. Este programa va interactuar con el USRP
+por medio del puerto USB, intercambiando la informaci\'on que se transmite y
+recibe. El an\'alisis ser\'a visualizado en la PC utilizando las herramientas
+que \gnuradio\ proporciona.
+
+La transmisi\'on se realizar\'a utilizando las tarjetas LFTX y LFRX. Estas
+tarjetas proporcionan acceso directo a las salidas del DAC y entradas del ADC
+respectivamente sin ning\'un tipo de amplificaci\'on y filtrado. Dependiendo la
+aplicaci\'on ser\'a necesario acoplar una etapa de RF para acondicionar la
+se\~nal y poder ser transmitida correctamente.
+
+% 3.1. Estructura del sistema USRP
+%==========================================================================
+\section{Estructura del sistema USRP}
+
+El sistema USRP es un dispositivo que permite dise\~nar radios reconfigurables
+por software. El dispositivo es solamente una parte de la estructura completa de
+un SDR. Su funci\'on principal es actuar como la secci\'on de frecuencia intermedia de un sistema de
+comunicaciones.
+
+La figura \ref{fig:sisusrp} muestra los componentes que forman un sistema de
+comunicaciones implementado con el USRP. Todo el procesamiento en banda base, es decir,
+modulaciones, codificaciones, etc., es llevado a cabo en una PC x86. Esta PC
+contiene el programa Python que realiza todo el procesamiento digital con la
+se\~nal o se\~nales que se desean trabajar. Esto se lleva a cabo utilizando las
+herramientas proporcionadas por \gnuradio.
+
+\begin{figure}[ht]
+\centering
+	\includegraphics[width=5in]{figs/usrp}
+	\caption{Placa principal del USRP.}
+	\label{fig:sisusrp}
+\end{figure}
+
+Los componentes principales del USRP son el FPGA Altera Cyclone EP1C12, los codec AD9862 de alta
+velocidad , las interfaces de las tarjetas auxiliares y el controlador Cypress FX2 para la
+comunicaci\'on por el puerto USB. La tarjeta cuenta con 4 conectores donde se pueden conectar 2
+tarjetas TX y 2 RX o 2 tarjetas RFX (transmisor y receptor en una sola tarjeta auxiliar). Cada
+tarjeta puede acceder a dos de los 4 ADC/DACs. Si la tarjeta utiliza muestreo real (sin usar IQ)
+entonces esto permitir\'a tener 2 secciones de RF independientes, para un total de 4. Si se utiliza
+muestreo complejo IQ entonces cada tarjeta tendra una sola etapa de RF, para un total de 2 en todo
+el sistema. Cada tarjeta auxiliar tiene dos conectores SMA para transmitir o recibir se\~nales y una
+EEPROM con bus de datos I2C que identifica la tarjeta al sistema. Esto permite que el software en la
+PC pueda configurar el sistema basandose en la tarjeta que este instalada. Las tarjetas que
+actualmente soporta el USRP se muestran en la tabla \ref{tbl:cards}.
+
+\begin{table}[htp]
+\begin{center}
+	\begin{tabular}{|c|p{8cm}|p{3cm}|}
+		\hline
+		\textbf{Tarjeta} & \textbf{Descripci\'on} & \textbf{Frecuencia de operaci\'on}\\
+		\hline
+		BasicTX y RX & Transmisor y Receptor para ser utilizados con equipo externo de RF. Sus salidas
+		estan acopladas por un transformador directamente a los ADC/DACs con una impedancia de 50$\Omega$.
+		& 1Mhz-250Mhz\\
+		\hline
+		LFTX y LFRX & Similar al BasicTX y RX pero las salidas estan acopladas por amplificadores
+		diferenciales en lugar de transformadores. Esto las permite trabajar con frecuencias hasta DC.
+		Tambien cuentan con un filtro pasabajas con frecuencia de corte de 30Mhz. & DC-30Mhz\\
+		\hline
+		TVRX & Sistema receptor de VHF y UHF basando en un sintonizador de TV con un ancho de banda de
+		canal de 6Mhz. & 50Mhz-860Mhz\\
+		\hline
+		DBSRX & Sistema receptor con filtro de canal controlado por software de 1Mhz a 60Mhz. &
+		800Mhz-2.4Ghz\\
+		\hline
+		RFX400 & TX y RX en una sola tarjeta con un ancho de banda de canal de 30Mhz. & 400Mhz-500Mhz\\
+		\hline
+		RFX900 & TX y RX con 200mW(23dBm) de potencia.  & 750Mhz-1050Mhz\\
+		\hline
+		RFX1200 & TX y RX con 200mW de potencia que cubre las bandas satelitales. & 1150Mhz-1450Mhz\\
+		\hline
+		RFX1800 & TX y RX con 100mW(20dBm) de potencia & 1.5Ghz-2.1Ghz\\
+		\hline
+		RFX2400 & TX y RX con 50mW(17dBm) de potencia con un filtro pasa bandas alrededor de la banda
+		ISM(2400-2433Mhz). El filtro se puede desabilitar para utilizar todo el rango de frecuencias. &
+		2.3Ghz-2.9Ghz\\
+		\hline
+		XCVR2450 & TX y RX que cubre toda la banda ISM asi como tambien algunas bandas japonesas. &
+		2.4-2.5Ghz y 4.9-5.9Ghz\\
+		\hline
+		WBX & TX y RX que cubre varias bandas incluyendo televisi\'on, comunicaciones m\'obiles, sensores
+		inal\'ambricos, etc. & 50Mhz-2.2Ghz\\
+		\hline
+	\end{tabular}\label{tbl:cards}
+	\vspace{0.5in}
+	\caption{Tarjetas auxiliares que soporta el USRP.}
+\end{center}
+\end{table}
+
+El controlador FX2 utiliza 3 endpoints para la comunicaci\'on con el FPGA y la
+PC como se describen en la tabla \ref{tbl:endpoints}. El endpoint 0 es el de
+control y es necesaria su implementaci\'on para que el dispositivo pueda ser
+compatible y a su vez, ser certificado por el est\'andar de USB \cite{usb}. Los
+endpoints 2 y 6 son de tipo Bulk, que de acuerdo a la especificaci\'on del USB,
+son los que permiten el mayor rendimiento de transferencia (512 bytes por
+paquete). Estos son utilizados para enviar los datos de la se\~nal al FPGA. El
+FX2 utiliza una interfaz de prop\'osito gen\'erico (GPIF) para proporcionar un
+bus de datos al mundo exterior, esto con el prop\'osito de facilitar la interfaz
+a otros dispositivos. En este caso el GPIF se conecta directamente al FPGA con
+una tasa de transferencia de 96 MB/sec.
+
+\begin{table}[htp]
+\begin{center}
+	\begin{tabular}{|c|c|}
+		\hline
+		\textbf{Endpoints} & \textbf{Descripci\'on} \\
+		\hline
+		0 & Control/Status \\
+		\hline
+		2 & PC $\rightarrow$ FPGA \\
+		\hline
+		6 & FPGA $\rightarrow$ PC \\
+		\hline
+	\end{tabular}\label{tbl:endpoints}
+	\vspace{0.5in}
+	\caption{\emph{Endpoints} implementados por el controlador FX2}
+\end{center}
+\end{table}
+
+El FPGA es el encargado de realizar operaciones de alta velocidad y de reducir
+la tasa de datos en una m\'as adecuada para que la se\~nal pueda ser transferida
+por el puerto USB. Para la etapa de RX, la configuraci\'on b\'asica contiene dos
+DDC (\emph{Digital Down Converters}) implementados con filtros CIC (Peine
+Integradores en Cascada) de 4 etapas y filtros de banda media (\emph{Half-band}
+o HB) de orden 30. El prop\'osito del DDC es adaptar la frecuencia de la se\~nal
+a otra frecuencia que el puerto USB pueda manejar adecuadamente. La estructura
+del DDC se muestra en la figura \ref{fig:ddcblock}.
+
+\begin{figure}[htp]
+\centering
+	\includegraphics[width=5.5in]{figs/ddc}
+	\vspace{0.3in}
+	\caption{Estructura del DDC implementado en el USRP}
+	\label{fig:ddcblock}
+\end{figure}
+
+EL USRP, en su configuraci\'on b\'asica, implementa 2 DDCs, cada uno con 2
+entradas. La se\~nal compleja es multiplicada por otra se\~nal con una
+frecuencia intermedia constante.  La se\~nal resultante se encuentra ahora
+centrada en 0. Despu\'es es introducida al filtro CIC para realizar una
+decimaci\'on por $N$, donde $N$ es especificado por el usuario desde el programa
+del usuario. La funci\'on de transferencia del filtro CIC es la siguiente
+\cite{cic}:
+
+\begin{equation}
+H(z)=H_I^N(z)H_C^N(z)=\frac{(1-z^{-RM})^N}{(1-z^{-1})^N}=\left(\sum_{k=0}^{RM-1}z^{-1}\right)^N
+\end{equation}
+
+\begin{equation*}
+\begin{aligned}
+\text{Donde: }H_I^N&=\text{es la funci\'on de transferencia de la etapa
+integradora}\\
+H_C^N&=\text{es la funci\'on de transferencia de la etapa peine}\\
+R&=\text{es la taza de decimaci\'on o interpolaci\'on}\\
+M&=\text{numero de muestras por etapa}\\
+N&=\text{numero de etapas por filtro}
+\end{aligned}
+\end{equation*}
+
+Como se mencion\'o anteriormente, el USRP implementa este filtro con los
+siguientes par\'ametros: $R$ = variable (4 m\'inimo), $M$ = 1 y $N$ = 4 La
+respuesta a la frecuencia de esta configuraci\'on se muestra en la
+\ref{fig:cicresp}.
+
+\begin{figure}[hpt]
+\centering
+	\includegraphics[width=5.5in]{figs/cicresponse}
+	\caption{Respuesta a la frecuencia del filtro CIC de 4 etapas y R =	4}
+	\label{fig:cicresp}
+\end{figure}
+
+La \'ultima etapa del DDC es el filtro HB el cual realiza una decimaci\'on de 2
+y ayuda a rechazar cualquier banda no deseada por las operaciones previas. La
+funci\'on de transferencia del filtro HB \cite{nguyen} es la
+siguiente:
+
+\begin{equation}
+H(z)=\sum_{n=0}^{N-1}h(n)z^{-n}
+\end{equation}
+
+Estos filtros tienen las siguientes restricciones:
+
+\begin{itemize}
+  \item N-1 debe ser par
+  \item $h(n)=h(N-1-n)$
+\end{itemize}
+
+La respuesta a la frecuencia es
+
+\begin{equation}
+H(e^{j\omega})=e^{-j\omega N-1/2}H_0(e^{-j\omega})
+\end{equation}
+
+donde $H_0(e^{-j\omega})$ representa la respuesta a la amplitud con valor real.
+
+\begin{figure}[hpt]
+\centering
+	\includegraphics[width=5.5in]{figs/hbresponse}
+	\caption{Respuesta a la frecuencia del filtro de media banda}
+	\label{fig:hbresp}
+\end{figure}
+
+Las caracter\'isticas del filtro HB de acuerdo al USRP son las siguientes:
+
+\begin{itemize}
+  \item Orden 30
+  \item Decimador 2
+  \item Pasa bajas
+\end{itemize}
+
+En la figura \ref{fig:hbresp} se muestra la respuesta a la frecuencia del filtro HB.
+Existe simetr\'ia con respecto a la banda $\pi /2$. Esta es una de las
+caracter\'isticas de estos filtros. Debido a esa simetr\'ia la respuesta al
+impulso es
+
+\begin{equation}
+h(n)=\left\{
+\begin{array}{l l}
+0, & \quad n=\frac{N-1}{2}=\text{par y diferente a 0}\\
+\frac{1}{2}, & \quad n=\frac{N-1}{2}
+\end{array}\right.
+\end{equation}
+
+Debido a esta simetr\'ia estos filtros son muy eficientes y f\'aciles de
+implementar ya que aproximadamente el 50\% de sus coeficientes son 0.
+
+La combinaci\'on del filtro CIC y HB dan un factor de decimaci\'on m\'inimo de
+8. El ADC tiene una taza de muestreo de 64Ms/S, por lo tanto, el ancho de banda
+total ser\'a de 32Mhz. Los datos enviados son de 16 bits para I y Q, \'osea, 4
+bytes por muestra compleja. Esto resulta en un ancho de banda efectivo de 8Mhz
+(32Mhz/4bytes). El rango de decimaci\'on que soporta el USRP es [8, 256]. 
+
+Para la etapa de TX el proceso es el inverso y se muestra en la figura
+\ref{fig:ducblock}. El FPGA contiene filtros CIC interpoladores que se encargan
+de interpolar la se\~nal, elevarla a la frecuencia intermedia y despu\'es
+enviarla a los DACs. El proceso de conversi\'on digital hacia arriba (DUC)
+est\'a contenido en el chip AD9862 y no en el FPGA como lo es en el proceso de
+RX. Este chip contiene ambos ADCs y DACs pero \'unicamente en la etapa del DAC
+realiza alg\'un otro procesamiento sobre la se\~nal. La frecuencia de muestreo
+de los DACs es de 128MS/s de 14 bits cada uno, d\'andonos una frecuencia Nyquist
+de 64MS/s. La salida proporciona 1V pico a una carga diferencial de 50$\Omega$.
+Existe un amplificador de ganancia programable (PGA) que puede proporcionar
+hasta 20dB de ganancia y es programable por software. Las se\~nales del DAC son
+en base a corriente y varean entre 0 y 20mA.
+
+\begin{figure}[hpt]
+\centering
+	\includegraphics[width=5.5in]{figs/duc}
+	\vspace{0.2in}
+	\caption{Estructura del DUC implementado en el AD9862}
+	\label{fig:ducblock}
+\end{figure}
+
+% 3.2. GNURadio
+%==========================================================================
+\section{GNURadio}
+\label{sec:gnuradio}
+
+El USRP fue dise\~nado para ser utilizado principalmente, pero no
+exclusivamente, por la herramienta de desarrollo \gnuradio. Esta
+herramienta es abierta (\emph{Open Source}) y consiste en un sistema de
+procesamiento de se\~nales implementado a base de bloques que se ligan uno con
+el otro para formar un sistema completo de comunicaciones. Las aplicaciones que
+se desarrollan son principalmente implementadas con el lenguaje Python, mientras
+que las operaciones cr\'iticas de procesamiento de se\~nales son implementadas
+en C++ utilizando las extensiones de punto flotante del CPU si es que est\'an
+presentes. Cabe mencionar que aunque la funci\'on principal de esta herramienta
+no es realizar simulaciones, tiene la capacidad de generar sistemas de
+comunicaciones utilizando datos obtenidos previamente por medio de alguna
+simulaci\'on o generador. Esto es \'util cuando no se cuenta con hardware de RF
+para llevar a cabo la aplicaci\'on.
+
+\gnuradio\ no est\'a limitado a trabajar \'unicamente con el USRP. Debido a
+la naturaleza abierta de la herramienta, uno puede dise\~nar su propio bloque
+que encapsule alg\'un hardware especial. La programaci\'on del driver se lleva a
+cabo en C, es encapsulada con las clases de C++ para implementar el bloque y
+despu\'es es encapsulada nuevamente en Python para ser utilizado en la
+aplicaci\'on general. De esta manera el usuario no se preocupa por los detalles
+del funcionamiento del hardware, \'unicamente le proporciona los par\'ametros
+adecuados al bloque y este se encarga de establecer la comunicaci\'on adecuada.
+
+% 3.3. Programacion en GNURadio con Python
+%==========================================================================
+\section{Programaci\'on en GNURadio con Python}
+
+Como se menciono en el captulo \ref{sec:gnuradio}, la programaci\'on se lleva a
+cabo principalmente en el lenguaje Python. El lenguaje C++ tambi\'en se utiliza
+pero \'unicamente si se desea desarrollar un modulo nuevo o modificar algunos de
+los que ya existen.
+
+\gnuradio\ es un conjunto de m\'odulos de Python con la capacidad de
+realizar diversas operaciones de procesamiento digital de se\~nales para el desarrollo de
+sistemas de radios configurables por software. Es posible mesclar diferentes
+m\'odulos de otros \emph{frameworks} o librer\'ias junto con los de \gnuradio\
+para incluir mayor soporte al que se ofrece.
+
+El concepto que se aplica para los programas realizados con esta librer\'ia es
+el de grafos. Cada aplicaci\'on cuenta con una serie de nodos o bloques
+conectados entre s\'i para crear una cadena completa de RF llamado grafo de
+flujo. Los bloques se encargan de realizar alguna operaci\'on sobre la
+informaci\'on que fluye atreves de la grafica y est\'os pueden ser operaciones
+matem\'aticas, envi\'o de datos a alg\'un puerto, etc., mientras que las aristas
+transportan la informaci\'on entre los nodos. Cada bloque tiene definido una
+serie de puertos de entradas y salidas las cuales aceptan y entregan un tipo de
+datos espec\'ifico. No es posible realizar una conexi\'on entre dos puertos con
+tipos de datos incompatibles. Un ejemplo de una grafica de flujo sencilla se
+muestra en la figura \ref{fig:radioflow}.
+
+\begin{figure}[hpt]
+\centering
+	\includegraphics{figs/gnuradioflow}
+	\caption{Ejemplo de una grafica de flujo en \emph{GNURadio}}
+	\label{fig:radioflow}
+\end{figure}
+
+La informaci\'on que viaja a trav\'es de las aristas puede provenir de una fuente
+externa \'o interna. Para el caso de las fuentes internas estas generan se\~nales
+puramente digitales a trav\'es de m\'etodos de procesamiento digital de
+se\~nales. Las fuentes externas primeramente adquieren una se\~nal an\'aloga por
+medio de alguna interfaz delantera. Esta interfaz se encarga del
+acondicionamiento de la se\~nal y de su digitalizaci\'on por medio de un ADC
+para luego ser procesada por el bloque de \gnuradio. Estos conceptos se
+aplican igualmente para bloques de salidas. Estos bloques pueden llevar sus
+datos a alg\'un archivo, desplegarlos en forma de alguna grafica o sacarlos a
+trav\'es de alguna interfaz por medio de un DAC y luego al mundo exterior. Un
+ejemplo de un programa que ilustra estos conceptos se muestra en el ejemplo
+\ref{ex:radioexp}. Este programa utiliza dos bloques que generan dos se\~nales
+senoidales independientes a diferentes frecuencias y las entrega a un bloque de audio que
+representa la tarjeta de sonido de la PC donde se est\'a ejecutando el programa,
+esto en efecto mezcla ambas se\~nales para producir un tono.
+
+\newpage
+\begin{example}
+\label{ex:radioexp}
+Ejemplo de programa utilizando GNURadio
+\begin{verbatim}
+#!/usr/bin/env python
+from gnuradio import gr
+from gnuradio import audio
+
+class my_top_block(gr.top_block):
+    def __init__(self):
+      gr.top_block.__init__(self)
+ 
+      sample_rate = 32000
+      ampl = 0.1
+ 
+      src0 = gr.sig_source_f (sample_rate, gr.GR_SIN_WAVE, 350, ampl)
+      src1 = gr.sig_source_f (sample_rate, gr.GR_SIN_WAVE, 440, ampl)
+      dst = audio.sink (sample_rate, "")
+      self.connect (src0, (dst, 0))
+      self.connect (src1, (dst, 1))
+ 
+if __name__ == '__main__':
+     try:
+       my_top_block().run()
+     except KeyboardInterrupt:
+       pass
+\end{verbatim}
+\end{example}
+
+El programa se inicia importando los m\'odulos necesarios para la aplicaci\'on.
+Aqu\'i se importa el modulo \verb|gnuradio| y dos de sus submodulos: \verb|gr| y
+\verb|audio|. Despu\'es se declara una clase que se deriva de \verb|top_block|.
+Todas las clases de \gnuradio\ se tienen que derivar de
+\verb|top_block| o de \verb|hier_block2| ya que estas dos clases act\'uan como
+un contenedor para la grafica de flujo. La primera clase act\'ua como un
+contenedor para una \'unica grafica y la segunda soporta el desarrollo de
+graficas jer\'arquicas.
+
+Los bloques y sus conexiones se definen dentro del constructor de la clase, en
+este caso es la funci\'on \verb|__init__|. Esta l\'inea de c\'odigo tambi\'en
+manda llamar la funci\'on \verb|__init__| de la clase de la que se deriva,
+pas\'andole los par\'ametros que sean necesarios (si es que los pide). Esto es
+necesario para llevar a cabo la inicializaci\'on de ambas clases. En las
+siguientes dos l\'ineas se declaran dos variables para llevar el control del
+tiempo de muestro y de la amplitud. Las siguientes dos l\'ineas demuestran la
+manera de c\'omo se declaran los bloques de ejecuci\'on. Cada bloque est\'a
+representado por una clase y su inicializaci\'on consta en mandar llamar su
+constructor con los par\'ametros necesarios para su funcionamiento. Como se
+puede observar, ambos bloques se encuentran dentro del submodulo \verb|gr| y su
+constructor se invoca con los par\'ametros que requieren para generar el tipo de
+se\~nal que deseamos. Para estos bloques los par\'ametros son los siguientes en
+orden: el tiempo de muestreo, una constante que indica el tipo de se\~nal que se
+desea generar (estas constantes tambi\'en se encuentran dentro del submodulo
+\verb|gr|), la frecuencia de la se\~nal y su amplitud. La siguiente l\'inea
+declara un tercer bloque que es el de audio y representa la tarjeta de sonido de
+la PC. Los par\'ametros que necesita son el tiempo de muestreo y el nombre del
+dispositivo de audio (esto es en caso de que se tenga m\'as de uno en la PC).
+
+Por \'ultimo las dos siguientes l\'ineas demuestran la manera de c\'omo hacer
+las conexiones entre los bloques. Como la clase fue derivada de \verb|top_block|
+ahora contamos sus funciones para nuestro uso. Una de estas funciones se llama
+\verb|connect| y se utiliza para conectar cada uno de los bloques. Los
+par\'ametros que acepta son clases derivadas de los bloques principales o tuplas
+con dos elementos, el bloque y un entero. El entero se utiliza para indicar que
+puerto utilizar para la conexi\'on donde esto es \'unicamente valido para
+bloques que acepten m\'as de una conexi\'on a la vez.  La numeraci\'on de los
+puertos inicia con cero por lo que la primera conexi\'on lleva la primera
+se\~nal al puerto 0 y la segunda conexi\'on lleva la segunda se\~nal al puerto
+1.
+
+Despu\'es de la declaraci\'on de nuestro bloque principal, el programa se
+ejecuta declarando una instancia de nuestra clase, y mandando llamar su
+funci\'on run. Esta funci\'on tambi\'en es proporcionada por la clase
+\verb|top_block|. Cuando este programa se ejecute el resultado debe ser un tono
+emitido a trav\'es de las bocinas de la PC a la frecuencia de las dos se\~nales
+generadas. La grafica representativa de este programa se muestra en la figura
+\ref{fig:gnuradioexam}.
+
+\begin{figure}[hpt]
+\centering
+	\includegraphics{figs/gnuradioexam}
+	\caption{Grafica de flujo del programa ejemplo.}
+	\label{fig:gnuradioexam}
+\end{figure}

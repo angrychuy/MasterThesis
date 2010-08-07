@@ -1,0 +1,130 @@
+% chapter1.tex
+% Capitulo 1. Introduccion
+%==========================================================================
+\chapter{Introducci\'on}
+
+El proyecto que se documenta eval\'ua la plataforma USRP como herramienta
+\'util para la ense\~nanza de las t\'ecnicas de modulaci\'on digital. La
+evaluaci\'on consiste en introducir alguna secuencia de datos al sistema
+(aleatoria, datos extra\'idos de un arch\'ivo, etc.), generar la modulaci\'on y
+demodulaci\'on para la transmisi\'on y observar los resultados.
+
+Los sistemas de de comunicaciones digitales implementados en su  mayor parte por
+software se les conocen como Radios Definidos por
+Software(SDR) \cite{mitola}. El sistema se desarroll\'o dentro de la plataforma
+Linux, utilizando el software \emph{GNURadio}.
+
+% 1.1. Antecedentes
+%==========================================================================
+\section{Antedecentes}%Seccion 1.1 Antecedentes
+
+Gracias a los avances tecnologicos recientes, han surgido varios esfuerzos por
+desarrollar plataformas vers\'atiles para la implementaci\'on de SDRs.
+La complejidad de los algoritmos de modulaci\'on, codificaci\'on, filtrado,
+etc., los hacen buenos candidatos para ser implementados en DSPs como el C6711 de la Texas
+Instruments \cite{abendroth}.
+
+Existen varias soluciones comerciales que ofrecen un nivel m\'as avanzado y
+completo para la investigaci\'on y desarrollo de aplicaciones de comunicaciones
+basadas en SDR. Pentek ofrece plataformas basadas en la interfaz PCI y PCIe
+entre otras \cite{pentek}. Estas plataformas utilizan FPGAs de Xilinx para 
+implementar los bloques de DDC y DUC, as� como tamb\'en filtros de interpolaci�n. La compa�\'ia
+ofrece drivers para Windows y Linux, ofreciendo as\'i mucha flexibilidad de
+escoger un ambiente adecuado para el desarrollo de la aplicaci\'on.
+
+El mundo de \emph{Open Source} tambi�n ha realizado avances notorios en este
+ramo de investigaci\'on. El proyecto m\'as sobresaliente es
+\emph{GNURadio} \cite{radio}. Este proyecto consiste en una librer\'ia extensa
+con varias funciones matem\'aticas, as\'i como tambi\'en funciones para la
+implementaci\'on de algoritmos de procesamiento digital de se�ales, basada en los lenguajes Python y C++. 
+La librer\'ia motiv\'o el desarrollo de un dispositivo de bajo costo, conocido
+como el USRP por sus siglas en ingles \emph{Universal Software Radio Peripheral}, con el prop\'osito de
+utilizarlo para la transmisi\'on y recepci\'on de varios tipos de se�ales
+generados por \emph{GNURadio} \cite{ettus}. Este dispositivo esta tambi\'en
+basado en un FPGA y un par de ADCs y DACs respectivamente. La se�al es enviada a la PC por 
+medio del puerto USB utilizando el controlador CY7C68013 de la compa�\'ia
+Cypress. A pesar de ser un sistema \emph{Open Source}, el USRP y \emph{GNURadio}
+han sido utilizados en diversos campos de investigaci\'on y desarrollo como
+acad\'emicos, comerciales, militares y gubernamentales.
+
+% 1.2. Planteamiento del problema
+%==========================================================================
+\section{Planteamiento del problema}
+Los conceptos del \'area de comunicaciones digitales utilizan 
+teor\'ia matem\'atica que a veces es dif\'icil de visualizar sin una 
+forma de poder utilizar estos conceptos de una manera pr\'actica.
+Los ambientes de desarrollo, 
+como Matlab, proporcionan la habilidad de poder realizar estudios y prototipos 
+de estos conceptos y sistemas utilizando modelos matem\'aticos que aproximan el 
+comportamiento real de un sistema de comunicaciones. F\'isicamente no es
+posible ver los efectos de la teor\'ia sin una implementaci�n real del sistema y
+el equipo que se utiliza para lograrlo (analizadores de espectro, antenas, 
+analizadores de sistemas de comunicaciones, DSPs, etc.) son relativamente 
+caros lo cual hace dif\'icil una implementaci\'on real.
+ 
+
+% 1.3. Justificaci�n
+%==========================================================================
+\section{Justificaci\'on}
+
+El estudio de los conceptos de comunicaciones normalmente ha sido dado de una
+manera te\'orica. En la mayor\'ia de las instituciones se realizan simulaciones
+en Matlab o en alg\'un otro ambiente de desarrollo. Estos paquetes proporcionan
+datos simulados del estudio en cuesti\'on, ya sea la transmisi\'on de alguna
+se�al o el an\'alisis de alg\'un canal de transmisi\'on. El USRP ofrece la
+oportunidad de llevar a cabo estos conceptos a un ambiente m\'as pr\'actico, es
+decir, los datos obtenidos del estudio son de los efectos reales de una
+implementaci\'on f\'isica de un sistema de comunicaciones. El ambiente de
+desarrollo \emph{GNURadio} ofrece incluso un ambiente amigable y sencillo de
+utilizar ya que el lenguaje de programaci\'on utilizado, Python, es muy similar
+al estilo de programaci\'on de Matlab.
+
+% 1.4. Importancia del estudio
+%==========================================================================
+\section{Importancia del estudio}
+
+El estudio de una plataforma m\'as amigable y m\'as din\'amica para el
+entendimiento de los conceptos de comunicaciones digitales es de gran importancia para el 
+desarrollo acad\'emico del alumno que estudia dichos temas. Estos conceptos son 
+normalmente estudiados dentro de ambientes de simulaci�\'on para ver sus efectos 
+y comprobar de forma anal\'itica la teor\'ia. La habilidad de poder llevar estos 
+an\'alisis te\'oricos a la pr\'actica ofrece la oportunidad importante de poder 
+visualizar los resultados obtenidos en la simulaci\'on en una implementaci\'on 
+real donde se puede observar con mayor exactitud los efectos y resultados 
+que se est\'an estudiando. La plataforma USRP ofrece una versatilidad muy 
+amplia para el estudio de sistemas de comunicaci\'on digital que f\'acilmente 
+se pueden llevar a una implementaci\'on a mayor escala. Con esto, la importancia 
+de este estudio se vuelve m\'as evidente cuando el alumno que utilice esta 
+plataforma pueda llevar sus conocimientos b\'asicos a la pr\'actica e
+implementar un sistema de comunicaciones completo de una manera r\'apida y
+sencilla.
+
+% 1.5. Objetivos
+%==========================================================================
+\section{Objetivos}
+
+Los objetivos del presente proyecto son los siguientes:
+\begin{itemize}
+  \item Implementar la modulaci\'on y demodulaci\'on QPSK en el sistema USRP.
+  \item Graficar la SNR del rendimiento del sistema.
+  \item C\'alculo de la tasa de error de bit.
+  \item C\'alculo y gr\'aficas de densidad espectral de potencia.
+  \item Diagrama de ojo y de constelaci\'on del esquema de modulaci\'on.
+\end{itemize}
+
+% 1.6. Metodologia
+%==========================================================================
+\section{Metodolog\'ia}
+
+La metodolog\'ia a seguir es la siguiente:
+\begin{itemize}
+  \item El desarrollo se llevara a cabo en el sistema operativo Linux
+  utilizando el software \emph{GNURadio}.
+  \item Instalaci\'on del sistema operativo y el software.
+  \item Validaci\'on de la instalaci\'on. Ejecuci\'on de programas de prueba
+  proporcionados por \emph{GNURadio}.
+  \item Estudio de los bloques de procesamiento de \emph{GNURadio}.
+  \item Experimentos con el sistema USRP.
+  \item Generaci\'on de gr\'aficas para medir y visualizar los resultados de los
+  experimentos.
+\end{itemize}
