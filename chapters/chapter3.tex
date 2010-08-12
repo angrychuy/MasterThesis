@@ -33,9 +33,9 @@ contiene el programa Python que realiza todo el procesamiento digital con la
 se\~nal o se\~nales que se desean trabajar. Esto se lleva a cabo utilizando las
 herramientas proporcionadas por \gnuradio.
 
-\begin{figure}[ht]
+\begin{figure}[t]
 \centering
-	\includegraphics[width=5in]{figs/usrp}
+	\includegraphics[width=5.5in]{figs/usrp}
 	\caption{Placa principal del USRP.}
 	\label{fig:sisusrp}
 \end{figure}
@@ -96,17 +96,17 @@ actualmente soporta el USRP se muestran en la tabla \ref{tbl:cards}.
 \end{center}
 \end{table}
 
-El controlador FX2 utiliza 3 endpoints para la comunicaci\'on con el FPGA y la
-PC como se describen en la tabla \ref{tbl:endpoints}. El endpoint 0 es el de
-control y es necesaria su implementaci\'on para que el dispositivo pueda ser
-compatible y a su vez, ser certificado por el est\'andar de USB \cite{usb}. Los
-endpoints 2 y 6 son de tipo Bulk, que de acuerdo a la especificaci\'on del USB,
-son los que permiten el mayor rendimiento de transferencia (512 bytes por
-paquete). Estos son utilizados para enviar los datos de la se\~nal al FPGA. El
-FX2 utiliza una interfaz de prop\'osito gen\'erico (GPIF) para proporcionar un
-bus de datos al mundo exterior, esto con el prop\'osito de facilitar la interfaz
-a otros dispositivos. En este caso el GPIF se conecta directamente al FPGA con
-una tasa de transferencia de 96 MB/sec.
+El controlador FX2 integra un CPU 8051 con un controlador de USB de alta velocidad que implementa 3
+\emph{endpoints} logicos para la comunicaci\'on con el FPGA y la PC como se describen en la tabla
+\ref{tbl:endpoints}.Cada \emph{endpoint} establece una via de comunicaci\'on entre el dispostivo
+USB y el \emph{host}. El endpoint 0 es el de control y es necesaria su implementaci\'on para que el
+dispositivo pueda ser compatible y a su vez, ser certificado por el est\'andar de USB \cite{usb}.
+Los endpoints 2 y 6 son de tipo Bulk, que de acuerdo a la especificaci\'on del USB, son los que
+permiten el mayor rendimiento de transferencia (512 bytes por paquete). Estos son utilizados para
+enviar los datos de la se\~nal al FPGA. El FX2 utiliza una interfaz de prop\'osito gen\'erico (GPIF)
+para proporcionar un bus de datos al mundo exterior, esto con el prop\'osito de facilitar la
+interfaz a otros dispositivos. En este caso el GPIF se conecta directamente al FPGA con una tasa de
+transferencia de 96 MB/sec.
 
 \begin{table}[htp]
 \begin{center}
@@ -129,11 +129,11 @@ una tasa de transferencia de 96 MB/sec.
 El FPGA es el encargado de realizar operaciones de alta velocidad y de reducir
 la tasa de datos en una m\'as adecuada para que la se\~nal pueda ser transferida
 por el puerto USB. Para la etapa de RX, la configuraci\'on b\'asica contiene dos
-DDC (\emph{Digital Down Converters}) implementados con filtros CIC (Peine
-Integradores en Cascada) de 4 etapas y filtros de banda media (\emph{Half-band}
-o HB) de orden 30. El prop\'osito del DDC es adaptar la frecuencia de la se\~nal
-a otra frecuencia que el puerto USB pueda manejar adecuadamente. La estructura
-del DDC se muestra en la figura \ref{fig:ddcblock}.
+convertidores digirales hacia abajo (DDC) implementados con filtros CIC (Peine
+Integradores en Cascada) de 4 etapas y filtros de media banda (\emph{Half-band}
+o HB) de orden 31. El prop\'osito del DDC es transformar la se\~nal pasa bandas a banda base. Esto
+se logra centrando su frencuencia en 0Hz, as\'i eliminando la portadora. La estructura del
+DDC se muestra en la figura \ref{fig:ddcblock}.
 
 \begin{figure}[htp]
 \centering
@@ -143,11 +143,11 @@ del DDC se muestra en la figura \ref{fig:ddcblock}.
 	\label{fig:ddcblock}
 \end{figure}
 
-EL USRP, en su configuraci\'on b\'asica, implementa 2 DDCs, cada uno con 2
-entradas. La se\~nal compleja es multiplicada por otra se\~nal con una
-frecuencia intermedia constante.  La se\~nal resultante se encuentra ahora
-centrada en 0. Despu\'es es introducida al filtro CIC para realizar una
-decimaci\'on por $N$, donde $N$ es especificado por el usuario desde el programa
+EL USRP, en su configuraci\'on b\'asica, usa dos DDCs, cada uno con 2
+entradas. La se\~nal compleja que entregan los ADCs es multiplicada por otra se\~nal con una
+frecuencia intermedia constante generada por un oscilador controlado numericamente (NCO).  La
+se\~nal resultante se encuentra ahora centrada en 0Hz. Despu\'es es introducida al filtro CIC para
+realizar una decimaci\'on por $N$, donde $N$ es especificado por el usuario desde el programa
 del usuario. La funci\'on de transferencia del filtro CIC es la siguiente
 \cite{cic}:
 
@@ -159,16 +159,15 @@ H(z)=H_I^N(z)H_C^N(z)=\frac{(1-z^{-RM})^N}{(1-z^{-1})^N}=\left(\sum_{k=0}^{RM-1}
 \begin{aligned}
 \text{Donde: }H_I^N&=\text{es la funci\'on de transferencia de la etapa
 integradora}\\
-H_C^N&=\text{es la funci\'on de transferencia de la etapa peine}\\
-R&=\text{es la taza de decimaci\'on o interpolaci\'on}\\
-M&=\text{numero de muestras por etapa}\\
-N&=\text{numero de etapas por filtro}
+H_C^N&=\text{es la funci\'on de transferencia de la etapa filtro comb}\\
+R&=\text{es la tasa de decimaci\'on o interpolaci\'on}\\
+M&=\text{n\'umero de muestras por etapa}\\
+N&=\text{n\'umero de etapas por filtro}
 \end{aligned}
 \end{equation*}
 
-Como se mencion\'o anteriormente, el USRP implementa este filtro con los
-siguientes par\'ametros: $R$ = variable (4 m\'inimo), $M$ = 1 y $N$ = 4 La
-respuesta a la frecuencia de esta configuraci\'on se muestra en la
+El USRP implementa este filtro con los siguientes par\'ametros: $R$ = variable (4 m\'inimo), $M$ = 1
+y $N$ = 4. La respuesta a la frecuencia de esta configuraci\'on se muestra en la
 \ref{fig:cicresp}.
 
 \begin{figure}[hpt]
@@ -212,7 +211,7 @@ donde $H_0(e^{-j\omega})$ representa la respuesta a la amplitud con valor real.
 Las caracter\'isticas del filtro HB de acuerdo al USRP son las siguientes:
 
 \begin{itemize}
-  \item Orden 30
+  \item Orden 31
   \item Decimador 2
   \item Pasa bajas
 \end{itemize}
@@ -237,7 +236,7 @@ La combinaci\'on del filtro CIC y HB dan un factor de decimaci\'on m\'inimo de
 8. El ADC tiene una taza de muestreo de 64Ms/S, por lo tanto, el ancho de banda
 total ser\'a de 32Mhz. Los datos enviados son de 16 bits para I y Q, \'osea, 4
 bytes por muestra compleja. Esto resulta en un ancho de banda efectivo de 8Mhz
-(32Mhz/4bytes). El rango de decimaci\'on que soporta el USRP es [8, 256]. 
+(32Mhz/4bytes). El rango de decimaci\'on que soporta el USRP es [8, 256].
 
 Para la etapa de TX el proceso es el inverso y se muestra en la figura
 \ref{fig:ducblock}. El FPGA contiene filtros CIC interpoladores que se encargan
