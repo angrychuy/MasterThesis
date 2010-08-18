@@ -288,7 +288,7 @@
     {\SS@sectfont}}
 \renewcommand{\subsection}{%
     \@startsection{subsection}{2}{\z@}%
-    {-0\baselineskip}%
+    {-1\baselineskip}%
     {0.1ex}%
     {\SS@subsectfont}}
 \renewcommand{\subsubsection}{%

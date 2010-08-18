@@ -238,12 +238,11 @@ total ser\'a de 32Mhz. Los datos enviados son de 16 bits para I y Q, \'osea, 4
 bytes por muestra compleja. Esto resulta en un ancho de banda efectivo de 8Mhz
 (32Mhz/4bytes). El rango de decimaci\'on que soporta el USRP es [8, 256].
 
-Para la etapa de TX el proceso es el inverso y se muestra en la figura
-\ref{fig:ducblock}. El FPGA contiene filtros CIC interpoladores que se encargan
-de interpolar la se\~nal, elevarla a la frecuencia intermedia y despu\'es
+Para la etapa de TX el proceso es el inverso. El FPGA contiene filtros CIC interpoladores que se
+encargan de interpolar la se\~nal, elevarla a la frecuencia intermedia y despu\'es
 enviarla a los DACs. El proceso de conversi\'on digital hacia arriba (DUC)
 est\'a contenido en el chip AD9862 y no en el FPGA como lo es en el proceso de
-RX. Este chip contiene ambos ADCs y DACs pero \'unicamente en la etapa del DAC
+RX. Este chip contiene ambos ADCs y DACs pero \'unicamente en la etapa del TX
 realiza alg\'un otro procesamiento sobre la se\~nal. La frecuencia de muestreo
 de los DACs es de 128MS/s de 14 bits cada uno, d\'andonos una frecuencia Nyquist
 de 64MS/s. La salida proporciona 1V pico a una carga diferencial de 50$\Omega$.
@@ -251,13 +250,13 @@ Existe un amplificador de ganancia programable (PGA) que puede proporcionar
 hasta 20dB de ganancia y es programable por software. Las se\~nales del DAC son
 en base a corriente y varean entre 0 y 20mA.
 
-\begin{figure}[hpt]
-\centering
-	\includegraphics[width=5.5in]{figs/duc}
-	\vspace{0.2in}
-	\caption{Estructura del DUC implementado en el AD9862}
-	\label{fig:ducblock}
-\end{figure}
+% \begin{figure}[hpt]
+% \centering
+% 	\includegraphics[width=5.5in]{figs/duc}
+% 	\vspace{0.2in}
+% 	\caption{Estructura del DUC implementado en el AD9862}
+% 	\label{fig:ducblock}
+% \end{figure}
 
 % 3.2. GNURadio
 %==========================================================================
@@ -331,19 +330,16 @@ para luego ser procesada por el bloque de \gnuradio. Estos conceptos se
 aplican igualmente para bloques de salidas. Estos bloques pueden llevar sus
 datos a alg\'un archivo, desplegarlos en forma de alguna grafica o sacarlos a
 trav\'es de alguna interfaz por medio de un DAC y luego al mundo exterior. Un
-ejemplo de un programa que ilustra estos conceptos se muestra en el ejemplo
+ejemplo de un programa que ilustra estos conceptos se muestra en el listado
 \ref{ex:radioexp}. Este programa utiliza dos bloques que generan dos se\~nales
 senoidales independientes a diferentes frecuencias y las entrega a un bloque de audio que
 representa la tarjeta de sonido de la PC donde se est\'a ejecutando el programa,
 esto en efecto mezcla ambas se\~nales para producir un tono.
 
-\newpage
-\begin{example}
-\label{ex:radioexp}
-Ejemplo de programa utilizando GNURadio
-\lstset{language=Python,basicstyle=\footnotesize\sffamily}
-\begin{lstlisting}[frame=single]
-from gnuradio import gr
+
+\lstset{language=Python,basicstyle=\footnotesize\sffamily,captionpos=b}
+\begin{lstlisting}[float,frame=single,label=ex:radioexp,caption={Ejemplo de programa utilizando \gnuradio}] 
+from gnuradio import gr 
 from gnuradio import audio
 
 class my_top_block(gr.top_block):
@@ -365,7 +361,6 @@ if __name__ == '__main__':
      except KeyboardInterrupt:
        pass
 \end{lstlisting}
-\end{example}
 
 El programa se inicia importando los m\'odulos necesarios para la aplicaci\'on.
 Aqu\'i se importa el modulo \verb|gnuradio| y dos de sus submodulos: \verb|gr| y
@@ -408,6 +403,13 @@ puertos inicia con cero por lo que la primera conexi\'on lleva la primera
 se\~nal al puerto 0 y la segunda conexi\'on lleva la segunda se\~nal al puerto
 1.
 
+\begin{figure}[hptb]
+\centering
+	\includegraphics{figs/gnuradioexam}
+	\caption{Grafica de flujo del programa ejemplo.}
+	\label{fig:gnuradioexam}
+\end{figure}
+
 Despu\'es de la declaraci\'on de nuestro bloque principal, el programa se
 ejecuta declarando una instancia de nuestra clase, y mandando llamar su
 funci\'on run. Esta funci\'on tambi\'en es proporcionada por la clase
@@ -416,9 +418,80 @@ emitido a trav\'es de las bocinas de la PC a la frecuencia de las dos se\~nales
 generadas. La grafica representativa de este programa se muestra en la figura
 \ref{fig:gnuradioexam}.
 
-\begin{figure}[hpt]
-\centering
-	\includegraphics{figs/gnuradioexam}
-	\caption{Grafica de flujo del programa ejemplo.}
-	\label{fig:gnuradioexam}
+% Descripcion del experimento
+%==========================================================================
+\section{Descripci\'on del experimento}
+En esta secci\'on se describe la manera en como se llev\'o a cabo el experimento para la
+implementaci\'on de una transmisi\'on digital utilizando el esquema de modulaci\'on QPSK. Las
+instrucciones para instalar el ambiente de desarrollo se describen a detalle en el apendice
+\ref{AppA}.
+
+\subsection{Hardware utilizado}
+Los componentes que forman la parte de hardware son los siguientes:
+
+\begin{itemize}
+  \item USRP
+  \item Tarjetas auxiliares LFTX y LFRX
+  \item Cable coaxial SMA-SMA
+  \item Cable USB
+  \item Fuente de alimentaci\'on
+\end{itemize} 
+
+Como se describi\'o en la tabla \ref{tbl:cards}, las tarjetas LFTX y LFRX tienen un ancho de banda
+de DC-30Mhz. Las terminales de estas tarjetas son de tipo SMA con una impedancia de 50$\Omega$. El
+cable coaxial se utiliz\'o para minimizar perdidas en la transmisi\'on durante la caracterizaci\'on
+del sistema. El cable USB es un cable tipo A-B (conectar estandar A a B). Las especificaciones de la
+fuente de alimentaci\'on para el USRP son 6V @ 4A AC/DC. El sistema es capaz de operar en el rango
+de 90-260VAC @ 50/60Hz lo cual permite que funcione en diferentes paises.
+
+\subsection{Codigo fuente de \gnuradio}
+El c\'odigo fuente de \gnuradio proporciona varios ejemplos que implementan varios conceptos
+utiliznado los bloques de procesamiento que proporciona el \emph{framework}. Algunos de estos
+ejemplos son: receptor de FM, decodificador de se\~nales ATSC, captura y analisis de audio,
+modulacion OFDM, etc. La compilaci\'on del codigo fuente genera tambien la documentaci\'on de todos
+los bloques de procesamiento, el cual es muy \'util como referencia mientras se desarrolla cualquier
+aplicaci\'on. La estructura de los directorios que contienen los ejemplos se muestra en la figura
+\ref{fig:extree}.
+
+\begin{figure}[htp]
+%\DTsetlength{0.2em}{1em}{0.2em}{0.4pt}{1.6pt} Valores default
+\DTsetlength{0.2em}{3em}{0.2em}{0.4pt}{1.6pt} %offset, width, sep, rule-width, dot-size
+	\dirtree{%
+	.1 gnuradio-examples.
+	.2 c++.
+	.3 dial\_tone.
+	.2 grc.
+	.3 audio.
+	.3 demod.
+	.3 simple.
+	.3 trellis.
+	.3 usrp.
+	.3 xmlrpc.
+	.2 python.
+	.3 apps.
+	.4 hf\_explorer.
+	.4 hf\_radio.
+	.3 audio.
+	.3 digital.
+	.3 digital-bert.
+	.3 mp-sched.
+	.4 perf-data.
+	.3 multi-antenna.
+	.3 multi-usrp.
+	.3 network.
+	.3 ofdm.
+	.3 pfb.
+	.3 usrp.
+	.3 usrp2.
+	}
+	\vspace{0.5in}
+	\caption{\'Arbol de directorios de los ejemplos que ofrece \emph{GNURadio}}
+	\label{fig:extree}
 \end{figure}
+
+El experimento se bas\'o en los ejemplos del directorio \emph{digital}. El programa implementa un
+transmisor completo utilizando varias modulaciones digitales como GMSK, BPSK y QPSK y viene en dos
+versiones: una se maneja a trav\'es de una consola de comandos y la otra implementa una interfaz de
+usuario utiliando la libreria QT que ayuda a visualizar de manera grafica lo que el sistema esta
+recibiendo.
+
