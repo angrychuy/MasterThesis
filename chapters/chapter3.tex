@@ -286,7 +286,7 @@ aplicaci\'on general. De esta manera el usuario no se preocupa por los detalles
 del funcionamiento del hardware, \'unicamente le proporciona los par\'ametros
 adecuados al bloque y este se encarga de establecer la comunicaci\'on adecuada.
 
-% 3.3. Programacion en GNURadio con Python
+% Programacion en GNURadio con Python
 %==========================================================================
 \section{Programaci\'on en GNURadio con Python}
 
@@ -444,7 +444,7 @@ del sistema. El cable USB es un cable tipo A-B (conectar estandar A a B). Las es
 fuente de alimentaci\'on para el USRP son 6V @ 4A AC/DC. El sistema es capaz de operar en el rango
 de 90-260VAC @ 50/60Hz lo cual permite que funcione en diferentes paises.
 
-\subsection{Codigo fuente de \gnuradio}
+\subsection{Codigo fuente de GNURadio}
 El c\'odigo fuente de \gnuradio proporciona varios ejemplos que implementan varios conceptos
 utiliznado los bloques de procesamiento que proporciona el \emph{framework}. Algunos de estos
 ejemplos son: receptor de FM, decodificador de se\~nales ATSC, captura y analisis de audio,
@@ -453,9 +453,9 @@ los bloques de procesamiento, el cual es muy \'util como referencia mientras se 
 aplicaci\'on. La estructura de los directorios que contienen los ejemplos se muestra en la figura
 \ref{fig:extree}.
 
-\begin{figure}[htp]
+\begin{figure}[ht]
 %\DTsetlength{0.2em}{1em}{0.2em}{0.4pt}{1.6pt} Valores default
-\DTsetlength{0.2em}{3em}{0.2em}{0.4pt}{1.6pt} %offset, width, sep, rule-width, dot-size
+\DTsetlength{1.5em}{1em}{0.2em}{0.4pt}{1.6pt} %offset, width, sep, rule-width, dot-size
 	\dirtree{%
 	.1 gnuradio-examples.
 	.2 c++.
@@ -489,9 +489,56 @@ aplicaci\'on. La estructura de los directorios que contienen los ejemplos se mue
 	\label{fig:extree}
 \end{figure}
 
-El experimento se bas\'o en los ejemplos del directorio \emph{digital}. El programa implementa un
+El experimento se bas\'o en el ejemplo del directorio \verb|digital|. Este programa implementa un
 transmisor completo utilizando varias modulaciones digitales como GMSK, BPSK y QPSK y viene en dos
 versiones: una se maneja a trav\'es de una consola de comandos y la otra implementa una interfaz de
 usuario utiliando la libreria QT que ayuda a visualizar de manera grafica lo que el sistema esta
-recibiendo.
+recibiendo. El programa utiliza varias tecnicas de programaci\'on orientada a objetos, as\'i como
+tambi\'en estructuraci\'on del codigo de diferentes m\'odulos para separar todos los componentes
+importantes y poder utilizarlos en otras aplicaciones. La figura \ref{fig:relbench} muestra una gr\'afica
+de las principales dependencias entre los modulos de Python que forman parte del ejemplo.
+
+\begin{figure}[htp]
+\centering
+\begin{tikzpicture}[every node/.style={rectangle,draw=black} %
+				,level 1/.style={sibling distance=40mm} %
+				,level 2/.style={sibling distance=30mm} %
+				,edge from parent fork down]
+\node (benchtx) {benchmark\_tx}
+	child {node{modulation\_utils}}
+	child {node{usrp\_transmit\_path}
+		child {node{usrp\_options}}
+		child {node{pick\_tx\_bitrate}}
+		child {node{transmit\_path}
+			child {node{Blk2}
+				child {node{DQPSK}}
+				child {node{mod\_pkts}
+					child {node{packet\_utils}}}}}};
+\end{tikzpicture}
+\vspace{0.5in}
+\caption{Relaci\'on de modulos del ejemplo \emph{benchmark} de \gnuradio}
+\label{fig:relbench}
+\end{figure}
+
+El modulo \verb|benchmark_tx| es el principal y es el que el usuario ejecuta para arrancar la
+aplicaci\'on. \verb|modulation_utils| contiene una funcion que regresa un diccionario con todos los
+esquemas de modulaci\'on registrados en \gnuradio. Este diccionario se utiliza para preparar las
+opciones que se le ofrecen al usario y asi impedir que no seleccione una que no exista.
+\verb|usrp_transmit_path| encapsula la operaci\'on de inicializar el USRP y consiste en enviar los
+comandos de selecci\'on de decimaci\'on\textbackslash interpolaci\'on, frecuencia a la que se deben
+sintonizar las tarjetas auxiliares, el valor del multiplexor que controla las conecci\'ones de los codecs al FPGA,
+etc. Todas estas operaciones son delegadas a una clase contenida en \verb|usrp_options|. El
+resultado es un objeto de tipo \emph{usrp\_sink} configurado para enviar datos al puerto USB. El
+m\'odulo \verb|pick_tx_bitrate| se utiliza para calcular una tasa de bits \'optima apartir de los
+parametros muestras por s\'imbolo, decimaci\'on\textbackslash interpolaci\'on y bits por s\'imbolo.
+La tasa de bits se puede especificar tambien y el modulo verificar\'a que se pueda alcansar con los otros
+parametros especificados. De no ser asi entonces har\'a un ajuste a la tasa de bits para poder
+utilizar correctamente los otros parametros. Si no se especifica ning\'un parametro entonces el
+m\'odulo trabajar\'a con un valor default de 500kb/s.
+El m\'odulo \verb|transmit_path| realiza las operaciones de preparar y crear un objeto que encapsula
+el esquema de modulaci\'on que el usuario seleccion\'o. Los esquemas de modulaci\'on se encentran
+dentro del paquete \verb|blk2impl|, el cual se accede por medio del m\'odulo \verb|blk2| y se
+encarga de importar todo el contenido de \verb|blk2impl| al programa principal. Los dos \'ultimos
+m\'odulos, \verb|mod_pkts| y \verb|packet_utils| se encargan de realizar la operaci\'on de
+empaquetar los bits que se desean transmitir. Esta operaci\'on se explicar\'a a fondo mas adelante.
 
