@@ -540,5 +540,10 @@ el esquema de modulaci\'on que el usuario seleccion\'o. Los esquemas de modulaci
 dentro del paquete \verb|blk2impl|, el cual se accede por medio del m\'odulo \verb|blk2| y se
 encarga de importar todo el contenido de \verb|blk2impl| al programa principal. Los dos \'ultimos
 m\'odulos, \verb|mod_pkts| y \verb|packet_utils| se encargan de realizar la operaci\'on de
-empaquetar los bits que se desean transmitir. Esta operaci\'on se explicar\'a a fondo mas adelante.
+empaquetar los bits que se desean transmitir.
 
+La relaci\'on que se muestra en la figura \ref{fig:relbench} es la base para las otras versiones de
+del mismo ejemplo. Para el receptor la operaci\'on es la misma solo que utiliza los m\'odulos
+\verb|receive_path| y \verb|usrp_receive_path|. Tambi\'en existen versiones que implementan una
+interfaz grafica utilizando la libreria QT que muestra el espectro de la se\~nal, la constelaci\'on
+recibida, etc.
