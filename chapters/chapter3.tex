@@ -444,6 +444,8 @@ del sistema. El cable USB es un cable tipo A-B (conectar estandar A a B). Las es
 fuente de alimentaci\'on para el USRP son 6V @ 4A AC/DC. El sistema es capaz de operar en el rango
 de 90-260VAC @ 50/60Hz lo cual permite que funcione en diferentes paises.
 
+%TODO: Agregar imagen de las conecciones internas del usrp aqui. Tambien anexar expliacion.
+
 \subsection{Codigo fuente de GNURadio}
 El c\'odigo fuente de \gnuradio proporciona varios ejemplos que implementan varios conceptos
 utiliznado los bloques de procesamiento que proporciona el \emph{framework}. Algunos de estos
@@ -516,11 +518,11 @@ de las principales dependencias entre los modulos de Python que forman parte del
 					child {node{packet\_utils}}}}}};
 \end{tikzpicture}
 \vspace{0.5in}
-\caption{Relaci\'on de modulos del ejemplo \emph{benchmark} de \gnuradio}
+\caption{Relaci\'on de m\'odulos del ejemplo \emph{benchmark} de \gnuradio}
 \label{fig:relbench}
 \end{figure}
 
-El modulo \verb|benchmark_tx| es el principal y es el que el usuario ejecuta para arrancar la
+El m\'odulo \verb|benchmark_tx| es el principal y es el que el usuario ejecuta para arrancar la
 aplicaci\'on. \verb|modulation_utils| contiene una funcion que regresa un diccionario con todos los
 esquemas de modulaci\'on registrados en \gnuradio. Este diccionario se utiliza para preparar las
 opciones que se le ofrecen al usario y asi impedir que no seleccione una que no exista.
@@ -547,3 +549,4 @@ del mismo ejemplo. Para el receptor la operaci\'on es la misma solo que utiliza 
 \verb|receive_path| y \verb|usrp_receive_path|. Tambi\'en existen versiones que implementan una
 interfaz grafica utilizando la libreria QT que muestra el espectro de la se\~nal, la constelaci\'on
 recibida, etc.
+
