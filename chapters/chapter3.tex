@@ -314,8 +314,18 @@ tipos de datos incompatibles. Un ejemplo de una grafica de flujo sencilla se
 muestra en la figura \ref{fig:radioflow}.
 
 \begin{figure}[hpt]
-\centering
-	\includegraphics{figs/gnuradioflow}
+  \centering
+  \vspace{0.3in}
+	\begin{tikzpicture}
+		\node (sg) [grblock] {\small{Generador de se\~nales}};
+		\node (os) [grblock, right=of sg] {\small{Osciloscopio}}
+		edge [<-] (sg);
+		\node (fft) [grblock, below=of os] {FFT};
+		\draw[->] (sg) |- (fft);
+		\node (os2) [grblock, right =of fft] {\small{Osciloscopio}}
+		edge [<-] (fft);
+	\end{tikzpicture}
+	\vspace{0.5in}
 	\caption{Ejemplo de una grafica de flujo en \emph{GNURadio}}
 	\label{fig:radioflow}
 \end{figure}
@@ -336,8 +346,6 @@ senoidales independientes a diferentes frecuencias y las entrega a un bloque de 
 representa la tarjeta de sonido de la PC donde se est\'a ejecutando el programa,
 esto en efecto mezcla ambas se\~nales para producir un tono.
 
-
-\lstset{language=Python,basicstyle=\footnotesize\sffamily,captionpos=b}
 \begin{lstlisting}[float,frame=single,label=ex:radioexp,caption={Ejemplo de programa utilizando \gnuradio}] 
 from gnuradio import gr 
 from gnuradio import audio
@@ -404,10 +412,22 @@ se\~nal al puerto 0 y la segunda conexi\'on lleva la segunda se\~nal al puerto
 1.
 
 \begin{figure}[hptb]
+\vspace{0.3in}
 \centering
-	\includegraphics{figs/gnuradioexam}
-	\caption{Grafica de flujo del programa ejemplo.}
-	\label{fig:gnuradioexam}
+	\begin{tikzpicture}[node distance=15mm and 20mm]
+	\node (sg) [grblock] {\footnotesize{Gr.signal\_source\_f\\
+						Amp=1\\
+						Freq=350Hz}};
+	\node (sg2) [grblock, below=of sg] {\footnotesize{Gr.signal\_source\_f\\
+						Amp=1\\
+						Freq=440Hz}};
+	\node (as) [grblock, below right=of sg, yshift=1.7cm] {\small{Audio.sink}};
+	\draw [->] (sg.east) -- ++(1,0) |- (as);
+	\draw [->] (sg2.east) -- ++(1,0) |- (as);
+	\end{tikzpicture}
+\vspace{0.5in}
+\caption{Grafica de flujo del programa ejemplo.}
+\label{fig:gnuradioexam}
 \end{figure}
 
 Despu\'es de la declaraci\'on de nuestro bloque principal, el programa se
@@ -420,7 +440,7 @@ generadas. La grafica representativa de este programa se muestra en la figura
 
 % Descripcion del experimento
 %==========================================================================
-\section{Descripci\'on del experimento}
+\section{Descripci\'on del hardware y software}
 En esta secci\'on se describe la manera en como se llev\'o a cabo el experimento para la
 implementaci\'on de una transmisi\'on digital utilizando el esquema de modulaci\'on QPSK. Las
 instrucciones para instalar el ambiente de desarrollo se describen a detalle en el apendice
@@ -550,3 +570,102 @@ del mismo ejemplo. Para el receptor la operaci\'on es la misma solo que utiliza 
 interfaz grafica utilizando la libreria QT que muestra el espectro de la se\~nal, la constelaci\'on
 recibida, etc.
 
+% Descripcion del flujo del software
+%==========================================================================
+\section{Descripci\'on del flujo del software}
+La estructura del programa \verb|benchmark_tx.py| muestra un ejemplo de como desarrollar
+aplicaciones complejas que utilizan varias tecnicas de programaci\'on y herramientas que se pueden
+incorporar al lenguaje Python. El usuario esta libre de desarrollar aplicaciones mas sencillas que constan de un
+solo \emph{script} o de varios asociados unos con el otro. 
+
+\subsection{Estructura del transmisor}
+El programa principal \verb|benchmark_tx.py| genera los datos que se van a enviar de dos formas:
+autom\'aticamente o apartir de un archivo proporcionado por el usuario. En el modo autom\'atico
+(este es el modo default) el programa genera una secuencia consecutiva de caracteres ASCII del tama\~no
+que el usuario especific\'o. Esta secuencia es enviada a una funci\'on de Python que a su vez la
+envia a el grafo de RF. La estructura general del transmisor se muestra en la figura
+\ref{fig:grqpsk}.
+
+\begin{figure}[htp]
+  \centering
+  \vspace{0.5in}
+    \begin{tikzpicture}
+		\node (cp) [grblock] {\small{Codificador de paquetes}};
+		\path (cp.west)+(-2.2,1.5) node (rs) [optional] {\small{Fuente aleatoria}};
+		\path (cp.west)+(-2.2,-1.5) node (file) [optional] {\small{Fuente archivo}};
+		\node (qpsk) [grblock, right=of cp] {\small{Modulador QPSK}}
+		edge [<-] (cp);
+		\node (usrp) [grblock, right=of qpsk] {\small{USRP}}
+		edge [<-] (qpsk);
+		\path[draw,->, dashed] (rs.east) -- node {}(cp.160);
+		\path[draw,->, dashed] (file.east) -- node {}(cp.200);
+\end{tikzpicture}
+\vspace{0.5in}
+\caption{Diagrama a bloques del transmisor QPSK.}
+\label{fig:grqpsk}
+\end{figure}
+
+La declaraci\'on del grafo principal se muestra en el listado \ref{ex:hrblock}. Este grafo consta de
+un solo bloque que transfiere sus parametros de entrada a un sub-bloque que encapsula las
+operaciones de inicializacion del USRP.
+ 
+\begin{lstlisting}[float,frame=single,label=ex:hrblock,caption={Declaraci\'on del bloque
+jer\'arquico principal.}]
+class my_top_block(gr.top_block):
+  def __init__(self, modulator, options):
+     gr.top_block.__init__(self)
+
+     self.txpath = usrp_transmit_path.usrp_transmit_path(modulator, 
+                                                        options)
+
+     self.connect(self.txpath)
+\end{lstlisting}
+
+Todos los bloques son clases Python que se derivan de la clase \verb|top_block|. Esta clase se
+encuentra dentro del modulo \verb|gr| y se accede a ella utilizando el operador punto. En el
+constructor se inicializa un nuevo bloque creando una nueva instancia de la clase
+\verb|usrp_transmit_path|. A esta clase se le pasan los mismos par\'ametros que recibi\'o el bloque
+principal y son el tipo de modulador que se va utilizar y las opciones del programa. La clase
+\verb|top_block| define un m\'etodo llamado \emph{connect} para realizar la conexi\'on entre los
+bloques de la cadena de RF. Como este grafo consta \'unicamente de un solo bloque, a este m\'etodo
+se le pasa solo un par\'ametro. Este m\'etodo acepta una cantidad variable de par\'ametros ya que
+podemos realizar conexiones entre varios bloques. Esto se mostrar\'a mas adelante.
+
+El grafo de RF est\'a formado por varios bloques jer\'arquicos, es decir, bloques que encapsulan
+otros sub-bloques, que conectados entre si, forman un sub-grafo. Esto permite crear nuevos bloques a
+partir de otros que ya existen. El bloque \verb|usrp_transmit_path| es un ejemplo de un bloque
+jer\'arquico. Estas clases se derivan de \verb|gr.hier_block2| y en su constructor se declaran las
+entradas y salidas que pueda tener. Es posible crear un bloque con entradas y ninguna salida o vice
+versa. Esto permite crear bloques que aceptan un flujo de datos para ya sea procesarse dentro de
+ellos unicamente o ser enviados a un puerto de salida o entrada. El constructor de este bloque se
+muestra en el listado \ref{ex:usrptx}.
+
+\begin{lstlisting}[float, frame=single, label=ex:usrptx, caption={Constructor del bloque transmisor
+del USRP.}] 
+class usrp_transmit_path(gr.hier_block2):
+  def __init__(self, modulator_class, options):
+    gr.hier_block2.__init__(self, "usrp_transmit_path",
+          gr.io_signature(0, 0, 0), # Declaracion de entradas
+          gr.io_signature(0, 0, 0)) # Declaracion de salidas
+    if options.tx_freq is None:
+      sys.stderr.write("-f FREQ or --freq FREQ or 
+                       --tx-freq FREQ must be specified")
+      raise SystemExit
+
+    #Inicializacion del USRP
+    self._modulator_class = modulator_class
+    self._setup_usrp_sink(options)
+
+    tx_path = transmit_path.transmit_path(modulator_class, options)
+    for attr in dir(tx_path): 
+        if not attr.startswith('_') and not hasattr(self, attr):
+            setattr(self, attr, getattr(tx_path, attr))
+
+    #conexion de bloques
+    self.connect(tx_path, self.u)
+\end{lstlisting}
+
+Lo primero que se tiene que hacer en este tipo de bloques es definir sus entradas y salidas. Esto se
+logra invocando el constructor de la clase base \verb|hier_block2| y pasandole los siguientes
+par\'ametros: la clase derivada por medio de la palabra clave \verb|self|, una cadena con el nombre
+del bloque, la definici\'on de entradas y la de salidas.

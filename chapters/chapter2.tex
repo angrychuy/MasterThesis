@@ -98,7 +98,25 @@ en la figura \ref{fig:siscom}.
 
 \begin{figure}[hpt]
 \centering
-	\includegraphics[width=5.5in]{figs/siscom}
+	\begin{tikzpicture}[scale=0.8, transform shape, node distance = 20mm and 10mm, pin distance=10mm,
+	inpin/.style={pin={[pin distance=10mm,pin edge={<-,black}]left:Mensaje a enviar}},
+	outpin/.style={inpin, pin edge={<-,black}left:Mensaje recibido}]
+		\node (format) [sc, inpin] {Formato de mensaje};
+		\node (mod) [sc, right=of format] {Modulaci\'on por pulsos}
+			edge[<-] (format);
+		\node (modpass) [sc, right=of mod] {Modulaci\'on pasa bandas}
+			edge[<-] (mod);
+		\node[coordinate] (out) [right=of modpass]{};
+		\draw (modpass) -- (out) \antenna;
+		
+		\node (formatin) [sc, outpin, below=of format] {Formato de mensaje};
+		\node (detect) [sc, right=of formatin] {Detecci\'on}
+			edge [->] (formatin);
+		\node (demod) [sc, right=of detect] {Demodulaci\'on y muestreo}
+			edge [->] (detect);
+		\draw (demod.east) -- ++(1,0) \antenna;
+	\end{tikzpicture}
+	\vspace{0.3in}
 	\caption{Diagrama a bloques de un sistema de comunicaciones digitales}
 	\label{fig:siscom}
 \end{figure}
@@ -278,7 +296,7 @@ palabras modulador y demodulador.
 Un sistema t\'ipico de para la demodulaci\'on y detecci\'on de se\~nales se muestra en la
 figura \ref{fig:simpledemod}. 
 
-\begin{figure}[ht]
+\begin{figure}[tp]
 \centering
 	\includegraphics[scale=0.5]{figs/simpledemod}
 	\caption{Diagrama simple de un demodulador.}
@@ -489,18 +507,18 @@ forma de onda recibida. El modo de persistencia causara que los trazos de la ond
 una con la otra hasta formar el patr\'on de ojo sobre la pantalla. Los parametros que se pueden
 medir se muestran en la figura \ref{fig:eyeparams}\cite{breed}.
 
-\begin{figure}[htp]
-\centering
-	\includegraphics[width=4in]{figs/eyeparams}
-	\caption{Parametros de medici\'on del diagrama de ojo.}
-	\label{fig:eyeparams}
-\end{figure}
-
 La distorci\'on en el tiempo de muestreo es generada por el fenomeno de ISI. La diferiencia en
 tiempo pico a pico de los cruces por cero se le conoce tambien como ``\emph{jitter}''. El momento
 optimo para iniciar el muestreo de un s\'imbolo es en la parte que esta mas abierta del ojo. Conforme el
-SNR es mas bajo el ojo comenzara se comenzara a cerrar haciendo asi mas dificil y, por concecuencia,
+SNR es mas bajo el ojo comenzara a cerrarse haciendo asi mas dificil y, por concecuencia,
 mas erroneo el muestreo de la se\~nal recibida.
+
+\begin{figure}[hbp]
+\centering
+	\includegraphics[width=4in]{figs/eyeparams}
+	\caption{Par\'ametros de medici\'on del diagrama de ojo.}
+	\label{fig:eyeparams}
+\end{figure}
 
 \subsection{Espectrograma}
 El espectrograma, tambien conocido como grafica de cascada (\emph{waterfall}), muestra las
@@ -511,9 +529,10 @@ intensidad de cada punto en la imagen. Los ejes X y Y pueden ser invertidos para
 imagen de abajo hacia arriba. Un ejemplo de un espectrograma se muestra en la figura
 \ref{fig:spectrogram}.
 
-\begin{figure}[htp]
+\begin{figure}[tp]
 \centering
 	\includegraphics[width=5.5in]{figs/spectrogram}
+	\vspace{0.3in}
 	\caption{Ejemplo de un espectrograma.}
 	\label{fig:spectrogram}
 \end{figure}
@@ -533,12 +552,19 @@ Un diagrama a bloques del sistema b\'asico de un SDR se muestra en la figura
 es el bloque de DAC por un ADC. Gracias al procesamiento digital de se\~nales dentro del
 procesador, este tipo de radio puede trabajar con diferentes tipos de se\~nales,
 codificaciones y modulaciones con tan solo cambiar el software. Algunas ventajas
-que estos sistemas ofrecen son: bajo costo, un factor de tama�o m\'as peque\~no
+que estos sistemas ofrecen son: bajo costo, un factor de tama\~no m\'as peque\~no
 y una mayor facilidad de mantenimiento y actualizaci\'on.
 
-\begin{figure}[hpt]
+\begin{figure}[tp]
 \centering
-	\includegraphics[width=5.5in]{figs/sdr}
+	\begin{tikzpicture}
+		\node (cpu) [sc] {Procesador General};
+		\node (dac) [sc, right=of cpu] {DAC}
+			edge [<-] (cpu);
+		\node (ant) [sc, right=of dac] {Antena}
+			edge [<-] (dac);
+	\end{tikzpicture}
+	\vspace{0.3in}
 	\caption{Diagrama a bloques de un sistema ideal de SDR}
 	\label{fig:sdr}
 \end{figure}
@@ -569,7 +595,7 @@ este programa es remplazar el hardware tradicional de los radios utilizados en
 el ej\'ercito militar con dispositivos que puedan emular las capacidades de
 cualquier radio.
 
-\begin{figure}[hpt]
+\begin{figure}[pt]
 \centering
 	\includegraphics[scale=0.7]{figs/jtrs}
 	\caption{Hardware proporcionado por Rockwell Collins para el cluster JTRS

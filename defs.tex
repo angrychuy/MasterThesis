@@ -18,8 +18,33 @@
 \newcommand{\fn}[1]{\texttt{#1}}						% Estas dos lineas son utiles para el capitulo 4.
 \newcommand{\cn}[1]{\texttt{\char92 #1}}
 \newcommand{\gnuradio}{\emph{GNURadio}}
-\renewcommand{\lstlistingname}{Listado}		%Traduce la palabra listings a listado para los ejemplos de codigo
+
 
 % \makeatletter
 % \providecommand*{\toclevel@extrachapter}{0}
 % \makeatother
+
+%Parametros para desplegar codigo fuente.
+\lstset{language=Python,basicstyle=\footnotesize\sffamily,captionpos=b, showstringspaces=false}
+%Traduce la palabra listings a listado para los ejemplos de codigo
+\renewcommand{\lstlistingname}{Listado}
+\renewcommand{\lstlistlistingname}{\'Indice de listados}
+
+%Tikz library defines
+% Define block styles used later 
+\tikzstyle{optional}=[draw, fill=yellow!20, text width=5em, 
+    text centered, minimum height=2em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+% \tikzstyle{grblock} = [optional, text width=5em, fill=red!20, 
+%     minimum height=3em, rounded corners, drop shadow]
+\tikzstyle{sc} = [optional, text width=7em, 
+    minimum height=5em, rounded corners, drop shadow]
+\tikzstyle{grblock} = [draw, text width=7em, fill=red!20, 
+    minimum size=5em, rounded corners, drop shadow, text centered]
+    
+% Used to draw an antenna with tikz
+\def\antenna{-- +(0mm,4.0mm) -- +(2.625mm,7.5mm) -- +(-2.625mm,7.5mm) -- +(0mm,4.0mm)}
+    
+% Define distances for bordering
+\def\blockdist{2.3}
+\def\edgedist{2.5}

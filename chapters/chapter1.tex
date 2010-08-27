@@ -16,7 +16,7 @@ Linux, utilizando el software \emph{GNURadio}.
 
 % 1.1. Antecedentes
 %==========================================================================
-\section{Antedecentes}%Seccion 1.1 Antecedentes
+\section{Antedecentes}
 
 Gracias a los avances tecnologicos recientes, han surgido varios esfuerzos por
 desarrollar plataformas vers\'atiles para la implementaci\'on de SDRs.
@@ -28,21 +28,21 @@ Existen varias soluciones comerciales que ofrecen un nivel m\'as avanzado y
 completo para la investigaci\'on y desarrollo de aplicaciones de comunicaciones
 basadas en SDR. Pentek ofrece plataformas basadas en la interfaz PCI y PCIe
 entre otras \cite{pentek}. Estas plataformas utilizan FPGAs de Xilinx para 
-implementar los bloques de DDC y DUC, as� como tamb\'en filtros de interpolaci�n. La compa�\'ia
-ofrece drivers para Windows y Linux, ofreciendo as\'i mucha flexibilidad de
+implementar los bloques de DDC y DUC, as\'i como tamb\'en filtros de interpolaci\'on. La
+compa\~n\'ia ofrece drivers para Windows y Linux, ofreciendo as\'i mucha flexibilidad de
 escoger un ambiente adecuado para el desarrollo de la aplicaci\'on.
 
-El mundo de \emph{Open Source} tambi�n ha realizado avances notorios en este
+El mundo de \emph{Open Source} tambi\'en ha realizado avances notorios en este
 ramo de investigaci\'on. El proyecto m\'as sobresaliente es
 \emph{GNURadio} \cite{radio}. Este proyecto consiste en una librer\'ia extensa
 con varias funciones matem\'aticas, as\'i como tambi\'en funciones para la
-implementaci\'on de algoritmos de procesamiento digital de se�ales, basada en los lenguajes Python y C++. 
-La librer\'ia motiv\'o el desarrollo de un dispositivo de bajo costo, conocido
+implementaci\'on de algoritmos de procesamiento digital de se\~nales, basada en los lenguajes Python
+y C++. La librer\'ia motiv\'o el desarrollo de un dispositivo de bajo costo, conocido
 como el USRP por sus siglas en ingles \emph{Universal Software Radio Peripheral}, con el prop\'osito de
-utilizarlo para la transmisi\'on y recepci\'on de varios tipos de se�ales
+utilizarlo para la transmisi\'on y recepci\'on de varios tipos de se\~nales
 generados por \emph{GNURadio} \cite{ettus}. Este dispositivo esta tambi\'en
-basado en un FPGA y un par de ADCs y DACs respectivamente. La se�al es enviada a la PC por 
-medio del puerto USB utilizando el controlador CY7C68013 de la compa�\'ia
+basado en un FPGA y un par de ADCs y DACs respectivamente. La se\~nal es enviada a la PC por 
+medio del puerto USB utilizando el controlador CY7C68013 de la compa\~n\'ia
 Cypress. A pesar de ser un sistema \emph{Open Source}, el USRP y \emph{GNURadio}
 han sido utilizados en diversos campos de investigaci\'on y desarrollo como
 acad\'emicos, comerciales, militares y gubernamentales.
@@ -57,13 +57,13 @@ Los ambientes de desarrollo,
 como Matlab, proporcionan la habilidad de poder realizar estudios y prototipos 
 de estos conceptos y sistemas utilizando modelos matem\'aticos que aproximan el 
 comportamiento real de un sistema de comunicaciones. F\'isicamente no es
-posible ver los efectos de la teor\'ia sin una implementaci�n real del sistema y
+posible ver los efectos de la teor\'ia sin una implementaci\'on real del sistema y
 el equipo que se utiliza para lograrlo (analizadores de espectro, antenas, 
 analizadores de sistemas de comunicaciones, DSPs, etc.) son relativamente 
 caros lo cual hace dif\'icil una implementaci\'on real.
  
 
-% 1.3. Justificaci�n
+% 1.3. Justificacion
 %==========================================================================
 \section{Justificaci\'on}
 
@@ -71,7 +71,7 @@ El estudio de los conceptos de comunicaciones normalmente ha sido dado de una
 manera te\'orica. En la mayor\'ia de las instituciones se realizan simulaciones
 en Matlab o en alg\'un otro ambiente de desarrollo. Estos paquetes proporcionan
 datos simulados del estudio en cuesti\'on, ya sea la transmisi\'on de alguna
-se�al o el an\'alisis de alg\'un canal de transmisi\'on. El USRP ofrece la
+se\~nal o el an\'alisis de alg\'un canal de transmisi\'on. El USRP ofrece la
 oportunidad de llevar a cabo estos conceptos a un ambiente m\'as pr\'actico, es
 decir, los datos obtenidos del estudio son de los efectos reales de una
 implementaci\'on f\'isica de un sistema de comunicaciones. El ambiente de
@@ -86,7 +86,7 @@ al estilo de programaci\'on de Matlab.
 El estudio de una plataforma m\'as amigable y m\'as din\'amica para el
 entendimiento de los conceptos de comunicaciones digitales es de gran importancia para el 
 desarrollo acad\'emico del alumno que estudia dichos temas. Estos conceptos son 
-normalmente estudiados dentro de ambientes de simulaci�\'on para ver sus efectos 
+normalmente estudiados dentro de ambientes de simulaci\'on para ver sus efectos 
 y comprobar de forma anal\'itica la teor\'ia. La habilidad de poder llevar estos 
 an\'alisis te\'oricos a la pr\'actica ofrece la oportunidad importante de poder 
 visualizar los resultados obtenidos en la simulaci\'on en una implementaci\'on 
