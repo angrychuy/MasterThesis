@@ -534,7 +534,7 @@ de las principales dependencias entre los modulos de Python que forman parte del
 		child {node{transmit\_path}
 			child {node{Blk2}
 				child {node{DQPSK}}
-				child {node{mod\_pkts}
+				child {node{pkts}
 					child {node{packet\_utils}}}}}};
 \end{tikzpicture}
 \vspace{0.5in}
@@ -668,4 +668,41 @@ class usrp_transmit_path(gr.hier_block2):
 Lo primero que se tiene que hacer en este tipo de bloques es definir sus entradas y salidas. Esto se
 logra invocando el constructor de la clase base \verb|hier_block2| y pasandole los siguientes
 par\'ametros: la clase derivada por medio de la palabra clave \verb|self|, una cadena con el nombre
-del bloque, la definici\'on de entradas y la de salidas.
+del bloque, la definici\'on de entradas y la de salidas. Para definir las entradas y salidas se
+utiliza la funcion \verb|gr.io_signature()| y se le pasan tres par\'ametros: n\'umero m\'inimo de
+puertos, el m\'aximo numero de puertos y el tama\~no de los elementos que entran y salen por los
+puertos. Un ejemplo de como declarar un bloque con puertos de entrada tipo \emph{float} y de salida
+tipo \emph{complex} se muestra en el listado \ref{ex:grports}:
+
+\begin{lstlisting}[float, frame=single, label=ex:grports, caption={Ejemplo de declaraci\'on de
+entradas y salidas para un bloque jer\'arquico.}]
+class HierBlock(gr.hier_block2):
+  def __init__(self, audio_rate, if_rate):
+     gr.hier_block2.__init__(self, "HierBlock",
+             gr.io_signature(1, 1, gr.sizeof_float),
+             gr.io_signature(1, 2, gr.sizeof_gr_complex))
+
+     B1 = gr.block1(...)
+     B2 = gr.block2(...)
+ 
+     self.connect(self, B1, B2, self)
+\end{lstlisting}
+
+Dentro del constructor se crean instancias de los bloques que formar\'an parte del grafo y por
+ultimo se realiza la conexi\'on entre ellos. Todas las clases que se derivan de alguno de los
+bloques, \verb|top_block| o \verb|hier_block2|, etc., contienen un metodo que se llama
+\verb|connect|. Este metodo recibe una cantidad variable de parametros para realizar la conexi\'on
+entre los bloques. En el listado \ref{ex:grports}, la conexi\'on se realiz\'o de esta manera:
+\verb|entradas->B1->B2->salidas|. Las entradas y salidas son representadas por el par\'ametro
+\verb|self|. Para definir bloques que no tienen entradas o salidas es necesario pasarle ceros a
+todos los par\'ametros de la funci\'on \verb|gr.io_signature()| como se muestra en el listado
+\ref{ex:usrptx}. En este caso el bloque no cuenta con entradas ni salidas, \'unicamente encapsula un
+sub-grafo al cual se le delega el trabajo del transmisor.
+
+El bloque \verb|transmit_path|, del cual se crea una instancia en el listado \ref{ex:usrptx},
+encapsula el grafo que lleva a cabo la modulaci\'on de la informaci\'on que se va transmitir. El
+modulador en si es un bloque que se encuentra dentro del m\'odulo \verb|blks2| como se muestra en la
+figura \ref{fig:relbench}. Aunque es posible utilizar los bloques moduladores directamente, la
+aplicaci\'on \verb|benchmark_tx.py| muestra una forma de utilizarlos que consiste en codificar y
+formatear la informaci\'on en paquetes antes de ser modulados como se muestra en la figura
+\ref{fig:grqpsk}. 
