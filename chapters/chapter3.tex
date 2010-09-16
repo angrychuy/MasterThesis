@@ -703,6 +703,87 @@ El bloque \verb|transmit_path|, del cual se crea una instancia en el listado \re
 encapsula el grafo que lleva a cabo la modulaci\'on de la informaci\'on que se va transmitir. El
 modulador en si es un bloque que se encuentra dentro del m\'odulo \verb|blks2| como se muestra en la
 figura \ref{fig:relbench}. Aunque es posible utilizar los bloques moduladores directamente, la
-aplicaci\'on \verb|benchmark_tx.py| muestra una forma de utilizarlos que consiste en codificar y
-formatear la informaci\'on en paquetes antes de ser modulados como se muestra en la figura
-\ref{fig:grqpsk}. 
+aplicaci\'on \verb|benchmark_tx.py| muestra una forma alterna de utilizarlos que consiste en
+codificar y formatear la informaci\'on en paquetes antes de ser modulados como se muestra en la figura
+\ref{fig:grqpsk}. Este proceso se lleva a cabo utilizando la clase \verb|mod_pkts| del m\'odulo
+\verb|pkt|. Esta clase envuelve cualquier clase moduladora que se le proporcione y se encarga de
+codificar y formar paquetes de bits con una estructura especifica que permite sincronizar la
+transmisi\'on y disminuir los errores. La estructura que tienen los paquetes generados con esta
+clase se muestra en la figura \ref{fig:packet}.
+
+\begin{figure}[tp]
+  \centering
+  \begin{tikzpicture}[node distance=0]
+	\node (access) [generic] {\footnotesize{c\'odigo de acceso}};
+	\node (length) [generic, right=of access] {\footnotesize{longitud}};
+	\node (data) [generic, right=of length] {\footnotesize{informaci\'on}};
+	\node (crc) [generic, right=of data] {\footnotesize{crc32}};
+	\end{tikzpicture}
+	\vspace{0.3in}
+	\caption{Estructura del paquete de datos.}
+	\label{fig:packet}
+\end{figure}
+
+El c\'odigo de acceso es una cadena de unos y ceros que se puede utilizar para aceptar mensajes que
+contengan unicamente el c\'odigo correcto. La clase genera una secuencia pre-definida si no se
+especifica una. La longitud es lo largo del mensaje junto con el codigo CRC. La informaci\'on se
+anexa junto con el c\'odigo CRC de 32 bits. Los paquetes se env\'ian al modulador a trav\'es de una
+cola que almacena lo que se va enviar. La clase moduladora monitorea esta cola y toma el primer
+mensaje que entro para iniciar con la operaci\'on de modulaci\'on.
+
+\subsection{Estructura del modulador DQPSK}
+\gnuradio contiene varios bloques que definen varios esquemas de modulaci\'on digital. El estudio de
+este trabajo se enfoca en el bloque DQPSK. La estructura del grafo que implementa este esquema se
+muestra en la figura \ref{fig:dqpsk}.
+
+\begin{figure}[bp]
+  \centering
+  \vspace{0.5in}
+  \begin{tikzpicture}[scale=0.8, transform shape]
+	\node (data) [grblock] {\footnotesize{Datos codificados}};
+	\node (packtounpack) [grblock, right=of data] {\footnotesize{Desempaquetado de bits}}
+	edge [<-] (data);
+	\node (map) [grblock, right=of packtounpack] {\footnotesize{Mapeo de constelaci\'on}}
+	edge [<-] (packtounpack);
+	\node (difcode) [grblock, right=of map] {\footnotesize{Codificador diferencial}}
+	edge [<-] (map);
+	\node (symbols) [grblock, below=of difcode] {\footnotesize{Bloques a s\'imbolos}}
+	edge [<-] (difcode);
+	\node (rrc) [grblock, left=of symbols] {\footnotesize{Filtro de coseno elevado}}
+	edge [<-] (symbols);
+	\node (usrp) [grblock, left=of rrc] {\footnotesize{Salida al USRP}}
+	edge [<-] (rrc);
+  \end{tikzpicture}
+  \vspace{0.3in}
+  \caption{Estructura del modulador DQPSK de \gnuradio}
+  \label{fig:dqpsk}
+\end{figure}
+
+Los bits individuales de cada byte que van entrando al grafo son descompuestos en grupos de dos ya
+que cada s\'imbolo en una transmision DQPSK contiene dos bits. El bloque de mapeo codifica los bits
+en un alfabeto de tama\~no $M$ donde en este caso es 4 para la constelaci\'on QPSK. La
+codificaci\'on utiliza el metodo de Gray y consiste en hacer que cada valor binario sucesivo difiera
+unicamente por un bit para minimizar la taza de error de bits. Esta codificaci\'on es opcional y se
+puede deshabilitar si no se desea utilizar. 
+
+El esquema DQPSK implementa un codificador y decodificador diferencial antes de la modulaci\'on y
+despues de la demodulaci\'on. Esta codificaci\'on tiene dos ventajas. La primera es simplificar el
+dise\~no del receptor ya que en lugar de tener una referencia exacta de la fase que se utiliz\'o
+para enviar la informaci\'on, ahora se utiliza la diferencia entre dos bits. Esto nos
+permite realizar una recuperaci\'on no coherente de la informaci\'on. La segunda ventaja es que
+ofrece protecci\'on contra la inversi\'on de polaridad. Este m\'etodo nos permite recuperar la
+informaci\'on independientemente si este fen\'omeno sucede o no. Como estamos utilizando dos bits
+para la codifiaci\'on, la desventaja principal es que un error causar\'ia errores en dos bits en
+lugar de uno y por consecuencia aumenta la probabilidad de error de bits. La representaci\'on
+matematica del codificador y decodificador se muestra en las ecuaciones \ref{eq:difcoder} y
+\ref{eq:difdecod}.
+\begin{alignat}{2}
+e_k &=e_{k-1}\oplus b_k &\quad &\rightarrow \text{ codificador}\label{eq:difcoder}\\
+b_k &=e_k \oplus e_{k-1} &\quad &\rightarrow \text{ decodificador}\label{eq:difdecod}
+\end{alignat}
+donde $e_k$ es el bit codificado, $b_k$ es el bit decodificado y el operador $\oplus$ representa la
+operaci\'on xor.
+
+Los bits son transformados a su representaci\'on compleja dependiendo de la constelaci\'on que se
+especific\'o, en este caso $M=4$, y luego son introducidos a un filtro de coseno elevado para
+reducir la cantidad de ancho de banda requerida para transmitirlos.
