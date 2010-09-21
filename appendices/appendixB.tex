@@ -1,0 +1,114 @@
+% Appendix B. GNURadio Companion
+%==========================================================================
+
+\chapter{GNURadio Companion}
+\label{AppB}
+
+\emph{GNURadio} incluye una aplicaci\'on que facilita el desarrollo de grafos y aplicaciones
+sencillas de manera grafica, muy similar al software de Simulink de Mathworks. La aplicaci\'on
+genera codigo en Python apartir del diagrama de bloques que uno define. Es posible manipular y
+extender el codigo generado si es que se desea utilizar alguna funci\'on que no este incluida en
+\emph{GNURadio Companion} (GRC). Las capacidades de la aplicaci\'on son:
+
+\begin{itemize}
+  \item Viene incluido con el codigo fuente de \gnuradio. Si se instalan todas las dependencias
+  entonces GRC se instalar\'a junto con \gnuradio.
+  \item Puede generar codigo en Python para aplicaciones que utilizan bloques graficos con la
+  libreria WxWidgets, aplicaci\'ones que no utilizan ningun control grafico y bloques jer\'arquicos.
+  \item Se pueden definir bloques que actuan como variables o constantes. Otros bloques pueden hacer
+  referencia a ellas e incluir su valor en algun par\'ametro. Tambien es posible usar bloques
+  variables que definen un control grafico como barras deslizadoras, botones, etc.
+  \item Cada bloque esta definido por un archivo XML que contiene todas sus caracteristicas (numero
+  de puertos, tipo de datos con los que trabja, parametros de entrada, etc.). Es posible crear un
+  archivo XML para incluir algun bloque creado por el usuario.
+  \item Los bloques pueden ser deshabilitados dentro de la grafica sin tener que borrarlos de la
+  aplicaci\'on. Estos bloques son ignorados por el generador de codigo, permitiendo asi una manera
+  mas rapida de realizar cambios en la grafica. Tambien se pueden cortar, copiar y pegar bloques.
+\end{itemize}
+
+Para poder instalar GRC se deben de tener las siguientes dependencias intaladas antes de iniciar la
+compilaci\'on:
+
+\begin{itemize}
+  \item Python 2.5 o mayor (\url{http://www.python.org/download/})
+  \item Python-LXML 2.0 o  mayor (\url{http://codespeak.net/lxml/installation.html})
+  \item Cheetah Template Engine 2.0 o mayor (\url{http://www.cheetahtemplate.org/download.html})
+  \item Python-GTK 2.10 o mayor (\url{http://www.pygtk.org/downloads.html})
+\end{itemize}
+
+Si estas dependencias se instalan antes de iniciar con la compilaci\'on de \gnuradio entonces GRC se
+instalar\'a autom\'aticamente.
+
+Para iniciar la aplicaci\'on se necesita abrir una ventana de consola y escribir el comando
+\verb|gnuradio-companion|. Inmediatamente aparecer\'a la ventana que se muestra en la figura
+\ref{fig:grc}.
+
+\begin{figure}[tp]
+  \centering
+  \includegraphics[width=5.5in]{figs/grc1}
+  \vspace{0.3in}
+  \caption{Pantalla principal de GNURadio Companion}
+  \label{fig:grc}
+\end{figure}
+
+La \'area de trabajo inicia con dos bloques por default, uno que define las opciones generales del
+grafo y un bloque que define una variable llamada \verb|sample_time|. Esta variable se puede
+modificar o borrar seg\'un las necesidades del usuario. Del lado derecho se encuentra la lista de las
+categor\'ias de bloques que soporta GRC. Cada categor\'ia se puede expandir para revelar los
+diferentes bloques que contiene. Para colocar bloques en el \'area de trabajo es necesario
+seleccionar el de inter\'es y arrastrarlo con el mouse a la area de trabajo. De ahi se puede seguir
+arrastrando para colocarlo en el \'area que el usuario desee. 
+
+Las propiedades de los bloques se pueden obtener haciendo doble click sobre el bloque como se
+muestra en la figura \ref{fig:blockprop}.
+
+\begin{figure}[tp]
+  \centering
+  \includegraphics[width=5.5in]{figs/grc3}
+  \vspace{0.3in}
+  \caption{Pantalla de propiedades del bloque signal\_source}
+  \label{fig:blockprop}
+\end{figure}
+
+Todos los bloques comparten un parametro en comun y es el ID. Este parametro indentifica al bloque
+para que otros puedan hacer referencia a el. Se puede aceptar el nombre default que GRC sugiere o
+bien se puede especificar otro. Los otros parametros son especificos del bloque con el que se esta
+trabajando. EL bloque \verb|signal_source| de la figura \ref{fig:blockprop} es un generador de
+se\~nales que puede generar varios tipos de formas de onda como senoidales, cuadradas, dientes de
+sierra, etc. Los parametros se describen como sigue:
+
+\begin{description}
+\item[Output Type] Especifica el tipo de datos que se va utilizar: Real o Complejo.
+\item[Sample Rate] La taza de muestreo con la que se generar\'a la se\~nal. Aqui se muestra haciendo
+referencia al bloque que declara la variable \verb|sample_rate|. Esta variable tiene un valor de
+32k.
+\item[Waveform] Aqui se define el tipo de se\~nal que se quiere generar.
+\item[Frequency] Este parametro especifica la frecuencia de la se\~nal.
+\item[Amplitude] Este parametro especifica la amplitud de la se\~nal.
+\item[Offset] Especifica un retraso de la se\~nal generada.
+\end{description}
+
+En la figura \ref{fig:grcex} muestra un ejemplo completo de un grafo que suma dos se\~nales de
+diferentes frecuencias y muestra el resultado en un osciloscopio.
+
+\begin{figure}[tp]
+  \centering
+  \includegraphics[width=5.5in]{figs/grc6}
+  \vspace{0.3in}
+  \caption{Ejemplo de un grafo desarrollado en GRC}
+  \label{fig:grcex}
+\end{figure}
+
+El ejemplo muestra un requerimiento importante de los grafos que no utilizan fuentes o sinks de
+hardware como el USRP o la tarjeta de sonido. Los bloques que hacen referencia a algun hardware
+limitan autom\'aticamente la velocidad de ejecuci\'on del grafo a la velocidad de muestreo del
+hardware. Como el ejemplo de la figura \ref{fig:grcex} no contiene este tipo de bloques es
+necesario incluir el bloque \verb|Throttle| para limitar la velocidad de ejecuci\'on, de lo
+contrario el grafo se ejecutar\'a a la velocidad m\'axima del CPU y esto causara que la PC no
+responda correctamente. Para el este ejemplo el bloque hace referencia a la variable
+\verb|sample_rate| declarada y con esto limita la velocidad de ejecuci\'on a la taza de muestreo que
+se esta utilizando.
+
+El bloque \verb|Scope Sink| es uno de los diversos visualizadores graficos que permiten observar las
+se\~nales en diversos puntos del grafo. Este bloque actua como un osciloscopio con opciones de
+disparo y modo XY.
