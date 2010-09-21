@@ -5,7 +5,7 @@
 \label{AppA}
 
 El desarrollo de aplicaciones basadas en \emph{GNURadio} en el ambiente Linux es
-m\'as sencillo y má\'as vers\'atil ya que la mayor\'ia de las librer\'ias
+m\'as sencillo y m\'as vers\'atil ya que la mayor\'ia de las librer\'ias
 externas de las que depende esta herramienta fueron desarrolladas para Linux.
 Aunque \emph{GNURadio} proporciona soporte parcial/total para otros sistemas
 operativos como \emph{Windows} y \emph{Mac OSX}, el experimento se realizo en el
@@ -42,7 +42,7 @@ usuarios si uno lo desea.
 
 Una vez que se halla especificado las opciones anteriores se puede entonces
 iniciar con la instalaci\'on. \emph{Wubi} comenzar\'a a bajar de internet la
-imagen del DVD correspondiente a la distribución de \emph{Ubuntu} que se
+imagen del DVD correspondiente a la distribuci\'on de \emph{Ubuntu} que se
 especifico.
 
 Cabe mencionar que la instalaci\'on puede ser de 32 o 64 bits, dependiendo del
@@ -56,8 +56,8 @@ La imagen mide aproximadamente 700MB. Cuando termine de bajarlo la aplicaci\'on
 comenzar\'a a crear el archivo del sistema operativo y agregara la opci\'on para
 seleccionarlo en el men\'u de arranque como se muestra en la figura
 \ref{fig:bootmenu}. Una vez terminado este procedimiento la aplicaci\'on le
-pedir\'a al usuario que reinicie la PC. Ahora necesitamos seleccionar la nueva opción del men\'u de arranque para
-poder ingresar al sistema operativo \emph{Ubuntu}. El usuario no tiene que hacer
+pedir\'a al usuario que reinicie la PC. Ahora necesitamos seleccionar la nueva opci\'on del men\'u
+de arranque para poder ingresar al sistema operativo \emph{Ubuntu}. El usuario no tiene que hacer
 nada por su parte ya que la instalaci\'on del sistema operativo se lleva a cabo
 de modo autom\'atico. Al terminar se le presentara al usuario que ingrese el
 nombre de la cuenta y la clave. Esta es la que se especifico en el instalador
@@ -141,7 +141,7 @@ especifican en la tabla \ref{tbl:radioreqs}.
 
 La \'unica librer\'ia que se recomienda que se instale manualmente es
 \emph{Boost} ya que la m\'as reciente es la versi\'un 1.43 y ofrece muchas
-mejoras contra la versión 1.38 de Ubuntu. Para instalarla es cuesti\'on de bajar
+mejoras contra la versi\'on 1.38 de Ubuntu. Para instalarla es cuesti\'on de bajar
 el c\'odigo fuente de la p\'agina \url{www.Boost.org} y seguir los siguientes
 pasos:
 
@@ -161,7 +161,7 @@ La compilaci\'on e instalaci\'on puede durar entre 20 y 30 minutos dependiendo
 de la velocidad de la PC. Este procedimiento compilara e instalara todas las
 librer\'ias que forman parte del conjunto de \emph{Boost}. Este proceso se puede
 controlar m\'as detalladamente para que \'unicamente instale un subconjunto de
-librer\'ias y así reducir m\'as el tiempo de instalaci\'on ya que
+librer\'ias y as\'i reducir m\'as el tiempo de instalaci\'on ya que
 \emph{GNURadio} no utiliza todo el conjunto completo.
 
 Despu\'es de instalar \emph{Boost} se necesita utilizar el sistema
@@ -235,18 +235,18 @@ ejecute la aplicaci\'on del usuario se aplican los siguientes pasos:
   \verb|sudo addgroup usrp|
   \item Anexar la cuenta de usuario que se est\'a utilizando a este nuevo
   grupo:\\
-  \verb|sudo usermod –G usrp –a <CUENTA_DE_USUARIO>|
+  \verb|sudo usermod -G usrp -a <CUENTA_DE_USUARIO>|
   \item Crear un archivo temporal con las instrucciones que \emph{udev} necesita
   para agregar este nuevo grupo a los que est\'an permitidos acceder al puerto
   USB:\\
-  \verb|echo ‘ACTION==”add”, BUS==”usb”, SYSFS{idVendor}==”fffe”,|\\
-  \verb|SYSFS{idProduct}==”0002”, GROUP:=”usrp”, MODE:=”0660”’ > tmpfile|
+  \verb|echo 'ACTION=="add", BUS=="usb", SYSFS{idVendor}=="fffe",|\\
+  \verb|SYSFS{idProduct}=="0002", GROUP:="usrp", MODE:="0660"' > tmpfile|
   \item Modificar los atributos de este archivo para que sea propiedad de root:\\
   \verb|sudo chown root.root tmpfile|
   \item Mover el archivo temporal al directorio de reglas de \emph{udev}:\\
   \verb|sudo mv tmpfile /etc/udev/rules.d/10-usrp.rules|
 \end{enumerate}
 
-Es posible aplicar los cambios al ejecutar el siguiente comando: 
-\emph{sudo udevadm control–reload-rules}. Si esto no funciona entonces se necesita reiniciar la PC
+Es posible aplicar los cambios al ejecutar el siguiente comando:\\
+\verb|sudo udevadm control--reload-rules|. Si esto no funciona entonces se necesita reiniciar la PC
 para que los cambios tengan efecto.
