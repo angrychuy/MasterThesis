@@ -8,7 +8,8 @@
 sencillas de manera grafica, muy similar al software de Simulink de Mathworks. La aplicaci\'on
 genera codigo en Python apartir del diagrama de bloques que uno define. Es posible manipular y
 extender el codigo generado si es que se desea utilizar alguna funci\'on que no este incluida en
-\emph{GNURadio Companion} (GRC). Las capacidades de la aplicaci\'on son:
+\emph{GNURadio Companion}\cite{grc} (GRC por sus siglas en ingles). Las capacidades de la
+aplicaci\'on son:
 
 \begin{itemize}
   \item Viene incluido con el codigo fuente de \gnuradio. Si se instalan todas las dependencias
@@ -105,10 +106,78 @@ limitan autom\'aticamente la velocidad de ejecuci\'on del grafo a la velocidad d
 hardware. Como el ejemplo de la figura \ref{fig:grcex} no contiene este tipo de bloques es
 necesario incluir el bloque \verb|Throttle| para limitar la velocidad de ejecuci\'on, de lo
 contrario el grafo se ejecutar\'a a la velocidad m\'axima del CPU y esto causara que la PC no
-responda correctamente. Para el este ejemplo el bloque hace referencia a la variable
-\verb|sample_rate| declarada y con esto limita la velocidad de ejecuci\'on a la taza de muestreo que
-se esta utilizando.
+responda correctamente. Para este ejemplo el bloque hace referencia a la variable \verb|sample_rate|
+declarada y con esto limita la velocidad de ejecuci\'on a la taza de muestreo que se esta utilizando.
 
 El bloque \verb|Scope Sink| es uno de los diversos visualizadores graficos que permiten observar las
 se\~nales en diversos puntos del grafo. Este bloque actua como un osciloscopio con opciones de
-disparo y modo XY.
+disparo y modo XY. Otros bloques con los que cuenta GRC para visualizar se\~nales son: analizador de
+espectros, espectrograma en 2D, histograma y diagrama de constelaci\'on.
+
+Si existe un error en alguna de las conexiones, ya sea porque los tipos de datos son incompatibles
+entre bloques, algunas de las opciones no est\'an correctamente configuradas o falta alg\'un puerto
+por conectar, estos ser\'an enfatizados de color rojo. Es necesario realizar las correcciones que se
+piden antes de generar el c\'odigo y poder ejecutar el grafo.
+
+%TODO: Get the name of the run buttons
+Para ejecutar el grafo es necesario hacer click en el boton de generar codigo o en el de ejecutar
+grafo. Si no se ha grabado el trabajo GRC pedir\'a que se grabe antes de la ejecuci\'on como se
+muestra en la figura \ref{fig:savegrc}. Una vez realizado esto GRC genera un archivo con codigo
+Python y este es el que se ejecuta. La figura \ref{fig:rungrc} muestra el grafo de la suma de las
+dos se\~nales ejecutandose y mostrando los resultados en un osciloscopio.
+
+\begin{figure}[htp]
+  \centering
+  \includegraphics[width=5.5in]{figs/grc5}
+  \vspace{0.3in}
+  \caption{Pantalla para salvar el trabajo en GRC}
+  \label{fig:savegrc}
+\end{figure}
+
+\begin{figure}[htp]
+  \centering
+  \includegraphics[width=5.5in]{figs/grc7}
+  \vspace{0.3in}
+  \caption{Ejemplo de un grafo en ejecuci\'on}
+  \label{fig:rungrc}
+\end{figure}
+
+Conforme se vallan anexando bloques visualizadores estos se van agrupando en la misma pantalla de
+forma vertical. Esto permite visualizar los resultados de una manera m\'as eficiente sin tener que
+estar cambiando entre diferentes ventanas. Agregando el bloque FFT al ejemplo obtenemos la pantalla
+que se muestra en la figura \ref{fig:fftgrc}.
+
+\begin{figure}[htp]
+  \centering
+  \includegraphics[width=5.5in]{figs/grc8}
+  \vspace{0.3in}
+  \caption{Bloque FFT en conjunto con el osciloscopio en GRC}
+  \label{fig:fftgrc}
+\end{figure}
+
+Como se menciono al inicio de este ap\'endice, una de las habilidades de GRC es poder especificar
+bloques que implementan alg\'un tipo de control grafico como barras deslizadoras. Estos controles se
+anexan autom\'aticamente junto con los otros controles gr\'aficos y act\'uan como un bloque con
+algun valor variable que puede modificar cualquier par\'ametro del grafo. Para ilustrar esto al
+ejemplo se anexa un bloque de este tipo con el nombre de amplitud. Al bloque se le especifica un valor default,
+valor m\'aximo y m\'inimo y el tipo de dato con el que trabaja. Asignando esta variable a los campos
+de amplitud de los dos bloques \verb|Signal Source| se puede modificar la amplitud de ambos moviendo la
+barra deslizadora que aparece en la ventana de visualizaci\'on como se muestra en la figura
+\ref{fig:vargrc}.
+
+\begin{figure}[htp]
+  \centering
+  \includegraphics[width=5.5in]{figs/grc9}
+  \vspace{0.3in}
+  \caption{Modificaci\'on de parametros por medio de bloques variables en GRC}
+  \label{fig:vargrc}
+\end{figure}
+
+El ejemplo ilustrado en este ap\'endice es un solo un peque\~na ilustraci\'on de las capacidades de
+\emph{GNURadio Companion}. Los bloques de los generadores de se\~nales se pueden remplazar por
+bloques que encapsulan alg\'un hardware como tarjetas de audio, el USRP o incluso tarjetas de
+adquisici\'on de datos, aunque para estas es necesario crear el bloque desde cero y proporcionar los
+drivers del hardware adecuados. Tambi\'en es posible trabajar con varios filtros como pasa bajas,
+hilbert y ventanas. GRC en si act\'ua como una interfaz grafica a los bloques de \gnuradio
+facilitando as\'i su uso de una manera m\'as intuitiva. Esto permite una mejor interacci\'on con el
+software para aplicaciones acad\'emicas donde la experiencia con programaci\'on no es necesaria.
