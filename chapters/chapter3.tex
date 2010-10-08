@@ -763,8 +763,7 @@ Los bits individuales de cada byte que van entrando al grafo son descompuestos e
 que cada s\'imbolo en una transmision DQPSK contiene dos bits. El bloque de mapeo codifica los bits
 en un alfabeto de tama\~no $M$ donde en este caso es 4 para la constelaci\'on QPSK. La
 codificaci\'on utiliza el metodo de Gray y consiste en hacer que cada valor binario sucesivo difiera
-unicamente por un bit para minimizar la taza de error de bits. Esta codificaci\'on es opcional y se
-puede deshabilitar si no se desea utilizar. 
+unicamente por un bit. Esta codificaci\'on es opcional y se puede deshabilitar si no se desea utilizar. 
 
 El esquema DQPSK implementa un codificador y decodificador diferencial antes de la modulaci\'on y
 despues de la demodulaci\'on. Esta codificaci\'on tiene dos ventajas. La primera es simplificar el
@@ -785,5 +784,20 @@ donde $e_k$ es el bit codificado, $b_k$ es el bit decodificado y el operador $\o
 operaci\'on xor.
 
 Los bits son transformados a su representaci\'on compleja dependiendo de la constelaci\'on que se
-especific\'o, en este caso $M=4$, y luego son introducidos a un filtro de coseno elevado para
-reducir la cantidad de ancho de banda requerida para transmitirlos.
+especific\'o, para este estudio $M=4$, y luego son introducidos a un filtro de coseno elevado para
+reducir la cantidad de ancho de banda requerida para transmitirlos y eliminar el efecto de ISI. La
+respuesta a la frecuencia de este filtro est\'a caracterizada por el par\'ametro $\beta$ que
+especifica la cantidad de ancho de banda mas all\'a del l\'imite de Nyquist de $1/2T$ \cite{sklar}. 
+A este parametro se le llama exceso de ancho de banda. La respuesta a la frecuencia de este filtro se
+muestra en la ecuaci\'on \ref{eq:rrctransfer}.
+
+\begin{equation}\label{eq:rrctransfer}
+H(s)=\left\{
+\begin{array}{l l}
+1 & \quad \text{para $|f| < \frac{1-\beta}{2T}$}\\
+\cos^2{\frac{\pi}{4} \frac{2T|f|+\beta-1}{\beta}} & \quad \text{para $\frac{1-\beta}{2T} \leq
+|f| \leq \frac{1+\beta}{2T}$}\\
+0 & \quad \text{para $|f| > \frac{1+\beta}{2T}$}
+\end{array}\right.
+\end{equation}
+

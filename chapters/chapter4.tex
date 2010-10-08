@@ -1,4 +1,221 @@
 % chapter4.tex
-% Capitulo 4. Resultados y conclusion
+% Capitulo 4. Resultados
 %==========================================================================
 \chapter{Resultados}
+
+En este cap\'itulo se muestran los resultados del estudio de la plataforma USRP. El experimento
+consisti\'o en transmitir datos generados de una fuente aleatoria por software y de una fuente fija
+que consiste en una imagen entre las tarjetas LFTX y LFRX por medio de un cable coaxial. Estos
+datos son modulados con el esquema DQPSK como esta implementado en \gnuradio. Despu\'es se
+observaron los resultados utilizando las herramientas proporcionadas por \gnuradio y el lenguaje Python.
+
+%Material utilizado
+%==========================================================================
+\section{Material utilizado}
+El material que se utiliz\'o para realizar el experimento fue el siguiente:
+
+\begin{itemize}
+  \item 1 USRP
+  \item Tarjetas LFTX y LFRX
+  \item Cable coaxial con terminales SMA a SMA
+  \item Cable USB
+  \item Computadora laptop con las siguientes caracter\'isticas:
+  \begin {itemize}
+    \item CPU Intel Core 2 Duo T5550 a 1.83Ghz
+    \item 4GB memoria DDR2
+    \item Sistema operativo Ubuntu 10.01
+  \end{itemize}
+\end{itemize}
+
+Los programas \verb|benchmark_tx.py| y \verb|benchmark_rx.py| de la carpeta de ejemplos del codigo
+fuente fueron utilizados para realizar la transmisi\'on, ya que estos ejemplos son programas
+completos y maduros que ayudan a ilustrar varias caracter\'isticas de la programaci\'on con
+\gnuradio. Los programas \verb|benckmark_tx2.py| y \verb|benchmark_rx2.py| tienen la misma
+estructura que su versi\'on anterior pero estos implementan el modulador y demodulador utilizando la
+t\'ecnica de filtros polif\'asicos. Esta versi\'on, incluyendo los bloques que implementan estos
+filtros, fueron incluidos en el c\'odigo fuente el 23 de Marzo de 2010 y fueron incluidos en este
+estudio para comparar el rendimiento de ambas versiones.
+
+
+%Parametros utilizados
+%==========================================================================
+\section{Par\'ametros utilizados}
+
+Para ejecutar los ejemplos \verb|benchmark_tx.py| y \verb|benchmark_rx.py| es neceario moverse al
+directorio donde se encuentran. La ruta es:
+\begin{center}
+\verb|<dir_donde_esta_el_codigo_fuente>|/\verb|gnuradio-examples|/\verb|python|/\verb|digital|
+\end{center}
+Los programas se ejecutan por medio de la consola de texto utilizando la notacion \verb|./| para
+indicar que se va correr un ejecutable. La sintaxis completa es:
+\begin{center}
+\verb|./benchmark_tx.py <opciones>|
+\end{center}
+donde opciones son algunas opciones que se pueden pasar al programa para controlar su
+funcionamiento. Para ver todas las opciones que soporta se puede utilizar el siguiente comando:
+\begin{center}
+\verb|./benchmark_tx.py --help|
+\end{center}
+
+Los opciones que se utilizaron para el transmisor y receptor son los siguientes:
+
+\section*{TRANSMISOR}
+\begin{itemize}
+  \item \textbf{-m}: Especifica el modulador que se va utilizar. La opci\'on que se utilizo fue
+  DQPSK y DBPSK. BPSK se utilizo para realizar la comparaci\'on entre ambos esquemas.
+  \item \textbf{-r}: Especifica la taza de bits. Se utilizaron varios valores desde 100kbps hasta
+  10kbps. Este valor depende mucho de la PC que se est\'e utilizando ya que valores muy altos
+  dependen del rendimiento del CPU.
+  \item \textbf{--tx-amplitude}: Especifica la amplitud de la se\~nal generada por el DAC en el
+  USRP. Sus valores van de 0 a 1. Se utilizo el valor default de 0.25.
+  \item \textbf{--excess-bw}: Especifica el par\'ametro $\beta$ del filtro acoplador de coseno
+  elevado. Su rango de valores es de 0 a 1. Se utilizaron tres valores para el an\'alisis: 0.35,
+  0.50 y 0.75.
+  \item \textbf{-f}: Especifica la frecuencia con la cual se van a sintonizar las tarjetas
+  auxiliares. Para este estudio se estuvo utilizando la frecuencia m\'axima que soportan las
+  tarjetas LFTX y LFRX que es 30Mhz.
+  \item \textbf{-S}: Especifica la cantidad de muestras por s\'imbolo. El valor default es de 2. Se
+  observo que se tuvo un mejor rendimiento con un valor de 4.
+\end{itemize}
+
+\section*{RECEPTOR}
+\begin{itemize}
+  \item \textbf{-m}: Especifica el demodulador que se va utilizar. Igual que en el transmisor se
+  utiliz\'o DQPSK y DBPSK.
+  \item \textbf{--gain-mu}: Especifica la ganancia que se utiliza en el lazo de costas para la
+  detecci\'on de la fase. Se utilizo un valor de 0.5.
+  \item \textbf{-f}: Especifica la frecuencia a la que se sintoniza la tarjeta RX. Se utiliz\'o un
+  valor de 30Mhz.
+  \item \textbf{-S}: Especifica la cantidad de muestras por s\'imbolo utilizada en el demodulador.
+  Igual que en el transmisor se utilizo un valor de 4.
+  \item \textbf{-r}: Especifica la taza de bits. Se utilizaron los mismos valores que en el
+  transmisor.
+  \item \textbf{--excess-bw}: Especifica el par\'ametro $\beta$ del filtro acoplador de coseno
+  elevado. Se utilizaron los mismos valores que en el transmisor.
+\end{itemize}
+
+Cabe mencionar que debido a que los dos programas son independientes uno del otro, es necesario
+igualar algunos par\'ametros para lograr una transmisi\'on exitosa. Los par\'ametros \verb|--f|,
+\verb|-S|, \verb|-r| y \verb|--excess-bw| son un ejemplo de estos parametr\'os. Todos los
+par\'ametros tienen valores default si no se desea modificarlos pero uno de ellos es obligatorio
+especificarlo y es el de la frecuencia de sintonizaci\'on \verb|-f|. Si se ejecutan los programas
+sin especificar este par\'ametro, aunque se especifiquen los otros, marcara un error pidiendo que
+se especifique la frecuencia de operacion. 
+%Taza de error de bits
+%==========================================================================
+\section{Taza de error de bits}
+
+%TODO: Realizar diagrama de los grafos que se desarrollaron e incluir las graficas del ber.
+%FIXME: Arreglar el programa para usar 2 bits por simbolo en el grafo de SigGen.
+El analisis de la tasa de error de bits se realizo para ambos modelos de DQPSK proporcionados por
+\emph{GNURadio}. El programa que se utilizo fue basado en un estudio generado y publicado en la
+pagina de \gnuradio sobre una version mas optima del modulador GMSK. El programa fue modificado para
+que pudiera analizar y comparar ambos DBPSK y DQPSK en sus dos versiones: costas/MM y filtros
+polifasicos.
+
+La estructura del programa esta dividida en 3 etapas. La primera etapa genera una se\~nal de una
+fuente de numeros pseudo-aleatorios y luego la modula utilizando el modulador que se va a evaluar.
+Los datos arrojados del modulador son enviados a archivos que se utilizaran como la entrada para las
+siguientes etapas. El programa define una clase llamada \verb|SigGen| derivada de la clase
+\verb|top_block| para definir un grafo de flujo de datos. La estructura del grafo se muestra en la
+figura \ref{fig:siggen}.
+
+\begin{figure}[htp]
+  \centering
+  \vspace{0.3in}
+  \begin{tikzpicture}[scale=0.8, transform shape, node distance=0.5cm and 0.4cm]
+  	\node (glfsr) [grblock] {\footnotesize{Fuente de n\'umeros pseudo-aleatorios}};
+  	\node (limiter) [grblock, right=of glfsr] {\footnotesize{Limitador de datos}}
+  	edge [<-] (glfsr);
+  	\node (srcbits) [grblock, below=of limiter] {\footnotesize{src\_bits.dat}}
+  	edge [<-] (limiter);
+  	\node (unpacktopack) [grblock, right=of limiter] {\footnotesize{Empaquetado de bits}}
+  	edge [<-] (limiter);
+  	\node (newmod) [grblock, above right=of unpacktopack] {\footnotesize{Mod\_Demod \\ Poly}};
+  	\draw [->] (unpacktopack.east) -- ++(0.2,0) |- (newmod);
+  	\node (cleanbb) [grblock, right=of newmod] {\footnotesize{cleanbb.dat}}
+  	edge [<-] (newmod);
+  	\node (oldmod) [grblock, below right=of unpacktopack] {\footnotesize{Mod\_Demod \\ Costas\_MM}};
+  	\draw [->] (unpacktopack.east) -- ++(0.2,0) |- (oldmod);
+  	\node (cleanoldbb) [grblock, right=of oldmod] {\footnotesize{clean\_oldbb.dat}}
+  	edge [<-] (oldmod);
+  \end{tikzpicture}
+  \vspace{0.3in}
+  \caption{Grafo generador de datos modulados para la evaluaci\'on del BER.}
+  \label{fig:siggen}
+\end{figure}
+
+Los bloques se describen de la siguiente manera:
+
+\begin{itemize}
+  \item \textbf{Fuente de n\'umeros pseudo-aleatorios}: El bloque se genera por medio de la clase
+  \verb|gr.glfsr_source_b|. Esta clase implementa un registro de desplazamiento con
+  retroalimentaci\'on lineal en modo Galois. El sufijo ``b'' indica que el generador entrega valores
+  binarios. El parametro que se le especifica es el numero de bits de precision para generar
+  una secuencia de bits de longitud $2^{N-1}$, el cual expresa la maxima cantidad de valores
+  que puede generar antes de ciclarse \cite{xilinx}. 
+  \item \textbf{Limitador de datos}: Este bloque se genera por medio de la clase \verb|gr_head|, el
+  cual su funcion es tomar una cierta cantidad de valores en su entrada y descartar todo lo demas. A
+  esta secuencia de valores se le anexa el valor especial \emph{EOF} que especifica el fin del flujo
+  dentro del grafo. Esto causar\'a que el grafo termine su ejecucion una vez que este valor se
+  propage a todos los bloques. Sus parametros el tipo de datos con el que va trabajar y la cantidad
+  de muestras que va dejar pasar de su entrada a su salida.
+  \item \textbf{Source\_bits.dat, Cleanbb.dat, Clean\_oldbb.dat}: Estos bloques utilizan la clase
+  \verb|gr.file_sink| para enviar el flujo de datos a un archivo. En este grafo se generan tres
+  archivos para guardar los bits originales y los bits modulados con los dos tipos de moduladores
+  de \emph{GNURadio}. Sus par\'ametros son el tipo de datos que van a escribir y el nombre del
+  archivo.
+  \item \textbf{Empaquetado de bits}: Este bloque se implementa utilizando la clase \\
+  \verb|gr.unpacked_to_packed_bb|.
+  %TODO: Explicar mas sobre este bloque. Utilizar GRC para decifrar la conversion.
+  \item \textbf{Mod\_Demod Poly y Mod\_Demod Costas\_MM}: Estos bloques representan los moduladores
+  que se evaluaron durante el experimento y se implementan con las clases \verb|blks2.dqpsk_mod| y
+  \verb|blks2.dqpsk2_mod| respectivamente.
+\end{itemize}
+
+La segunda etapa toma la se\~nal modulada de los archivos y los pasa a trav\'es de un grafo que
+aplica ruido Gaussiano para simular un canal de transmisi\'on AWGN. El grafo se muestra en la figura
+\ref{fig:noisegen}.
+
+\begin{figure}[htp]
+  \centering
+  \vspace{0.3in}
+  \begin{tikzpicture}[scale=0.8, transform shape, node distance=15mm and 20mm]
+  	\node (sigsource) [grblock] {\footnotesize{Fuente de datos de un archivo}};
+  	\node (noisesource) [grblock, below=of sigsource] {\footnotesize{Fuente de ruido}};
+  	\node (sum) [op, below right=of sigsource, yshift=1.4cm] {$\sum$};
+  	\draw [->] (sigsource.east) -- ++(1,0) |- (sum);
+  	\draw [->] (noisesource.east) -- ++(1,0) |- (sum);
+  	\node (noisesig) [grblock, right=of sum] {\footnotesize{Archivo \\ ruido\_bb.dat}}
+  	edge [<-] (sum);
+  	\node (noisedat) [grblock, below=of noisesource] {\footnotesize{Archivo ruido.dat}}
+  	edge [<-] (noisesource);
+  \end{tikzpicture}
+  \vspace{0.3in}
+  \caption{Grafo que simula un canal AWGN}
+  \label{fig:noisegen}
+\end{figure}
+
+
+%Espectrograma de la transmision
+%==========================================================================
+\section{Espectrograma de la transmisi\'on}
+
+%TODO: Explicar el uso de la herramienta USRP FFT y como se puede configurar para observar el
+% espectrograma. Explicar que se transmitio una portadora de 30Mhz y que se alcanza a obervar las
+% bandas laterales de la transmision. Explicar todos (o casi todos) los controles de la aplicacion.
+
+%Diagrama de ojo
+%==========================================================================
+\section{Diagrama de ojo}
+
+%TODO: Explicar la interpretacion del diagrama de ojo. Explicar que lo que se observa es el
+% parametro beta del filtro RRC y su efecto en la señal observada.
+
+%Constelacion observada
+%==========================================================================
+\section{Constelaci\'on observada}
+
+%TODO: Incluir ambas imagenes de la constelacion para ilustrar los problemas que se tuvieron.
+% Explicar el uso de QT (breve) para el desarrollo de interfazes de usuario y los 4 sinks que
+% proporciona GR_QT (freq display, waterfall, time domain, constellation).
