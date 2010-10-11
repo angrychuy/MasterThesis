@@ -106,7 +106,6 @@ se especifique la frecuencia de operacion.
 \section{Taza de error de bits}
 
 %TODO: Realizar diagrama de los grafos que se desarrollaron e incluir las graficas del ber.
-%FIXME: Arreglar el programa para usar 2 bits por simbolo en el grafo de SigGen.
 El analisis de la tasa de error de bits se realizo para ambos modelos de DQPSK proporcionados por
 \emph{GNURadio}. El programa que se utilizo fue basado en un estudio generado y publicado en la
 pagina de \gnuradio sobre una version mas optima del modulador GMSK. El programa fue modificado para
@@ -166,8 +165,8 @@ Los bloques se describen de la siguiente manera:
   de \emph{GNURadio}. Sus par\'ametros son el tipo de datos que van a escribir y el nombre del
   archivo.
   \item \textbf{Empaquetado de bits}: Este bloque se implementa utilizando la clase \\
-  \verb|gr.unpacked_to_packed_bb|.
-  %TODO: Explicar mas sobre este bloque. Utilizar GRC para decifrar la conversion.
+  \verb|gr.unpacked_to_packed_bb|. Se encarga en juntar los bits que entrar y formar bytes completos
+  en la salida. Estos bytes representan la informacion original.
   \item \textbf{Mod\_Demod Poly y Mod\_Demod Costas\_MM}: Estos bloques representan los moduladores
   que se evaluaron durante el experimento y se implementan con las clases \verb|blks2.dqpsk_mod| y
   \verb|blks2.dqpsk2_mod| respectivamente.
