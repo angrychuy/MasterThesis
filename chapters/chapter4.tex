@@ -106,14 +106,14 @@ se especifique la frecuencia de operacion.
 \section{Taza de error de bits}
 
 %TODO: Realizar diagrama de los grafos que se desarrollaron e incluir las graficas del ber.
-El analisis de la tasa de error de bits se realizo para ambos modelos de DQPSK proporcionados por
+El an\'alisis de la tasa de error de bits se realizo para ambos modelos de DQPSK proporcionados por
 \emph{GNURadio}. El programa que se utilizo fue basado en un estudio generado y publicado en la
-pagina de \gnuradio sobre una version mas optima del modulador GMSK. El programa fue modificado para
-que pudiera analizar y comparar ambos DBPSK y DQPSK en sus dos versiones: costas/MM y filtros
-polifasicos.
+pagina de \gnuradio sobre una versi\'on mas optima del modulador GMSK. El programa fue modificado
+para que pudiera analizar y comparar ambos esquemas DBPSK y DQPSK en sus dos versiones: costas/MM y
+filtros polifasicos.
 
-La estructura del programa esta dividida en 3 etapas. La primera etapa genera una se\~nal de una
-fuente de numeros pseudo-aleatorios y luego la modula utilizando el modulador que se va a evaluar.
+La estructura del programa est\'a dividida en 3 etapas. La primera etapa genera una se\~nal de una
+fuente de n\'umeros pseudo-aleatorios y luego la modula utilizando el modulador que se va a evaluar.
 Los datos arrojados del modulador son enviados a archivos que se utilizaran como la entrada para las
 siguientes etapas. El programa define una clase llamada \verb|SigGen| derivada de la clase
 \verb|top_block| para definir un grafo de flujo de datos. La estructura del grafo se muestra en la
@@ -132,11 +132,11 @@ figura \ref{fig:siggen}.
   	edge [<-] (limiter);
   	\node (newmod) [grblock, above right=of unpacktopack] {\footnotesize{Mod\_Demod \\ Poly}};
   	\draw [->] (unpacktopack.east) -- ++(0.2,0) |- (newmod);
-  	\node (cleanbb) [grblock, right=of newmod] {\footnotesize{cleanbb.dat}}
+  	\node (cleanbb) [grblock, right=of newmod] {\footnotesize{limpio\_bb.dat}}
   	edge [<-] (newmod);
   	\node (oldmod) [grblock, below right=of unpacktopack] {\footnotesize{Mod\_Demod \\ Costas\_MM}};
   	\draw [->] (unpacktopack.east) -- ++(0.2,0) |- (oldmod);
-  	\node (cleanoldbb) [grblock, right=of oldmod] {\footnotesize{clean\_oldbb.dat}}
+  	\node (cleanoldbb) [grblock, right=of oldmod] {\footnotesize{limpio\_oldbb.dat}}
   	edge [<-] (oldmod);
   \end{tikzpicture}
   \vspace{0.3in}
@@ -150,27 +150,50 @@ Los bloques se describen de la siguiente manera:
   \item \textbf{Fuente de n\'umeros pseudo-aleatorios}: El bloque se genera por medio de la clase
   \verb|gr.glfsr_source_b|. Esta clase implementa un registro de desplazamiento con
   retroalimentaci\'on lineal en modo Galois. El sufijo ``b'' indica que el generador entrega valores
-  binarios. El parametro que se le especifica es el numero de bits de precision para generar
-  una secuencia de bits de longitud $2^{N-1}$, el cual expresa la maxima cantidad de valores
+  binarios. El par\'ametro que se le especifica es el numero de bits de precisi\'on para generar
+  una secuencia de bits de longitud $2^{N-1}$, el cual expresa la m\'axima cantidad de valores
   que puede generar antes de ciclarse \cite{xilinx}. 
   \item \textbf{Limitador de datos}: Este bloque se genera por medio de la clase \verb|gr_head|, el
-  cual su funcion es tomar una cierta cantidad de valores en su entrada y descartar todo lo demas. A
-  esta secuencia de valores se le anexa el valor especial \emph{EOF} que especifica el fin del flujo
-  dentro del grafo. Esto causar\'a que el grafo termine su ejecucion una vez que este valor se
-  propage a todos los bloques. Sus parametros el tipo de datos con el que va trabajar y la cantidad
-  de muestras que va dejar pasar de su entrada a su salida.
-  \item \textbf{Source\_bits.dat, Cleanbb.dat, Clean\_oldbb.dat}: Estos bloques utilizan la clase
-  \verb|gr.file_sink| para enviar el flujo de datos a un archivo. En este grafo se generan tres
+  cual su funci\'on es tomar una cierta cantidad de valores en su entrada y descartar todo lo
+  dem\'as. A esta secuencia de valores se le anexa el valor especial \emph{EOF} que especifica el
+  fin del flujo dentro del grafo. Esto causar\'a que el grafo termine su ejecuci\'on una vez que
+  este valor se propague a todos los bloques. Sus par\'ametros el tipo de datos con el que va
+  trabajar y la cantidad de muestras que va dejar pasar de su entrada a su salida.
+  \item \textbf{Source\_bits.dat, Limpio\_bb.dat, Limpio\_oldbb.dat}: Estos bloques utilizan la
+  clase \verb|gr.file_sink| para enviar el flujo de datos a un archivo. En este grafo se generan tres
   archivos para guardar los bits originales y los bits modulados con los dos tipos de moduladores
   de \emph{GNURadio}. Sus par\'ametros son el tipo de datos que van a escribir y el nombre del
   archivo.
   \item \textbf{Empaquetado de bits}: Este bloque se implementa utilizando la clase \\
   \verb|gr.unpacked_to_packed_bb|. Se encarga en juntar los bits que entrar y formar bytes completos
-  en la salida. Estos bytes representan la informacion original.
+  en la salida. Estos bytes representan la informaci\'on original.
   \item \textbf{Mod\_Demod Poly y Mod\_Demod Costas\_MM}: Estos bloques representan los moduladores
   que se evaluaron durante el experimento y se implementan con las clases \verb|blks2.dqpsk_mod| y
   \verb|blks2.dqpsk2_mod| respectivamente.
 \end{itemize}
+
+El c\'odigo que implementa este grafo se muestra en el listado \ref{ex:siggen}.
+
+\begin{lstlisting}[float, label=ex:siggen, caption={C\'odigo que implementa el grafo
+generador de se\~nales.}, breaklines=true]
+class SigGen(gr.top_block):
+  def __init__(self,num_bits=5000,pn_degree=23,xmit_bt=0.25,samp_per_symbol=8):
+    gr.top_block.__init__(self, 'SigGen')
+	
+	src = gr.glfsr_source_b(pn_degree)
+	src_limiter = gr.head(gr.sizeof_char, num_bits)
+
+    bit_packer = gr.unpacked_to_packed_bb(1, gr.GR_MSB_FIRST)
+    mod = blks2.dqpsk2_mod(samp_per_symbol, xmit_bt)
+
+    bit_packer_old = gr.unpacked_to_packed_bb(1, gr.GR_MSB_FIRST)
+    mod_old = blks2.dqpsk_mod(samp_per_symbol, xmit_bt)
+
+    self.connect(src, src_limiter)
+    self.connect(src_limiter, gr.file_sink(gr.sizeof_char, 'src_bits.dat'))
+    self.connect(src_limiter, bit_packer, mod, gr.file_sink(gr.sizeof_gr_complex, 'limpio_bb.dat'))
+    self.connect(src_limiter, bit_packer_old, mod_old, gr.file_sink(gr.sizeof_gr_complex, 'limpio_old_bb.dat'))
+\end{lstlisting}
 
 La segunda etapa toma la se\~nal modulada de los archivos y los pasa a trav\'es de un grafo que
 aplica ruido Gaussiano para simular un canal de transmisi\'on AWGN. El grafo se muestra en la figura
@@ -195,7 +218,118 @@ aplica ruido Gaussiano para simular un canal de transmisi\'on AWGN. El grafo se 
   \label{fig:noisegen}
 \end{figure}
 
+El grafo toma como entrada caracter\'istica el valor de la relaci\'on de energ\'ia de bit a ruido
+$E_b/N_0$ que se va utilizar en el an\'alisis. Los bloques se implementan de la siguiente manera:
 
+\begin{itemize}
+  \item \textbf{Fuente de datos de archivo}: Este bloque se implementa con la clase
+  \verb|gr.file_source|. Se utiliza para leer el archivo generado del grafo \ref{fig:siggen} que
+  contiene los bits modulados.
+  \item \textbf{Fuente de ruido}: Este bloque se implementa usando la clase \\
+  \verb|gr.noise_source_c|. El prefijo ``c'' indica que trabaja con datos complejos. La clase acepta
+  dos par\'ametros de entrada: el tipo de ruido que se quiere generar y la magnitud. El tipo de
+  ruido puede ser una de las siguientes constantes:
+  \begin{itemize}
+    \item \verb|GR_UNIFORM|
+    \item \verb|GR_GAUSSIAN|
+    \item \verb|GR_LAPLACIAN|
+    \item \verb|GR_IMPULSE| 
+  \end{itemize}
+  Para simular el canal AWGN se utiliz\'o la constante \verb|GR_GAUSSIAN|.
+  \item \textbf{Archivo ruido\_bb.dat y Archivo ruido.dat}: Este bloque usa la clase
+  \verb|file_sink_c| para guardar los datos complejos que representan la se\~nal mezclada con el
+  ruido. El archivo ruido.dat guarda los datos que representan el puro ruido sin la se\~nal
+  modulada.
+\end{itemize}
+
+Para determinar la magnitud del ruido el programa primero calcula la potencia promedio del archivo
+que contiene la se\~nal modulada sin ruido, la energ\'ia por bit y por \'ultimo la magnitud del
+ruido. La potencia se calcula utilizando la siguiente expresi\'on:
+
+\begin{equation}\label{eq:bitpower}
+P_{prom}=\frac{1}{N}\sum_{n=1}^{N}{x^2(n)}
+\end{equation}
+
+La energ\'ia por bit se calcula a partir de la potencia como se muestra en la siguiente
+expresi\'on:
+
+\begin{equation}\label{eq:bitenergy}
+E_b=\frac{P_{prom}}{f_b}
+\end{equation}
+donde $f_b$ es la taza de bits en bits por segundo.
+
+El listado \ref{ex:powenerprogram} muestra dos funciones en Python que calculan estos dos
+par\'ametros.
+
+\begin{lstlisting}[float, label=ex:powenerprogram, caption={Funciones en Python para calcular la
+potencia y la energia promedio de una se\~nal}]
+def get_p_avg_watts(fn, is_complex=False):
+
+    f = open(fn)
+    d = f.read()
+    num_floats = (len(d)/4)
+    d = struct.unpack('f'*num_floats, d)
+    if is_complex:
+        d = d[::2] #toma la parte real
+    d_sq = [x*x for x in d]
+    return sum(d_sq)/len(d_sq)
+    
+def get_eb_joules(fn, bits_per_sec, is_complex=False):
+
+    p_avg = get_p_avg_watts(fn, is_complex=is_complex)
+    return p_avg / bits_per_sec
+
+\end{lstlisting}
+
+El c\'odigo que implementa el grafo \ref{fig:noisegen} se muestra en el listado \ref{ex:pynoisegen}.
+
+\begin{lstlisting}[float, label=ex:pynoisegen, caption={Codigo que implementa el grafo generador de
+ruido}, breaklines=true]
+
+class NoiseGen(gr.top_block):
+  def __init__(self, ebn0_dB, bits_per_sec, samp_per_sec):
+    gr.top_block.__init__(self, 'NoiseGen')
+
+    ebn0_ratio = dB_to_ratio(ebn0_dB)
+
+    n0_watts_per_Hz = bertool.get_eb_joules(fn = 'limpio_bb.dat', bits_per_sec = bits_per_sec) / ebn0_ratio 
+    n_mag = sqrt(0.5 * n0_watts_per_Hz * samp_per_sec)
+    n_src = gr.noise_source_c(gr.GR_GAUSSIAN, n_mag)
+    sig_src = gr.file_source(gr.sizeof_gr_complex, 'limpio_bb.dat')
+    adder = gr.add_cc()
+
+    self.connect(sig_src, adder, gr.file_sink(gr.sizeof_gr_complex, 'ruido_bb.dat'))
+    self.connect(n_src, (adder, 1))
+    self.connect(n_src, gr.file_sink(gr.sizeof_gr_complex, 'ruido.dat'))
+\end{lstlisting}
+
+%FIXME: Expliar el proposito del filtro pre-detector.
+La tercera etapa realiza la demodulaci\'on de las se\~nales capturadas por los grafos anteriores.
+Esta etapa consiste en leer la se\~nal mezclada con ruido, aplicar un filtro pre-detector, demodular la
+se\~nal recibida y guardar los datos generados en un archivo para realizar la comparaci\'on. La
+estructura del grafo que realiza esta etapa se muestra en la figura \ref{fig:analizer}.
+
+\begin{figure}[htp]
+  \centering
+  \vspace{0.3in}
+  \begin{tikzpicture}[scale=0.8, transform shape]
+  	\node (sigsource) [grblock] {\footnotesize{Archivo con se\~nal y ruido}};
+  	\node (fir) [grblock, right=of sigsource] {\footnotesize{Filtro pre-detector}}
+  	edge [<-] (sigsource);
+  	\node (demod) [grblock, right=of fir] {\footnotesize{Demodulador}}
+  	edge [<-] (fir);
+  	\node (sink) [grblock, below=of demod] {\footnotesize{bits\_demod\_bb.dat}}
+  	edge [<-] (demod);
+  \end{tikzpicture}
+  \vspace{0.3in}
+  \label{fig:analizer}
+  \caption{Grafo que realiza la demodulaci\'on de la se\~nal simulada}
+\end{figure}
+
+El grafo tiene un par\'ametro obligatorio y es el demodulador que se va utilizar para el an\'alisis.
+Los dem\'as son opcionales y establecen los par\'ametros de muestras por s\'imbolos, s\'imbolos
+por segundo y los par\'ametros de ancho de banda para el filtro pre-detector. Para este an\'alisis
+se utilizaron los valores por default.
 %Espectrograma de la transmision
 %==========================================================================
 \section{Espectrograma de la transmisi\'on}
