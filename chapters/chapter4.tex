@@ -346,15 +346,15 @@ Los bloques del grafo se implementan de la siguiente manera:
   archivo generado por el grafo \verb|NoiseGen| para enviarlo al filtro pre-selector.
   \item \textbf{Filtro pre-selector}: El filtro pasa bajas se implementa con una combinacion de dos
   clases: \verb|gr.firdes.low_pass| y \verb|gr.fir_filter_ccf|. El primero se utiliza para generar
-  los coeficientes del filtro apartir de los parametros de entrada que se le especifiquen. Se
-  utilizaron los valores default del ejemplo a excepcion de la ventana. Originalmente utilizaba una
-  ventana de tipo Hamming y se cambio a una ventana Kaizer ya que esta tuvo mejor rendimiento y
-  ayudo a generar una curva de BER mas suave. Los parametros que acepta la clase son la ganancia, la
-  frecuencia de muestreo, la frecuencia de corte, el ancho de la banda de transicion y el tipo de
-  ventana. La segunda clase implementa en si el filtro fir apartir de los coeficientes generados por
-  la clase \verb|gr.firdes.low_pass|. Sus parametros de entrada son el factor de decimaci\'on y los
-  coeficientes del filtro.
-  \item \textbf{Demodulador}: Este bloque representa el demodulador que se esta evaluando. En este
+  los coeficientes del filtro a partir de los par\'ametros de entrada que se le especifiquen. Se
+  utilizaron los valores default del ejemplo a excepci\'on de la ventana. Originalmente utilizaba
+  una ventana de tipo Hamming y se cambio a una ventana Kaizer ya que esta tuvo mejor rendimiento y
+  ayudo a generar una curva de BER m\'as suave. Los par\'ametros que acepta la clase son la
+  ganancia, la frecuencia de muestreo, la frecuencia de corte, el ancho de la banda de transici\'on
+  y el tipo de ventana. La segunda clase implementa en si el filtro fir a partir de los coeficientes
+  generados por la clase \verb|gr.firdes.low_pass|. Sus par\'ametros de entrada son el factor de
+  decimaci\'on y los coeficientes del filtro.
+  \item \textbf{Demodulador}: Este bloque representa el demodulador que se est\'a evaluando. En este
   caso fueron ambos DQPSK y DBPSK en sus dos versiones. Las clases que los implementan se encuentran
   dentro del paquete \verb|blks2|. Su uso se muestra en el listado \ref{ex:mainber}. La clase toma
   la se\~nal filtrada e inicia el proceso de demodulaci\'on y detecci\'on. Los resultados son una serie de bits
@@ -403,7 +403,7 @@ utilizaron para la simulaci\'on fueron los siguientes:
   \item \textbf{Exceso de ancho de banda}: 0.75
 \end{itemize}
 
-Los resultados de la primera version de los esquemas DQPSK y DBPSK se muestran en la figura
+Los resultados de la primera versi\'on de los esquemas DQPSK y DBPSK se muestran en la figura
 \ref{fig:bernormal}.
 
 \begin{figure}[htp]
@@ -414,13 +414,13 @@ Los resultados de la primera version de los esquemas DQPSK y DBPSK se muestran e
 \end{figure}
 
 Los resultados muestran el rendimiento entre los dos esquemas de modulaci\'on a diferentes niveles
-de SNR. Debido a que DQPSK utiliza dos bits por simbolo tiene mas probabilidades de generar errores
-a niveles muy altos de ruido. Para poder lograr niveles confiables de transmision se requiere mas
-potencia que DBPSK.
+de SNR. Debido a que DQPSK utiliza dos bits por s\'imbolo tiene m\'as probabilidades de generar
+errores a niveles muy altos de ruido. Para poder lograr niveles confiables de transmisi\'on se
+requiere mas potencia que DBPSK.
 
-La segunda version de estos esquemas intentan mejorar el BER por medio de la implementacion de
-bancos de filtros polifasicos. La misma metodologia se siguio para su analisis y los resultados se
-muestran el la figura \ref{fig:berpoly}.
+La segunda versi\'on de estos esquemas intenta mejorar el BER por medio de la implementaci\'on de
+bancos de filtros polif\'asicos. La misma metodolog\'ia se sigui\'o para su an\'alisis y los
+resultados se muestran en la figura \ref{fig:berpoly}.
 
 \begin{figure}[htp]
   \centering
@@ -429,10 +429,10 @@ muestran el la figura \ref{fig:berpoly}.
   \label{fig:berpoly}
 \end{figure}
 
-Como se puede observar, los filtros polifasicos ofrecen una mejora en el rendimiento de ambos
-esquemas. A niveles bajos de SNR DQPSK tiene un poco mas de tolerancia que la version anterior para
-generar errores. Con estos se demuestra el rendimiento del codigo fuente actual de \emph{GNURadio}.
-El codigo del programa principal se muestra en el listado \ref{ex:mainber}.
+Como se puede observar, los filtros polif\'asicos ofrecen una mejora en el rendimiento de ambos
+esquemas. A niveles bajos de SNR DQPSK tiene un poco mas de tolerancia que la versi\'on anterior
+para generar errores. Con estos se demuestra el rendimiento del c\'odigo fuente actual de
+\emph{GNURadio}. El c\'odigo del programa principal se muestra en el listado \ref{ex:mainber}.
 
 \begin{lstlisting}[label=ex:mainber, caption={C\'odigo Python de la rutina principal del
 analisis del BER.}, breaklines=true]
