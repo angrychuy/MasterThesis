@@ -356,10 +356,9 @@ Los bloques del grafo se implementan de la siguiente manera:
   coeficientes del filtro.
   \item \textbf{Demodulador}: Este bloque representa el demodulador que se esta evaluando. En este
   caso fueron ambos DQPSK y DBPSK en sus dos versiones. Las clases que los implementan se encuentran
-  dentro del paquete \verb|blks2|. Su uso se muestra en el listado. La clase toma la se\~nal
-  filtrada e inicia el proceso de demodulaci\'on y detecci\'on. Los resultados son una serie de bits
+  dentro del paquete \verb|blks2|. Su uso se muestra en el listado \ref{ex:mainber}. La clase toma
+  la se\~nal filtrada e inicia el proceso de demodulaci\'on y detecci\'on. Los resultados son una serie de bits
   desempaquetados, osea, bits individuales.
-  %FIXME: Referenciar el listado del codigo final del analisis (main).
   \item \textbf{Archivo bits\_demod\_bb.dat}: Este bloque usa la clase \verb|gr.file_sink| para
   escribir a un archivo los bits resultantes del bloque demodulador.
 \end{itemize}
@@ -391,7 +390,138 @@ class Analyser(gr.top_block):
         self.connect(test_demod, self.dst)
 \end{lstlisting}
 
+El programa principal inicializa los tres grafos y realiza una serie de pruebas para generar la
+grafica del BER. La metodolog\'ia que se sigui\'o fue generar varios valores de $E_b/N_0$, desde
+12db hasta 2db en intervalos de 0.5db y ejecutar los tres grafos para generar los resultados. Estos
+resultados se van guardando en un arreglo y posteriormente se grafican. Los par\'ametros que se
+utilizaron para la simulaci\'on fueron los siguientes:
 
+\begin{itemize}
+  \item \textbf{Numero de bits}: 20000
+  \item \textbf{Muestras por s\'imbolo}: 7
+  \item \textbf{S\'imbolos por segundo}: $1e6$
+  \item \textbf{Exceso de ancho de banda}: 0.75
+\end{itemize}
+
+Los resultados de la primera version de los esquemas DQPSK y DBPSK se muestran en la figura
+\ref{fig:bernormal}.
+
+\begin{figure}[htp]
+  \centering
+  \includegraphics[scale=0.7]{figs/bernormal}
+  \caption{Grafica comparativa del BER para la primera versi\'on de los esquemas DQPSK y DBPSK.}
+  \label{fig:bernormal}
+\end{figure}
+
+Los resultados muestran el rendimiento entre los dos esquemas de modulaci\'on a diferentes niveles
+de SNR. Debido a que DQPSK utiliza dos bits por simbolo tiene mas probabilidades de generar errores
+a niveles muy altos de ruido. Para poder lograr niveles confiables de transmision se requiere mas
+potencia que DBPSK.
+
+La segunda version de estos esquemas intentan mejorar el BER por medio de la implementacion de
+bancos de filtros polifasicos. La misma metodologia se siguio para su analisis y los resultados se
+muestran el la figura \ref{fig:berpoly}.
+
+\begin{figure}[htp]
+  \centering
+  \includegraphics[scale=0.7]{figs/berpoly}
+  \caption{Grafica comparativa del BER para la segunda versi\'on de los esquemas DQPSK y DBPSK.}
+  \label{fig:berpoly}
+\end{figure}
+
+Como se puede observar, los filtros polifasicos ofrecen una mejora en el rendimiento de ambos
+esquemas. A niveles bajos de SNR DQPSK tiene un poco mas de tolerancia que la version anterior para
+generar errores. Con estos se demuestra el rendimiento del codigo fuente actual de \emph{GNURadio}.
+El codigo del programa principal se muestra en el listado \ref{ex:mainber}.
+
+\begin{lstlisting}[label=ex:mainber, caption={C\'odigo Python de la rutina principal del
+analisis del BER.}, breaklines=true]
+if __name__ == "__main__":
+    num_bits = 20000
+    samp_per_sym = 7
+    sym_per_sec = 1e6
+    samp_per_sec = sym_per_sec * samp_per_sym
+    print "Samples per second: ", samp_per_sec
+    xmit_bt = 0.75
+    ebn0s_dB = list(numpy.arange(12.0, 1.999, -0.5))
+    recv_bt = 0.9
+    recv_filt_transition_ratio = 0.1
+
+    sg = SigGen(num_bits = num_bits, xmit_bt = xmit_bt, samp_per_symbol = samp_per_sym)
+    sg.run()
+    del sg
+
+    dbpsk2_demod_bers = []
+    dqpsk2_demod_bers = []
+    dbpsk2_delay = None
+    dqpsk2_delay = None
+
+    for ebn0_dB in ebn0s_dB:
+        print ebn0_dB
+        ng = NoiseGen(ebn0_dB = ebn0_dB, bits_per_sec = sym_per_sec, samp_per_sec = samp_per_sec)
+        ng.run()
+        del ng
+
+        #========================
+        # Analisis de DQPSK
+        #========================
+
+        test_dqpsk2_demod = blks2.dqpsk_demod(samples_per_symbol = samp_per_sym, excess_bw = xmit_bt)
+
+        a = Analyser(bb_src_fn = 'noisy_qpsk2_bb.dat', test_demod = test_dqpsk2_demod, samp_per_sym = samp_per_sym,
+                     sym_per_sec = sym_per_sec, pre_detect_filt_bt = recv_bt,
+                     filt_transition_ratio = recv_filt_transition_ratio)
+
+        a.run()
+        a.close()
+        del a
+
+        if dqpsk2_delay is None:
+            dqpsk2_delay = bertool.get_delay('src_bits.dat', 'test_demod_dst_bits.dat')
+        ber_stats = bertool.get_ber_stats('src_bits.dat', 'test_demod_dst_bits.dat', dqpsk2_delay)
+        dqpsk2_demod_bers.append(ber_stats[0])
+
+        #========================
+        # Analisis de DBPSK
+        #========================
+
+        test_dbpsk2_demod = blks2.dbpsk_demod(samples_per_symbol = samp_per_sym, excess_bw = xmit_bt)
+
+        a = Analyser(bb_src_fn = 'noisy_bpsk2_bb.dat', test_demod = test_dbpsk2_demod, samp_per_sym = samp_per_sym,
+                     sym_per_sec = sym_per_sec, pre_detect_filt_bt = recv_bt,
+                     filt_transition_ratio = recv_filt_transition_ratio)
+
+        a.run()
+        a.close()
+        del a
+
+        if dbpsk2_delay is None:
+            dbpsk2_delay = bertool.get_delay('src_bits.dat', 'test_demod_dst_bits.dat')
+        ber_stats = bertool.get_ber_stats('src_bits.dat', 'test_demod_dst_bits.dat', dbpsk2_delay)
+        dbpsk2_demod_bers.append(ber_stats[0])
+
+
+    ebn0s_dB.reverse()
+    dbpsk2_demod_bers.reverse()
+    dqpsk2_demod_bers.reverse()
+
+    fig = p.figure()
+    p.title(u'Desempeño de DQPSK y DBPSK')
+    ax = fig.add_subplot(111)
+    ax.semilogy(ebn0s_dB, dqpsk2_demod_bers, 'b', label = 'DQPSK')
+    ax.hold(True)
+    ax.semilogy(ebn0s_dB, dbpsk2_demod_bers, 'r', label = 'DBPSK')
+    ax.hold(False)
+
+    ax.yaxis.grid(True, which = 'minor')
+    ax.xaxis.grid(True)
+
+    p.legend()
+
+    p.ylabel('BER')
+    p.xlabel('Ebn0_dB')
+    p.show()
+\end{lstlisting}
 %Espectrograma de la transmision
 %==========================================================================
 \section{Espectrograma de la transmisi\'on}
