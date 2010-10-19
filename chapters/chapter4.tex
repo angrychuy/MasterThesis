@@ -403,39 +403,10 @@ utilizaron para la simulaci\'on fueron los siguientes:
   \item \textbf{Exceso de ancho de banda}: 0.75
 \end{itemize}
 
-Los resultados de la primera versi\'on de los esquemas DQPSK y DBPSK se muestran en la figura
-\ref{fig:bernormal}.
+El c\'odigo del programa principal se muestra en el listado \ref{ex:mainber}. El programa original
+se modifico para que pueda evaluar ambos esquemas a la vez.
 
-\begin{figure}[htp]
-  \centering
-  \includegraphics[scale=0.7]{figs/bernormal}
-  \caption{Grafica comparativa del BER para la primera versi\'on de los esquemas DQPSK y DBPSK.}
-  \label{fig:bernormal}
-\end{figure}
-
-Los resultados muestran el rendimiento entre los dos esquemas de modulaci\'on a diferentes niveles
-de SNR. Debido a que DQPSK utiliza dos bits por s\'imbolo tiene m\'as probabilidades de generar
-errores a niveles muy altos de ruido. Para poder lograr niveles confiables de transmisi\'on se
-requiere mas potencia que DBPSK.
-
-La segunda versi\'on de estos esquemas intenta mejorar el BER por medio de la implementaci\'on de
-bancos de filtros polif\'asicos. La misma metodolog\'ia se sigui\'o para su an\'alisis y los
-resultados se muestran en la figura \ref{fig:berpoly}.
-
-\begin{figure}[htp]
-  \centering
-  \includegraphics[scale=0.7]{figs/berpoly}
-  \caption{Grafica comparativa del BER para la segunda versi\'on de los esquemas DQPSK y DBPSK.}
-  \label{fig:berpoly}
-\end{figure}
-
-Como se puede observar, los filtros polif\'asicos ofrecen una mejora en el rendimiento de ambos
-esquemas. A niveles bajos de SNR DQPSK tiene un poco mas de tolerancia que la versi\'on anterior
-para generar errores. Con estos se demuestra el rendimiento del c\'odigo fuente actual de
-\emph{GNURadio}. El c\'odigo del programa principal se muestra en el listado \ref{ex:mainber}.
-
-\begin{lstlisting}[label=ex:mainber, caption={C\'odigo Python de la rutina principal del
-analisis del BER.}, breaklines=true]
+\begin{lstlisting}[float=hp, breaklines=true]
 if __name__ == "__main__":
     num_bits = 20000
     samp_per_sym = 7
@@ -480,7 +451,10 @@ if __name__ == "__main__":
             dqpsk2_delay = bertool.get_delay('src_bits.dat', 'test_demod_dst_bits.dat')
         ber_stats = bertool.get_ber_stats('src_bits.dat', 'test_demod_dst_bits.dat', dqpsk2_delay)
         dqpsk2_demod_bers.append(ber_stats[0])
+\end{lstlisting}
 
+\begin{lstlisting}[float=hp, label=ex:mainber, caption={C\'odigo Python de la rutina principal del
+analisis del BER.}, breaklines=true]
         #========================
         # Analisis de DBPSK
         #========================
@@ -522,14 +496,96 @@ if __name__ == "__main__":
     p.xlabel('Ebn0_dB')
     p.show()
 \end{lstlisting}
+
+Los resultados de la primera versi\'on de los esquemas DQPSK y DBPSK se muestran en la figura
+\ref{fig:bernormal}.
+
+\begin{figure}[htp]
+  \centering
+  \includegraphics[scale=0.7]{figs/bernormal}
+  \caption{Grafica comparativa del BER para la primera versi\'on de los esquemas DQPSK y DBPSK.}
+  \label{fig:bernormal}
+\end{figure}
+
+Los resultados muestran el rendimiento entre los dos esquemas de modulaci\'on a diferentes niveles
+de SNR. Debido a que DQPSK utiliza dos bits por s\'imbolo tiene m\'as probabilidades de generar
+errores a niveles muy altos de ruido. Para poder lograr niveles confiables de transmisi\'on se
+requiere mas potencia que DBPSK.
+
+La segunda versi\'on de estos esquemas intenta mejorar el BER por medio de la implementaci\'on de
+bancos de filtros polif\'asicos. La misma metodolog\'ia se sigui\'o para su an\'alisis y los
+resultados se muestran en la figura \ref{fig:berpoly}. Como se puede observar, los filtros
+polif\'asicos ofrecen una mejora en el rendimiento de ambos esquemas. A niveles bajos de SNR DQPSK
+tiene un poco mas de tolerancia que la versi\'on anterior para generar errores. Con estos se
+demuestra el rendimiento del c\'odigo fuente actual de \emph{GNURadio}. 
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[scale=0.7]{figs/berpoly}
+  \caption{Grafica comparativa del BER para la segunda versi\'on de los esquemas DQPSK y DBPSK.}
+  \label{fig:berpoly}
+\end{figure}
+
 %Espectrograma de la transmision
 %==========================================================================
 \section{Espectrograma de la transmisi\'on}
 
-%TODO: Explicar el uso de la herramienta USRP FFT y como se puede configurar para observar el
-% espectrograma. Explicar que se transmitio una portadora de 30Mhz y que se alcanza a obervar las
-% bandas laterales de la transmision. Explicar todos (o casi todos) los controles de la aplicacion.
+\gnuradio contiene varias herramientas para visualizar las se\~nales que se transmiten y se reciben.
+Estas herramientas son programas completos que se pueden utilizar como base para elaborar programas
+m\'as complejos. Una de estas herramientas visuales es un espectrograma que permite ver la densidad
+espectral de potencia de una se\~nal que se est\'a recibiendo. La compilaci\'on del c\'odigo fuente
+instala este programa en \verb|/usr/bin/| para que se pueda acceder a ella de manera global. El
+programa se llama \verb|usrp_fft.py| y se encuentra originalmente en la carpeta \verb|gr-utils| del
+c\'odigo fuente. Este programa se puede acceder desde aqui o bien desde su lugar global por medio de
+la consola de comandos. El programa proporciona varios par\'ametros que permiten que se configure de
+diferentes maneras dependiendo del uso que se le va dar. Estos par\'ametros son los siguientes:
 
+\begin{itemize}
+  \item \textbf{-w}: Selecciona el USRP que se va utilizar en caso de haber mas de uno conectado a
+  la PC.
+  \item \textbf{-R}: Selecciona el lado RX que se va utilizar en el USRP: Lado A o Lado B. Esto lo
+  determina el lugar donde este conectada la tarjeta auxiliar que se va utilizar.
+  \item \textbf{-A}: Selecciona la antena que se va utilizar. Esto solo se utiliza con las tarjetas
+  de la serie RFX.
+  \item \textbf{-d}: Selecciona el valor de decimacion con el que se configurar\'a el DDC del FPGA.
+  Por default lo configura a 16.
+  \item \textbf{-f}: Especifica la frecuencia con la que se sintoniza la tarjeta auxiliar.
+  \item \textbf{-g}: Especifica la ganancia con la que se programa el amplificador programable. Los
+  valores son en decibeles.
+  \item \textbf{-W}: Activa la opcion de utilizar el espectrograma. Por default la aplicacion actua
+  como un analizador de espectros, desplegando la FFT de la se\~nal recibida.
+  \item \textbf{-S}: Activa la opcion de utilizar el osciloscopio.
+  \item \textbf{--fft-size}: Especifica el tama\~no de muestras que utiliza la FFT. Por default
+  utiliza 1024 muestras.
+\end{itemize} 
+
+Este programa se utilizo durante la transmisi\'on de los datos generados por los programas
+\verb|benchmark_tx.py| y \verb|benchmark_rx.py| para observar la densidad espectral de potencia de
+la portadora. Las opciones que se utilizaron para configurar el programa fueron las siguientes:
+
+\begin{center}
+\verb|usrp_fft.py -f 30M -d 256 -W|
+\end{center}
+
+El espectrograma se muestra en la figura \ref{fig:spectrogramgui}.
+
+\begin{figure}[htp]
+  \centering
+  \includegraphics[scale=0.7]{figs/spectrogramgui}
+  \caption{Aplicaci\'on en Python que muestra el espectrograma de lo que el USRP esta recibiendo.}
+  \label{fig:spectrogramgui}
+\end{figure}
+
+El espectrograma consiste en una grafica de cascada (waterfall en ingles) que se despliega en forma
+vertical. El eje Y es el tiempo medido en segundos y la grafica se desplaza hacia arriba. El eje X
+representa el espectro en Hz. La figura \ref{fig:spectrogramgui} muestra la intensidad de la
+portadora de 30Mhz centrada en la grafica. Los colores tenues a un lado de la barra verde
+representan las bandas laterales de la portadora. Desde esta aplicaci\'on es posible modificar
+varios par\'ametros del USRP como la ganancia, la frecuencia y el valor de decimaci\'on del DDC.
+Los ejes tambi\'en se pueden ajustar por medio de las opciones que aparecen en la derecha de la
+pantalla (Time Scale, Dyn Range, Ref Level). En este ejemplo la portadora se puede apreciar
+claramente debido a la ausencia de ruido ya que se utilizo un cable coaxial para la transmisi\'on el
+cual introduce una cantidad despreciable de ruido.
 %Diagrama de ojo
 %==========================================================================
 \section{Diagrama de ojo}
