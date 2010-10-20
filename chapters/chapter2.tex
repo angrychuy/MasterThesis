@@ -100,7 +100,7 @@ en la figura \ref{fig:siscom}.
 \centering
 	\begin{tikzpicture}[scale=0.8, transform shape, node distance = 20mm and 10mm, pin distance=10mm,
 	inpin/.style={pin={[pin distance=10mm,pin edge={<-,black}]left:Mensaje a enviar}},
-	outpin/.style={inpin, pin edge={<-,black}left:Mensaje recibido}]
+	outpin/.style={pin={[pin distance=10mm,pin edge={->,black}]left:Mensaje recivido}}]
 		\node (format) [sc, inpin] {Formato de mensaje};
 		\node (mod) [sc, right=of format] {Modulaci\'on por pulsos}
 			edge[<-] (format);
