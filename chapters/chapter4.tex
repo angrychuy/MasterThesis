@@ -644,6 +644,44 @@ la etapa de recuperacion del reloj de simbolos y la eficiencia de procesamiento 
 0.75. Estos filtros son internamente implementados con una mezcla de lenguaje C y ensamblador utilizando
 instrucciones como SSE (\emph{streaming SIMD extensions}) para incrementar la velocidad y eficiencia
 de procesamiento.
+
+El programa que genera el diagrama de ojo apartir de un archivo con muestras del USRP se muestra en
+el listado \ref{ex:eyeprog}.
+%FIXME: Explicar la funcion get_traces.
+\begin{lstlisting}[float, label=ex:eyeprog, caption={Programa que genera el diagrama de ojo a partir
+de muestras tomadas del USRP.}, breaklines=true]
+
+import pylab as p
+import struct
+import scipy
+
+samp_per_sym = 8
+hfile = '/home/haysoos/Documents/Tesis/usrp_capture/target.dat'
+
+def get_traces(d, num_traces, samp_per_sym):
+    traces = []
+    trace_len = samp_per_sym * 3
+    for i in range(num_traces):
+        start_ind = (samp_per_sym / 2) - 1 + (i + 3) * trace_len
+        traces.append(d[start_ind:start_ind + trace_len + 1])
+    return traces
+    
+ iq = scipy.fromfile(hfile, dtype = scipy.complex64)
+
+ichan = [c.real for c in iq]
+
+traces = get_traces(ichan, 200, samp_per_sym)
+p.figure()
+p.hold(True)
+for tr in traces:
+    p.plot(tr, 'b-')
+
+p.title('Diagrama de ojo   ' + r'$\beta=0.75$')
+p.xlabel('Tiempo')
+p.ylabel('Amplitud')
+
+p.show()
+\end{lstlisting}
 %Constelacion observada
 %==========================================================================
 \section{Constelaci\'on observada}
