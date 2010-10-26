@@ -576,27 +576,80 @@ El espectrograma se muestra en la figura \ref{fig:spectrogramgui}.
   \label{fig:spectrogramgui}
 \end{figure}
 
-El espectrograma consiste en una grafica de cascada (waterfall en ingles) que se despliega en forma
-vertical. El eje Y es el tiempo medido en segundos y la grafica se desplaza hacia arriba. El eje X
-representa el espectro en Hz. La figura \ref{fig:spectrogramgui} muestra la intensidad de la
-portadora de 30Mhz centrada en la grafica. Los colores tenues a un lado de la barra verde
-representan las bandas laterales de la portadora. Desde esta aplicaci\'on es posible modificar
-varios par\'ametros del USRP como la ganancia, la frecuencia y el valor de decimaci\'on del DDC.
-Los ejes tambi\'en se pueden ajustar por medio de las opciones que aparecen en la derecha de la
-pantalla (Time Scale, Dyn Range, Ref Level). En este ejemplo la portadora se puede apreciar
-claramente debido a la ausencia de ruido ya que se utilizo un cable coaxial para la transmisi\'on el
-cual introduce una cantidad despreciable de ruido.
+El espectrograma consiste en una grafica de cascada (waterfall en ingl\'es) que se despliega en
+forma vertical (algunos autores la despliegan en forma horizontal). El eje Y es el tiempo medido en
+segundos y la grafica se desplaza de abajo hacia arriba. El eje X representa el espectro en Hz. La
+figura \ref{fig:spectrogramgui} muestra la intensidad de la portadora de 30Mhz centrada en la
+grafica. Los colores tenues a un lado de la barra verde representan las bandas laterales de la
+portadora. Desde esta aplicaci\'on es posible modificar varios par\'ametros del USRP como la
+ganancia, la frecuencia y el valor de decimaci\'on del DDC. Los ejes tambi\'en se pueden ajustar por
+medio de las opciones que aparecen en la derecha de la pantalla (Time Scale, Dyn Range, Ref Level).
+En este ejemplo la portadora se puede apreciar claramente debido a la ausencia de ruido ya que se
+utilizo un cable coaxial para la transmisi\'on el cual introduce una cantidad despreciable de ruido.
 %Diagrama de ojo
 %==========================================================================
 \section{Diagrama de ojo}
 
-%TODO: Explicar la interpretacion del diagrama de ojo. Explicar que lo que se observa es el
-% parametro beta del filtro RRC y su efecto en la señal observada.
+Para poder observar la calidad de la se\~nal antes de que sea demodulada se utiliz\'o el diagrama de
+ojo. Esta herramienta nos permite ver las distorsiones que ocurren en la transmisi\'on y nos ayuda a
+poder tomar mejores decisiones sobre el dise\~no del receptor. \gnuradio no contiene esta
+herramienta aun por lo que se opto por crear un programa en Python que pueda realizar el diagrama en
+base a muestras capturadas por el USRP.
 
+La captura de datos se realizo utilizando una de las herramientas de la carpeta \verb|gr-utils|
+llamada \verb|usrp_rx_cfile.py|. Este programa acepta como par\'ametro principal el nombre que se le
+asignar\'a al archivo que va almacenar las muestras. Los dem\'as par\'ametros se utilizan para
+configurar el DDC y sintonizar la tarjeta auxiliar a la frecuencia deseada. Los par\'ametros que
+soporta el programa son los siguientes:
+
+\begin{itemize}
+  \item \textbf{-R}: Selecciona el lado del USRP que se va utilizar: A o B.
+  \item \textbf{-d}: Selecciona la taza de decimaci\'on. Valor default es 16.
+  \item \textbf{-f}: Establece la frecuencia.
+  \item \textbf{-g}: Establece la ganancia en dB.
+  \item \textbf{-8}: Configura el USRP para que env\'ie muestras de 8 bits en lugar de 16 bits.
+  \item \textbf{-s}: Configura el USRP para que env\'ie muestras de tipo \emph{short} entrelazadas
+  en lugar de muestras complejas de tipo \emph{float}.
+  \item \textbf{-N}: Establece la cantidad de muestras que se van a capturar. El default es
+  infinito.
+\end{itemize}
+
+El programa se configur\'o para que capture muestras a una frecuencia central de 30Mhz. El tipo de
+muestras son n\'umeros complejos de tipo \emph{float} ya que este es el default con el que el USRP
+trabaja.
+
+El experimento consisti\'o en capturar muestras de tres transmisiones a diferentes valores de exceso
+de ancho de banda ($\beta$) para observar los efectros del filtro de coseno elevado en la se\~nal.
+Los resultados se muestran en la figura \ref{fig:rrcsignals}.
+
+\begin{figure}[htp]
+  \centering
+  \subfloat[$\beta=0.35$]{\label{fig:eye35}\includegraphics[scale=0.36]{figs/ojo35}}
+  \subfloat[$\beta=0.50$]{\label{fig:eye50}\includegraphics[scale=0.36]{figs/ojo50}}\\
+  \subfloat[$\beta=0.75$]{\label{fig:eye75}\includegraphics[scale=0.36]{figs/ojo75}}
+  \vspace{0.3in}
+  \caption{Se\~nales QPSK con filtrado de coseno elevado a diferentes valores de $\beta$.}
+  \label{fig:rrcsignals}
+\end{figure}
+
+La figura \ref{fig:eye35} muestra que a menor $\beta$ la se\~nal se distorciona mas y esto causa mas
+dificultades para detectar los s\'imbolos correctamente pero tambien resulta en un filtro mas rapido
+sencillo de implementarse debido a que su respuesta al impulso es mas corta. La figura
+\ref{fig:eye75} muestra menos distorcion en la se\~nal a consecuencia de un filtro mas complicado de
+procesar eficientemente. El uso de mas ancho de banda tambien implica que se puede introducir mas
+ruido en la etapa de captura de RF (front end) y por lo tanto es necesario considerar las
+compensaciones entre el exceso de ancho de banda, la inmunidad contra el ruido, la complejidad de
+la etapa de recuperacion del reloj de simbolos y la eficiencia de procesamiento por parte del CPU
+\cite{lee}. El CPU Core 2 Duo que se utilizo fue suficiente para procesar filtros con $\beta$ de
+0.75. Estos filtros son internamente implementados con una mezcla de lenguaje C y ensamblador utilizando
+instrucciones como SSE (\emph{streaming SIMD extensions}) para incrementar la velocidad y eficiencia
+de procesamiento.
 %Constelacion observada
 %==========================================================================
 \section{Constelaci\'on observada}
 
 %TODO: Incluir ambas imagenes de la constelacion para ilustrar los problemas que se tuvieron.
 % Explicar el uso de QT (breve) para el desarrollo de interfazes de usuario y los 4 sinks que
-% proporciona GR_QT (freq display, waterfall, time domain, constellation).
+% proporciona GR_QT (freq display, waterfall, time domain, constellation). Explicar como se
+% transmitio la informacion aleatoria y el archivo fijo. Tambien explicar las modificaciones que se
+% hisieron a benchmark_tx y rx para lograr la transmision correcta.
