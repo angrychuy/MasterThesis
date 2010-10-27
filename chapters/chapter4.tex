@@ -105,7 +105,6 @@ se especifique la frecuencia de operacion.
 %==========================================================================
 \section{Taza de error de bits}
 
-%TODO: Realizar diagrama de los grafos que se desarrollaron e incluir las graficas del ber.
 El an\'alisis de la tasa de error de bits (Bit error rate o BER por sus siglas en ingles) se realizo
 para ambos modelos de DQPSK proporcionados por \emph{GNURadio}. El programa que se utilizo fue
 basado en un estudio generado y publicado en la pagina de \gnuradio sobre una versi\'on mas optima
@@ -322,8 +321,8 @@ etapa se muestra en la figura \ref{fig:analizer}.
   	edge [<-] (demod);
   \end{tikzpicture}
   \vspace{0.3in}
-  \label{fig:analizer}
   \caption{Grafo que realiza la demodulaci\'on de la se\~nal simulada}
+  \label{fig:analizer}
 \end{figure}
 
 El grafo tiene un par\'ametro obligatorio y es el demodulador que se va utilizar para el an\'alisis.
@@ -335,6 +334,7 @@ se utilizaron los valores por default. Los resultados del filtro se muestran en 
 \begin{figure}[htp]
   \centering
   \includegraphics[scale=0.5]{figs/predetectfilter}
+  \vspace{0.3in}
   \caption{Respuesta del filtro pre-selector en el receptor para la medici\'on del BER.}
   \label{fig:predetect}
 \end{figure}
@@ -363,7 +363,7 @@ Los bloques del grafo se implementan de la siguiente manera:
   escribir a un archivo los bits resultantes del bloque demodulador.
 \end{itemize}
 
-El codigo que implementa el tercer grafo se muestra en el listado.
+El codigo que implementa el tercer grafo se muestra en el listado \ref{ex:analizer}.
 
 \begin{lstlisting}[float, label=ex:analizer, caption={C\'odigo que implementa el grafo demodulador
 para el analisis del BER.}, breaklines=true]
@@ -572,6 +572,7 @@ El espectrograma se muestra en la figura \ref{fig:spectrogramgui}.
 \begin{figure}[htp]
   \centering
   \includegraphics[scale=0.7]{figs/spectrogramgui}
+  \vspace{0.3in}
   \caption{Aplicaci\'on en Python que muestra el espectrograma de lo que el USRP esta recibiendo.}
   \label{fig:spectrogramgui}
 \end{figure}
@@ -682,7 +683,7 @@ p.ylabel('Amplitud')
 p.show()
 \end{lstlisting}
 
-Una observaci\'on interesante es que los valores de tipo \emph{float} en Python equivalen al tipo
+Una observaci\'on importante es que los valores de tipo \emph{float} en Python equivalen al tipo
 \emph{double} en C el cual puede variar dependiendo el CPU que se este utilizando pero en casos
 tipicos la presicion es de 64 bits: 1 bit para el signo, 11 para el exponente y 52 para la mantisa.
 \cite{python} El USRP configurado con el \emph{source} o \emph{sink} que utiliza el prefijo ``c''
