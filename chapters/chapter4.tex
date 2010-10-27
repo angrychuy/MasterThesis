@@ -665,7 +665,7 @@ def get_traces(d, num_traces, samp_per_sym):
         traces.append(d[start_ind:start_ind + trace_len + 1])
     return traces
     
- iq = scipy.fromfile(hfile, dtype = scipy.complex64)
+iq = scipy.fromfile(hfile, dtype = scipy.complex64)
 
 ichan = [c.real for c in iq]
 
