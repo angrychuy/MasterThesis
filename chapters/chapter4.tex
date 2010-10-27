@@ -682,6 +682,20 @@ p.ylabel('Amplitud')
 
 p.show()
 \end{lstlisting}
+
+Una observaci\'on interesante es que los valores de tipo \emph{float} en Python equivalen al tipo
+\emph{double} en C el cual puede variar dependiendo el CPU que se este utilizando pero en casos
+tipicos la presicion es de 64 bits: 1 bit para el signo, 11 para el exponente y 52 para la mantisa.
+\cite{python} El USRP configurado con el \emph{source} o \emph{sink} que utiliza el prefijo ``c''
+utiliza la constante \verb|gr_complex| el cual equivale en lenguaje C a \emph{float}. Este tipo de
+dato es de 32 bits: 1 bit para el signo, 8 bits para el exponente y 23 bits para la mantisa. Python
+por default no tiene soporte para representar el tipo \emph{float} de C lo cual introduce errores en la
+representacion de las muestras del USRP. La libreria \emph{Numpy} y \emph{Scipy} de Python encapsula
+varias representaciones de numeros flotantes \cite{scipy} lo cual es necesario utilizar la correcta
+cuando se trabaja con muestras que genera el USRP de manera independiente de los programas de
+\emph{GNURadio}. Cada muestra compleja que transmite o recive el USRP es representado por dos
+numeros flotantes de 32 bits por lo que es necesario utilizar el tipo de dato \emph{complex64} como
+se muestra en el listado \ref{ex:eyeprog}.
 %Constelacion observada
 %==========================================================================
 \section{Constelaci\'on observada}
