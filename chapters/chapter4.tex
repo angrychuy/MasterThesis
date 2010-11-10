@@ -40,6 +40,7 @@ estudio para comparar el rendimiento de ambas versiones.
 %Parametros utilizados
 %==========================================================================
 \section{Par\'ametros utilizados}
+\label{sec:params}
 
 Para ejecutar los ejemplos \verb|benchmark_tx.py| y \verb|benchmark_rx.py| es neceario moverse al
 directorio donde se encuentran. La ruta es:
@@ -68,7 +69,7 @@ Los opciones que se utilizaron para el transmisor y receptor son los siguientes:
   dependen del rendimiento del CPU.
   \item \textbf{--tx-amplitude}: Especifica la amplitud de la se\~nal generada por el DAC en el
   USRP. Sus valores van de 0 a 1. Se utilizo el valor default de 0.25.
-  \item \textbf{--excess-bw}: Especifica el par\'ametro $\beta$ del filtro acoplador de coseno
+  \item \textbf{--excess-bw}: Especifica el par\'ametro $\alpha$ del filtro acoplador de coseno
   elevado. Su rango de valores es de 0 a 1. Se utilizaron tres valores para el an\'alisis: 0.35,
   0.50 y 0.75.
   \item \textbf{-f}: Especifica la frecuencia con la cual se van a sintonizar las tarjetas
@@ -90,8 +91,14 @@ Los opciones que se utilizaron para el transmisor y receptor son los siguientes:
   Igual que en el transmisor se utilizo un valor de 4.
   \item \textbf{-r}: Especifica la taza de bits. Se utilizaron los mismos valores que en el
   transmisor.
-  \item \textbf{--excess-bw}: Especifica el par\'ametro $\beta$ del filtro acoplador de coseno
+  \item \textbf{--excess-bw}: Especifica el par\'ametro $\alpha$ del filtro acoplador de coseno
   elevado. Se utilizaron los mismos valores que en el transmisor.
+  \item \textbf{--timing-alpha}: Especifica la ganancia del PLL que forma parte del banco de filtros
+  polif\'asicos para la sincronizaci\'on del reloj de s\'imbolos. Se utilizo un valor de 10.
+  \item \textbf{--phase-alpha}: Especifica la ganancia del lazo de costas en la segunda versi\'on
+  del demodulador DQPSK. Se utilizo un valor de 0.5.
+  \item \textbf{--freq-alpha}: Especifica la ganancia del FLL para realizar compensaci\'on de
+  frecuencia. Se utilizo un valor de 0.001.
 \end{itemize}
 
 Cabe mencionar que debido a que los dos programas son independientes uno del otro, es necesario
@@ -100,7 +107,9 @@ igualar algunos par\'ametros para lograr una transmisi\'on exitosa. Los par\'ame
 par\'ametros tienen valores default si no se desea modificarlos pero uno de ellos es obligatorio
 especificarlo y es el de la frecuencia de sintonizaci\'on \verb|-f|. Si se ejecutan los programas
 sin especificar este par\'ametro, aunque se especifiquen los otros, marcara un error pidiendo que
-se especifique la frecuencia de operacion. 
+se especifique la frecuencia de operacion. Los par\'ametros \verb|--timing-alpha|,
+\verb|--phase-alpha| y \verb|--freq-alpha| son parte de la segunda versi\'on del modulador DQPSK
+mientras que el par\'ametro \verb|gain-mu| pertenece a la primera versi\'on. 
 %Taza de error de bits
 %==========================================================================
 \section{Taza de error de bits}
@@ -620,20 +629,20 @@ muestras son n\'umeros complejos de tipo \emph{float} ya que este es el default 
 trabaja.
 
 El experimento consisti\'o en capturar muestras de tres transmisiones a diferentes valores de exceso
-de ancho de banda ($\beta$) para observar los efectros del filtro de coseno elevado en la se\~nal.
+de ancho de banda ($\alpha$) para observar los efectros del filtro de coseno elevado en la se\~nal.
 Los resultados se muestran en la figura \ref{fig:rrcsignals}.
 
 \begin{figure}[htp]
   \centering
-  \subfloat[$\beta=0.35$]{\label{fig:eye35}\includegraphics[scale=0.36]{figs/ojo35}}
-  \subfloat[$\beta=0.50$]{\label{fig:eye50}\includegraphics[scale=0.36]{figs/ojo50}}\\
-  \subfloat[$\beta=0.75$]{\label{fig:eye75}\includegraphics[scale=0.36]{figs/ojo75}}
+  \subfloat[$\alpha=0.35$]{\label{fig:eye35}\includegraphics[scale=0.36]{figs/ojo35}}
+  \subfloat[$\alpha=0.50$]{\label{fig:eye50}\includegraphics[scale=0.36]{figs/ojo50}}\\
+  \subfloat[$\alpha=0.75$]{\label{fig:eye75}\includegraphics[scale=0.36]{figs/ojo75}}
   \vspace{0.3in}
-  \caption{Se\~nales QPSK con filtrado de coseno elevado a diferentes valores de $\beta$.}
+  \caption{Se\~nales QPSK con filtrado de coseno elevado a diferentes valores de $\alpha$.}
   \label{fig:rrcsignals}
 \end{figure}
 
-La figura \ref{fig:eye35} muestra que a menor $\beta$ la se\~nal se distorciona mas y esto causa mas
+La figura \ref{fig:eye35} muestra que a menor $\alpha$ la se\~nal se distorciona mas y esto causa mas
 dificultades para detectar los s\'imbolos correctamente pero tambien resulta en un filtro mas rapido
 sencillo de implementarse debido a que su respuesta al impulso es mas corta. La figura
 \ref{fig:eye75} muestra menos distorcion en la se\~nal a consecuencia de un filtro mas complicado de
@@ -641,7 +650,7 @@ procesar eficientemente. El uso de mas ancho de banda tambien implica que se pue
 ruido en la etapa de captura de RF (front end) y por lo tanto es necesario considerar las
 compensaciones entre el exceso de ancho de banda, la inmunidad contra el ruido, la complejidad de
 la etapa de recuperacion del reloj de simbolos y la eficiencia de procesamiento por parte del CPU
-\cite{lee}. El CPU Core 2 Duo que se utilizo fue suficiente para procesar filtros con $\beta$ de
+\cite{lee}. El CPU Core 2 Duo que se utilizo fue suficiente para procesar filtros con $\alpha$ de
 0.75. Estos filtros son internamente implementados con una mezcla de lenguaje C y ensamblador utilizando
 instrucciones como SSE (\emph{streaming SIMD extensions}) para incrementar la velocidad y eficiencia
 de procesamiento.
@@ -676,7 +685,7 @@ p.hold(True)
 for tr in traces:
     p.plot(tr, 'b-')
 
-p.title('Diagrama de ojo   ' + r'$\beta=0.75$')
+p.title('Diagrama de ojo   ' + r'$\alpha=0.75$')
 p.xlabel('Tiempo')
 p.ylabel('Amplitud')
 
@@ -705,3 +714,328 @@ se muestra en el listado \ref{ex:eyeprog}.
 % proporciona GR_QT (freq display, waterfall, time domain, constellation). Explicar como se
 % transmitio la informacion aleatoria y el archivo fijo. Tambien explicar las modificaciones que se
 % hisieron a benchmark_tx y rx para lograr la transmision correcta.
+Para poder observar la constelaci\'on recibida se utilizo la versi\'on que utiliza la librer\'ia QT
+del programa benchmark. El programa RX contiene dos versiones en el c\'odigo fuente, una que utiliza
+la consola y otra que genera una interfaz de usuario para monitorear la se\~nal de manera gr\'afica.
+Esta aplicaci\'on tambi\'en es un buen ejemplo para ilustrar el uso de los controles gr\'aficos de
+\gnuradio que utilizan esta librer\'ia. Su diferencia con los controles que utilizan la librer\'ia
+\emph{wxWidgets} es que el c\'odigo de los controles QT ya esta optimizado para realizar gr\'aficas
+con la ayuda de la extensi\'on \emph{QWT} el cual es una librer\'ia madura mientras que los
+controles que utilizan \emph{wxWidgets} fueron creados desde cero por los autores de \gnuradio y no
+est\'an optimizados en su totalidad. \emph{QWT} es necesario que se instale correctamente para poder
+utilizar los controles de QT. La instalaci\'on se explica a detalle en el ap\'endice \ref{AppA}. Los
+controles QT forman un solo bloque para uso en los grafos de \gnuradio. Este bloque se llama
+\verb|qtgui.sink_c| para datos complejos y \verb|qtgui.sink_f| para datos de punto flotante. El
+constructor de estos bloques tiene la forma descrita en el listado \ref{ex:qtguiconst}.
+
+\begin{lstlisting}[float, label=ex:qtguiconst, caption={Constructor de los bloques qtgui\_sink\_x},
+breaklines=true, language={[ISO]C++}]
+qtgui_make_sink_X (int fftsize, int wintype, double fc=0, 
+                   double bandwidth=1.0, const std::string &name="Spectrum Display",
+                   bool plotfreq=true, bool plotwaterfall=true, bool plotwaterfall3d=true,
+                   bool plottime=true, bool plotconst=true, bool use_openGL=true,
+                   QWidget *parent=NULL)
+\end{lstlisting}
+
+Los parametros del constructor se describen de la siguiente manera:
+
+\begin{itemize}
+  \item \textbf{fftsize}: Tama\~no inicial de la FFT.
+  \item \textbf{wintype}: Tipo de ventana inicial para la FFT. Puede ser una de las siguientes
+  constantes tomadas de la clase \verb|gr.firdes|:
+  \begin{itemize}
+    \item WIN\_BLACKMAN 
+    \item WIN\_BLACKMAN\_hARRIS
+    \item WIN\_HAMMING
+    \item WIN\_HANN 
+    \item WIN\_KAISER
+  \end{itemize}
+  \item \textbf{fc}: Frecuencia central para el eje X.
+  \item \textbf{bandwidth}: Especifica el rango alrededor de la frecuencia central para el eje X.
+  \item \textbf{name}: Especifica el titulo del GUI.
+  \item \textbf{plotfreq}: Despliega el analizador de espectros.
+  \item \textbf{plotwaterfall}: Despliega el espectrograma.
+  \item \textbf{plotwaterfall3d}: Despliega el espectrograma en 3D.
+  \item \textbf{plottime}: Despliega el osciloscopio.
+  \item \textbf{plotconst}: Despliega el diagrama de constelacion.
+  \item \textbf{use\_openGL}: Utiliza extensiones para acelerar el despliege de las graficas.
+  \item \textbf{parent}: Especifica un objeto el cual se utiliza como ventana principal para
+  desplegar los controles.
+\end{itemize}
+
+El programa RX que se utilizo se llama \verb|benchmark_qt_rx.py|. Utiliza los mismos comandos que la
+versi\'on de consola para su configuraci\'on pero tambi\'en agrega uno nuevo que es la opci\'on
+\emph{-G}. Esta opci\'on habilita el GUI (interfaz grafica de usuario) que consiste en una
+aplicacion QT que muestra el rendimiento del receptor. Tambi\'en permite modificar los par\'ametros
+del receptor como los del lazo de costas y el sincronizador M\&M. Si no se utiliza la opci\'on
+\emph{-G} el programa se comportar\'a igual que la versi\'on de consola.
+
+Todos los programas \verb|benchmark_xx.py| tienen la opci\'on \emph{--from-file} que especifica que
+los datos que se van a transmitir vienen de un archivo binario. Si esta opci\'on no se especifica
+entonces el programa por default transmite los 8 bits menos significativos del n\'umero de paquete
+en una cadena de caracteres ASCII. El usuario est\'a libre de modificar el ejemplo para transmitir
+alg\'un otro tipo de secuencias.
+
+El experimento inicial consisti\'o en transmitir la secuencia de numero de paquetes default y
+observar la constelaci\'on recibida. Utilizando los valores default de los par\'ametros descritos en
+el apartado \ref{sec:params} y anexando la opci\'on \emph{-G} se ejecuto primeramente el programa
+\verb|benchmark_qt_rx.py| y luego el programa \verb|benchmark_tx.py| se obtuvieron los resultados
+mostrados en la figura \ref{fig:dqpsktrans} para una transmisi\'on con una taza de bits de
+100kbits/s.
+
+\begin{figure}[htp]
+  \centering
+  \includegraphics[width=5.9in]{figs/dqpsktrans}
+  \vspace{0.3in}
+  \caption{Resultados de la transmisi\'on con parametros default del programa a 100kbits/s.}
+  \label{fig:dqpsktrans}
+\end{figure}
+
+El GUI que muestra la figura \ref{fig:dqpsktrans} es una aplicaci\'on completa con la librer\'ia QT.
+El usuario puede modificar toda la interfaz a su gusto o bien generar una totalmente diferente aunque
+esto requiere conocimientos de programaci\'on con esta librer\'ia. La aportaci\'on de \gnuradio a
+esta aplicaci\'on son los dos bloques QT que muestran los controles con las graficas. Los controles
+de la izquierda muestran la se\~nal antes de ser demodulada en software, o sea, despu\'es de la
+etapa DDC del USRP. Los controles de la derecha muestran la se\~nal despu\'es de la etapa de
+demodulaci\'on. En la parte de abajo se muestran algunas opciones para modificar los par\'ametros
+del receptor como la decimaci\'on, la ganancia, y los par\'ametros del PLL y el sincronizador de
+reloj de s\'imbolos.
+
+Los valores default que utiliza la aplicaci\'on \verb|benchmark_tx.py| y \\
+\verb|benchmark_rx.py| no fueron eficientes para lograr una transmisi\'on satisfactoria. La figura
+\ref{fig:dqpsktrans} muestra los puntos de la constelaci\'on muy esparcidos y forman nubes alrededor
+del punto de convergencia por lo que la transmisi\'on mostraba una probabilidad de error muy alta.
+Estos programas utilizan la primera versi\'on de la modulaci\'on DQPSK (lazo de costas y sincronizador
+M\&M).
+
+Los par\'ametros se ajustaron manualmente y se realizaron varias transmisiones hasta encontrar
+los adecuados. Los par\'ametros y valores mencionados en el apartado \ref{sec:params} fueron los que
+finalmente lograron una transmisi\'on exitosa logrando una recepci\'on 100\% de todos los paquetes
+enviados. La constelaci\'on que se logro utilizando los par\'ametros del apartado \ref{sec:params}
+se muestra en la figura \ref{fig:firstgoodconst}. Se puede observar que los s\'imbolos recibidos
+convergen correctamente en los cuatro puntos de la constelaci\'on DQPSK.
+
+\begin{figure}[htp]
+  \centering
+  \includegraphics[width=5.5in]{figs/firstgoodconst}
+  \vspace{0.3in}
+  \caption{Constelaci\'on obtenida con par\'ametros \'optimos de una transmisi\'on a 100kbits/s}
+  \label{fig:firstgoodconst}
+\end{figure}
+
+Sin no se utiliza la opci\'on \emph{-G} el programa mostrara su actividad en la consola. Este es el
+comportamiento default y es tambi\'en el comportamiento para los programas que no implementan el
+GUI. La transmisi\'on de la figura \ref{fig:firstgoodconst} sin utilizar el GUI se muestra en la
+figura \ref{fig:benchcli}.
+
+\begin{figure}[htp]
+  \centering
+  \subfloat[Transmisor]{\label{fig:txcli}\includegraphics[width=5.5in]{figs/txcli}}\\
+  \subfloat[Receptor]{\label{fig:rxcli}\includegraphics[width=5.5in]{figs/rxcli}}
+  \vspace{0.5in}
+  \caption{Programa \emph{benchmark} TX y RX en modo consola.}
+  \label{fig:benchcli}
+\end{figure}
+
+El dise\~no original del programa muestra si los paquetes que fueron transmitidos son recividos
+correctamente pero no despliega el contenido de ellos. Cada l\'inea que muestra la figura
+\ref{fig:rxcli} dice si paquete se decodifico correctamente, el numero del paquete decodificado, la
+cantidad total de paquetes recibidos y la cantidad total de paquetes decodificados correctamente. La
+figura \ref{fig:txcli} muestra la configuraci\'on del transmisor y los puntos en la parte de
+inferior emulan una barra de progreso indicando que el programa est\'a actualmente transmitiendo
+informaci\'on al USRP.
+
+Para demostrar el uso del bloque grafico de QT en un programa de consola se modifico el programa
+original para incluir este bloque dentro del grafo y poder observar la constelaci\'on sin tener que
+desarrollar todo el GUI. La modificaci\'on se realizo en el archivo \verb|usrp_receive_path2.py|
+dentro del constructor de la clase \verb|usrp_receive_path| despu\'es de la etapa de configuraci\'on
+del USRP y en el archivo principal \verb|benchmark_rx2.py| en la funcion \verb|main()|. Esta
+modificaci\'on se muestra en el listado \ref{ex:qtsink}.
+
+\begin{lstlisting}[float, label=ex:qtsink, caption={Modificacion del programa \emph{benchmark} para
+desplegar el bloque grafico de QT.}, breaklines=true] 
+class usrp_receive_path(gr.hier_block2):
+    def __init__(self, demod_class, rx_callback, options):
+        gr.hier_block2.__init__(self, "usrp_receive_path",
+                gr.io_signature(0, 0, 0), # Input signature
+                gr.io_signature(0, 0, 0)) # Output signature
+        if options.rx_freq is None:
+            sys.stderr.write("-f FREQ or --freq FREQ or --rx-freq FREQ must be specified\n")
+            raise SystemExit
+
+        #setup usrp
+        self._demod_class = demod_class
+        self._setup_usrp_source(options)
+
+        rx_path = receive_path.receive_path(demod_class, rx_callback, options)
+        for attr in dir(rx_path): #forward the methods
+            if not attr.startswith('_') and not hasattr(self, attr):
+                setattr(self, attr, getattr(rx_path, attr))
+
+        #QT sink para monitorear la recepcion en el USRP.
+        fftsize = 2048
+        window = gr.firdes.WIN_BLACKMAN_hARRIS
+        fc = 0
+        bw = options.bitrate
+
+        self.qapp = QtGui.QApplication(sys.argv)
+
+        self.receiver = rx_path.packet_receiver._demodulator.phase_recov
+        self.monitor = qtgui.sink_c(fftsize, window, fc, bw, "Monitor", True, False, False, False, True)
+        #connect
+        self.connect(self.u, rx_path)
+        self.connect(self.receiver, self.monitor)
+
+        self.pyobj = sip.wrapinstance(self.monitor.pyqwidget(), QtGui.QWidget)
+        self.pyobj.show()
+\end{lstlisting}
+
+De acuerdo con la documentacion de \gnuradio para poder utilizar el bloque QT es necesario seguir
+los siguientes pasos:
+\begin{itemize}
+  \item Crear un apuntador a una aplicacion de QT. Para esto se utiliza la clase
+  \verb|QApplication|.
+  \item Crear el bloque sink de QT y conectarlo.
+  \item Utilizar la utileria SIP (es parte de los requerimientos de la instalcion de QT) para
+  convertir el apuntador del objeto C++ que representa el sink a un objeto Python. Esto se hace con
+  el fin de poder tener acceso directo a los metodos del objeto desde Python.
+  \item Mandar llamar el metodo \verb|show()| del objeto creado.
+  \item Mandar llamar el metodo \verb|start()| del bloque jerarquico en lugar del metodo
+  \verb|run()|. El metodo \verb|start()| no causa la aplicacion que se detenga hasta que el grafo
+  termine de ejecutarse debido a que no manda llamar el metodo \verb|wait()|.
+  \item Mandar llamar el metodo \verb|_exec()| del apuntador de la apliacion QT para poder desplegar
+  los controles graficos. 
+\end{itemize}
+
+Para poder llegar a los bloques del grafo del demodulador DQPSK fue necesario pasar por varias capas
+del c\'odigo hasta llegar al bloque que se va monitorear. Esto es debido al dise\~no modular del
+programa. El bloque del demodulador que se monitoreo fue el del sincronizador de fase (lazo de
+costas) antes del decodificador diferencial. La conexi\'on se puede modificar para monitorear
+cualquier parte del grafo.
+
+%Transmision de un archivo
+\section{Transmisi\'on de un archivo}
+Para poder transmitir datos de cualquier archivo es necesario utilizar la opci\'on
+\verb|--from-file| del programa \emph{benchmark}. El programa no hace ninguna distinci\'on del tipo
+de archivo que se debe utilizar, para la aplicacion lo que importa son los bits contenidos en el
+archivo. Esto quiere decir que el archivo puede ser cualquier cosa como una imagen, un archivo de
+audio mp3, texto, etc. El programa original puede realizar este tipo de transmisi\'on pero como se
+ilustro en la figura \ref{fig:rxcli} solo despliega si el paquete enviado se decodifico o no. Para
+poder escribir los datos del paquete a un archivo destino fue necesario modificar la funci\'on que
+despliega las lineas en la consola del receptor.
+
+Primeramente se inicio por crear un archivo nuevo cada que se ejecuta la funci\'on \verb|main()|
+como se muestra en el listado \ref{ex:fileopen}.
+
+\begin{lstlisting}[float, label=ex:fileopen, caption={C\'odigo anexo a la funci\'on main del
+programa benchmark para abrir un nuevo archivo destino.}, breaklines=true]
+def main():
+    global n_rcvd, n_right, dest_file
+
+    n_rcvd = 0
+    n_right = 0
+
+	#Codigo que se anexo
+    dest_file = open('/home/haysoos/workspace/Tesis/src/test.png', 'w')
+\end{lstlisting}
+
+El programa inicia creando un nuevo archivo en modo escritura como parte de la inicializaci\'on. La
+segunda modificaci\'on se realizo en la funci\'on \verb|rx_callback|. Esta funci\'on es
+especial ya que el grafo es quien la ejecuta de manera autom\'aticamente cada vez que llega un
+paquete. Su funci\'on es desplegar los resultados de la demodulaci\'on. La funci\'on recibe como
+entrada dos par\'ametros: una bandera indicando si el paquete es v\'alido y la informaci\'on del
+paquete. Por default el c\'odigo \'unicamente trabaja con la bandera y los dos primeros bytes del
+paquete ya que ahi est\'a contenido el numero de paquete. El resto de los bytes contienen lo que se
+transmiti\'o. Para poder escribir esta informaci\'on al archivo destino se anexo c\'odigo para que
+escriba los bytes a partir del segundo en adelante al archivo que se inicializo. La modificaci\'on
+se muestra en el listado \ref{ex:rxcallback}.
+
+\begin{lstlisting}[float, label=ex:rxcallback, caption={Funcion que recive los datos demodulados y
+los escribe a un archivo.}, breaklines=true]
+def rx_callback(ok, payload):
+   global n_rcvd, n_right
+   (pktno,) = struct.unpack('!H', payload[0:2])
+   n_rcvd += 1
+   if ok:
+      n_right += 1
+      dest_file.write(payload[2:]) #Codigo que se anexo
+   else:
+      print 'Dropped packet', payload[2:]
+
+      print "ok = %5s  pktno = %4d  n_rcvd = %4d  n_right = %4d" % (
+          ok, pktno, n_rcvd, n_right)
+
+\end{lstlisting}
+
+Por ultimo se agrego codigo despues de la funcion main, antes de que termine el programa, para que
+cierre el arhivo destino y los datos no se pierdan. Esto se muestra en el listado
+\ref{ex:closefile}.
+
+\begin{lstlisting}[float, label=ex:closefile, caption={C\'odigo anexo al final del programa
+benchmark para cerrar el archivo destino.}, breaklines=true]
+if __name__ == '__main__':
+    global dest_file
+    try:
+        main()
+        dest_file.flush() #Codigo anexo
+        dest_file.close()
+    except KeyboardInterrupt:
+        dest_file.flush() #Codigo anexo
+        dest_file.close()
+        pass
+
+\end{lstlisting}
+
+Durante el experimento se observo que el ultimo paquete nunca llegaba por lo cual la transmision
+siempre se estaba cortando. Esto fue debido a que el transmisor se cierra completamente cuando envia
+el ultimo paquete al USRP. Este ultimo paquete se queda en el USRP y no se logra transmitir ya que
+el control del dispositivo se perdio. Para corregir este comportamiento fue necesario realizar un
+cambio al codigo del transmisor para que no se cierre. Este cambio se muestra en el listado
+\ref{ex:txfix}.
+
+\begin{lstlisting}[float, label=ex:txfix, caption={Correccion al codigo TX para poder enviar el
+ultimo paquete.}, breaklines=true]
+    while n < nbytes:
+        if options.from_file is None:
+            data = (pkt_size - 2) * chr(pktno & 0xff) 
+        else:
+            data = source_file.read(pkt_size - 2)
+            if data == '':
+                break;
+
+        payload = struct.pack('!H', pktno & 0xffff) + data
+        send_pkt(payload)
+        n += len(payload)
+        sys.stderr.write('.')
+        if options.discontinuous and pktno % 5 == 4:
+            time.sleep(1)
+        pktno += 1
+        
+    #send_pkt(eof=True) #Comentar esta linea
+
+    tb.wait()                 
+\end{lstlisting}
+
+La modificaci\'on consisti\'o en comentar la l\'inea que env\'ia el mensaje EOF (End Of File) al
+grafo. Este mensaje causa que todos los bloques terminen su ejecuci\'on despu\'es de terminar de
+procesar el \'ultimo byte que se encuentra en sus entradas. Esta modificaci\'on tiene el efecto de
+que el grafo nunca terminara de ejecutarse aun despu\'es de haber enviado todos los datos al USRP.
+El usuario tiene que cerrar el programa manualmente.
+
+Una observaci\'on importante es que los programas est\'an dise\~nados como ejemplos ilustrativos de
+las capacidades de \gnuradio y por esta raz\'on no ofrecen alguna manera de saber si el paquete
+logro llegar o no. Si un paquete no llega bien el archivo no podr\'a escribirse correctamente. Esto
+se observo en la imagen que se transmiti\'o al observar que el archivo estaba corrompido
+despues de que termino la transmisi\'on debido a que algunos paquetes no llegaban bien. La
+constelacion observada de esta transmision a 30kbits/s se muestra en la figura \ref{fig:fileconst}.
+Esta velocidad se utilizo para lograr una transmisi\'on confiable y poder observar la imagen
+correctamente. Tambi\'en permiti\'o poder utilizar los valores default de los filtros polif\'asicos
+ya que a velocidades m\'as altas es necesario optimizarlos.
+
+\begin{figure}[htp]
+  \centering
+  \includegraphics[width=5.8in]{figs/fileconst}
+  \vspace{0.3in}
+  \caption{Constelaci\'on observada al transmitir un archivo a 30kbit/s.}
+  \label{fig:fileconst}
+\end{figure}
