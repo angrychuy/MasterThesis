@@ -575,10 +575,10 @@ recibida, etc.
 % Descripcion del flujo del software
 %==========================================================================
 \section{Descripci\'on del flujo del software}
-La estructura del programa \verb|benchmark_tx.py| muestra un ejemplo de como desarrollar
-aplicaciones complejas que utilizan varias tecnicas de programaci\'on y herramientas que se pueden
-incorporar al lenguaje Python. El usuario esta libre de desarrollar aplicaciones mas sencillas que constan de un
-solo \emph{script} o de varios asociados unos con el otro. 
+La estructura del programa \verb|benchmark_tx.py| muestra un ejemplo de c\'omo desarrollar
+aplicaciones complejas que utilizan varias t\'ecnicas de programaci\'on y herramientas que se pueden
+incorporar al lenguaje Python. El usuario est\'a libre de desarrollar aplicaciones m\'as sencillas
+que constan de un solo \emph{script} o de varios asociados unos con el otro. 
 
 \subsection{Estructura del transmisor}
 El programa principal \verb|benchmark_tx.py| genera los datos que se van a enviar de dos formas:
@@ -783,23 +783,23 @@ e_k &=e_{k-1}\oplus b_k &\quad &\rightarrow \text{ codificador}\label{eq:difcode
 b_k &=e_k \oplus e_{k-1} &\quad &\rightarrow \text{ decodificador}\label{eq:difdecod}
 \end{alignat}
 donde $e_k$ es el bit codificado, $b_k$ es el bit decodificado y el operador $\oplus$ representa la
-operaci\'on xor.
+operaci\'on XOR.
 
 Los bits son transformados a su representaci\'on compleja dependiendo de la constelaci\'on que se
-especific\'o, para este estudio $M=4$, y luego son introducidos a un filtro de coseno elevado para
-reducir la cantidad de ancho de banda requerida para transmitirlos y eliminar el efecto de ISI. La
-respuesta a la frecuencia de este filtro est\'a caracterizada por el par\'ametro $\beta$ que
-especifica la cantidad de ancho de banda mas all\'a del l\'imite de Nyquist de $1/2T$ \cite{sklar}. 
-A este parametro se le llama exceso de ancho de banda. La respuesta a la frecuencia de este filtro se
-muestra en la ecuaci\'on \ref{eq:rrctransfer}.
+especific\'o y luego son introducidos a un filtro de coseno elevado para
+reducir la cantidad de ancho de banda requerida para transmitirlos y eliminar el efecto de ISI
+(Interferencia entre s\'imbolos). La respuesta a la frecuencia de este filtro est\'a caracterizada
+por el par\'ametro $\alpha$ que especifica la cantidad de ancho de banda mas all\'a del l\'imite de
+Nyquist de $1/2T$ \cite{sklar}. A este par\'ametro se le llama exceso de ancho de banda. La
+respuesta a la frecuencia de este filtro se muestra en la ecuaci\'on \ref{eq:rrctransfer}.
 
 \begin{equation}\label{eq:rrctransfer}
 H(s)=\left\{
 \begin{array}{l l}
-1 & \quad \text{para $|f| < \frac{1-\beta}{2T}$}\\
-\cos^2{\frac{\pi}{4} \frac{2T|f|+\beta-1}{\beta}} & \quad \text{para $\frac{1-\beta}{2T} \leq
-|f| \leq \frac{1+\beta}{2T}$}\\
-0 & \quad \text{para $|f| > \frac{1+\beta}{2T}$}
+1 & \quad \text{para $|f| < \frac{1-\alpha}{2T}$}\\
+\cos^2{\frac{\pi}{4} \frac{2T|f|+\alpha-1}{\alpha}} & \quad \text{para $\frac{1-\alpha}{2T} \leq
+|f| \leq \frac{1+\alpha}{2T}$}\\
+0 & \quad \text{para $|f| > \frac{1+\alpha}{2T}$}
 \end{array}\right.
 \end{equation}
 
