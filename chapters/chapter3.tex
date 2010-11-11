@@ -706,12 +706,11 @@ encapsula el grafo que lleva a cabo la modulaci\'on de la informaci\'on que se v
 modulador en si es un bloque que se encuentra dentro del m\'odulo \verb|blks2| como se muestra en la
 figura \ref{fig:relbench}. Aunque es posible utilizar los bloques moduladores directamente, la
 aplicaci\'on \verb|benchmark_tx.py| muestra una forma alterna de utilizarlos que consiste en
-codificar y formatear la informaci\'on en paquetes antes de ser modulados como se muestra en la figura
-\ref{fig:grqpsk}. Este proceso se lleva a cabo utilizando la clase \verb|mod_pkts| del m\'odulo
-\verb|pkt|. Esta clase envuelve cualquier clase moduladora que se le proporcione y se encarga de
-codificar y formar paquetes de bits con una estructura especifica que permite sincronizar la
-transmisi\'on y disminuir los errores. La estructura que tienen los paquetes generados con esta
-clase se muestra en la figura \ref{fig:packet}.
+codificar y formatear la informaci\'on en paquetes antes de ser modulados. Este proceso se lleva a
+cabo utilizando la clase \verb|mod_pkts| del m\'odulo \verb|pkt|. Esta clase envuelve cualquier
+clase moduladora que se le proporcione y se encarga de codificar y formar paquetes de bits con una
+estructura especifica que permite sincronizar la transmisi\'on y disminuir los errores. La
+estructura que tienen los paquetes generados con esta clase se muestra en la figura \ref{fig:packet}.
 
 \begin{figure}[tp]
   \centering
@@ -732,6 +731,55 @@ especifica una. La longitud es lo largo del mensaje junto con el codigo CRC. La 
 anexa junto con el c\'odigo CRC de 32 bits. Los paquetes se env\'ian al modulador a trav\'es de una
 cola que almacena lo que se va enviar. La clase moduladora monitorea esta cola y toma el primer
 mensaje que entro para iniciar con la operaci\'on de modulaci\'on.
+
+Despu\'es de la codificaci\'on los datos son modulados por el esquema DQPSK. La estructura de este
+bloque se explica m\'as a fondo en la siguiente secci\'on. Los datos modulados son enviados por el
+puerto USB hacia el USRP por medio del bloque USRP. Este bloque es representado por la clase
+\verb|usrp_sink_c| y su funci\'on es tomar los datos de entrada y enviarlos al USRP con los
+par\'ametros de interpolaci\'on y frecuencia central especificada. El listado \ref{ex:usrptx}
+muestra el constructor del bloque jer\'arquico que realiza esta configuraci\'on pero, como se puede
+observar, la operaci\'on real es delegada a la funci\'on \verb|_setup_usrp_sink|. Esta funci\'on se
+muestra en el listado \ref{ex:usrptxsetup}.
+
+\begin{lstlisting}[float, label=ex:usrptxsetup, caption={Funci\'on que configura el USRP como
+transmisor}, breaklines=true]
+def _setup_usrp_sink(self, options):
+    """
+    Creates a USRP sink, determines the settings for best bitrate,
+    and attaches to the transmitter's subdevice.
+    """
+    self.u = usrp_options.create_usrp_sink(options)
+    dac_rate = self.u.dac_rate()
+    self.rs_rate = options.bitrate    # Store requested bit rate
+        
+    (self._bitrate, self._samples_per_symbol, self._interp) = \
+                    pick_tx_bitrate(options.bitrate, self._modulator_class.bits_per_symbol(),
+                                    options.samples_per_symbol, options.interp,
+                                    dac_rate, self.u.get_interp_rates())
+
+    options.interp = self._interp
+    options.samples_per_symbol = self._samples_per_symbol
+    options.bitrate = self._bitrate
+
+    if options.verbose:
+        print 'USRP Sink:', self.u
+        print "Interpolation Rate: ", self._interp
+    
+    self.u.set_interp(self._interp)
+    self.u.set_auto_tr(True)
+
+    if not self.u.set_center_freq(options.tx_freq):
+        print "Failed to set Rx frequency to %s" % (eng_notation.num_to_str(options.tx_freq))
+        raise ValueError, eng_notation.num_to_str(options.tx_freq)
+\end{lstlisting}
+
+La funci\'on calcula el factor de interpolaci\'on para lograr la taza de bits que se est\'a
+especificando por el usuario. Este factor se entrega al USRP para configurar el DUC y despu\'es se
+sintoniza a la frecuencia central especificada. Si el hardware no puede sintonizar la frecuencia que
+se especifica entonces el programa abortara con un mensaje de error. La aplicaci\'on tambi\'en
+configura al USRP en modo de transmisi\'on autom\'atica lo cual quiere decir que el dispositivo
+estar\'a transmitiendo continuamente lo que se encuentre en sus buffers hasta que la aplicaci\'on
+termine de ejecutarse.
 
 \subsection{Estructura del modulador DQPSK}
 \gnuradio contiene varios bloques que definen varios esquemas de modulaci\'on digital. El estudio de
@@ -796,10 +844,59 @@ respuesta a la frecuencia de este filtro se muestra en la ecuaci\'on \ref{eq:rrc
 \begin{equation}\label{eq:rrctransfer}
 H(s)=\left\{
 \begin{array}{l l}
-1 & \quad \text{para $|f| < \frac{1-\alpha}{2T}$}\\
-\cos^2{\frac{\pi}{4} \frac{2T|f|+\alpha-1}{\alpha}} & \quad \text{para $\frac{1-\alpha}{2T} \leq
-|f| \leq \frac{1+\alpha}{2T}$}\\
-0 & \quad \text{para $|f| > \frac{1+\alpha}{2T}$}
-\end{array}\right.
+T_b & \quad \text{para $|f| < \frac{1-\alpha}{2T_b}$}\\
+\frac{T_b}{2}\left\{1+\cos{\left[\frac{\pi
+T_b}{\alpha}\left(|f|-\frac{1-\alpha}{2T_b}\right)\right]}\right\} & \quad \text{para
+$\frac{1-\alpha}{2T_b} \leq |f| \leq \frac{1+\alpha}{2T_b}$}\\ 0 & \quad \text{para $|f| >
+\frac{1+\alpha}{2T_b}$} \end{array}\right.
 \end{equation}
 
+donde $0 \leq \alpha \leq 1$ se le conoce como el factor de exceso de ancho de banda, $T_b$ es el
+periodo de s\'imbolos y $f$ es la frecuencia. 
+
+La respuesta al impulso del filtro esta dado por:
+
+\begin{align}\label{eq:imptransfer}
+x(t)&=\frac{\sin{(\pi t/T_b)}}{\pi t/T_b}\frac{\cos{(\pi\alpha t/T_b)}}{1-4\alpha^2t^2/T_b^2}
+\nonumber \\ 
+&=\sinc{(t/T_b)}\frac{\cos{(\pi \alpha t/T_b)}}{1-4\alpha^2t^2/T_b^2}
+\end{align}
+
+El punto medio de la banda de transici\'on $1/2T_b=f_b/2$ se le conoce como la \emph{frecuencia de
+Nyquist}. Cuando $\alpha=0$ el filtro se comporta como un filtro Nyquist ideal, com\'unmente
+conocido como \emph{brick wall} y su respuesta al impulso tiende a decaer muy lentamente por lo
+cual ofrece un mayor nivel de ISI. Cuando $\alpha$ se acerca a 1 su respuesta al impulso decae mas
+r\'apido pero a consecuencia de una mayor cantidad de ancho de banda utilizada. El exceso de ancho
+de banda se interpreta en t\'erminos de porcentaje con referencia a la frecuencia de Nyquist, por
+ejemplo, un valor de $\alpha=0.25$ significa 25\% de exceso de ancho de banda y $\alpha=1$
+significa 100\%. La respuesta a la frecuencia y al impulso de este filtro se muestra en las figuras
+\ref{fig:rrcfreq} y \ref{fig:rrctime}.
+
+
+\begin{figure}[htp]
+  \centering
+  \includegraphics[width=5.9in]{figs/rrcfreq}
+  \vspace{0.3in}
+  \caption{Representaci\'on en el dominio de la frecuencia de filtros coseno elevado}
+  \label{fig:rrcfreq}
+\end{figure}
+
+\begin{figure}[htp]
+  \centering
+  \includegraphics[width=5.9in]{figs/rrctime}
+  \vspace{0.3in}
+  \caption{Forma de onda en el dominio del tiempo para filtros de coseno elevado}
+  \label{fig:rrctime}
+\end{figure}
+
+Una vez que los s\'imbolos han sido procesados por el filtro de coseno elevado son enviados al USRP
+por medio del puerto USB. El bloque de salida al USRP se configura de tal manera que el DUC eleve la
+frecuencia de la se\~nal en banda base a una frecuencia intermedia. Esta frecuencia puede ser la que
+se transmite o, dependiendo la tarjeta auxiliar que se est\'e utilizando, puede ser elevada a una
+frecuencia de RF mayor para luego ser transmitida.
+
+
+\subsection{Modulador DQPSK con filtros polif\'asicos}
+Durante el desarrollo de este trabajo los autores de \gnuradio incorporaron al codigo fuente una
+version mejorada del modulador DQPSK que re-implementa algunos bloques del grafo con filtros
+polif\'asicos.
