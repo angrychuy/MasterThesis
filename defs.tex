@@ -47,6 +47,21 @@ text centered, minimum height=2em,drop shadow]
     
 % Used to draw an antenna with tikz
 \def\antenna{-- +(0mm,4.0mm) -- +(2.625mm,7.5mm) -- +(-2.625mm,7.5mm) -- +(0mm,4.0mm)}
+
+%Used to draw a low pass filter block with tikz. Must be used within a matrix of nodes.
+\def\filterLP{\node{};
+	\draw[line width=1pt] (-6mm, -5mm) to (-6mm, 5mm)
+						  (-6mm, -5mm) to (6mm,-5mm)
+						  (-6mm, 3mm) to (-1mm, 3mm) arc (90:25:0.2cm) --
+						  +(4mm, -7mm);
+						  
+}
+
+%Used to draw a sumation block with tikz. Must be used within a matrix of nodes.
+\def\sumop{\node[circle, minimum size=1.5em]{};
+	\draw (0mm, -2.5mm) to (0mm, 2.5mm)
+		  (-2.5mm, 0mm) to (2.5mm, 0mm);
+}
     
 % Define distances for bordering
 \def\blockdist{2.3}

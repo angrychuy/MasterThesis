@@ -897,6 +897,185 @@ frecuencia de RF mayor para luego ser transmitida.
 
 
 \subsection{Modulador DQPSK con filtros polif\'asicos}
-Durante el desarrollo de este trabajo los autores de \gnuradio incorporaron al codigo fuente una
-version mejorada del modulador DQPSK que re-implementa algunos bloques del grafo con filtros
-polif\'asicos.
+Durante el desarrollo de este trabajo los autores de \gnuradio incorporaron al c\'odigo fuente una
+versi\'on mejorada del modulador DQPSK que re-implementa algunos bloques del grafo con bancos de
+filtros polif\'asicos. Estos filtros son tambien llamados multi tasa (\emph{multirate}) ya que
+modifican la frecuencia de muestreo (decimacion e interpolacion) y consisten en un filtro
+tradicional (pasa bajas, pasa altas, etc.) y uno o mas componentes que modifican la tasa de muestreo
+(decimador o interpolador) \cite{behrouz}. Un ejemplo de estos filtros se muestra en la figura \ref{fig:multirate}.
+
+%NOTA: Para usar la funcion matrix dentro de una subfigura hay que utilizar la opcion ``ampersand replacement'' y cambiar el
+% uso del ampersand por algun otro macro. Aqui estamos utilizando \& para mantener consistencia.
+\begin{figure}[htp]
+  \centering
+  \vspace{0.5in}
+  \subfloat[Interpolador con factor $L$.]{
+  \label{fig:interpol}
+  \begin{tikzpicture}[scale=0.8, transform shape]
+   \matrix (l) [matrix of nodes, ampersand replacement=\&, column sep=1cm, nodes={draw,
+   																				  anchor=center,
+   																				  text centered,
+   														  						  minimum size=4em},
+   				empty/.style={draw=none, fill=white}]
+	 { |[empty]| {$x(t)$} \& {$\uparrow L$} \& \filterLP \& |[empty]| {$x'(n)$} \\ };
+
+	 {[start chain, every on chain/.style={join=by ->}]
+	 \chainin (l-1-1);
+	 \chainin (l-1-2);
+	 \chainin (l-1-3);
+	 \chainin (l-1-4);
+	 };
+  \end{tikzpicture}
+  }\\
+  \subfloat[Decimador con factor $M$.]{
+  \label{fig:decimat}
+  \begin{tikzpicture}[scale=0.8, transform shape]
+  \matrix (d) [matrix of nodes, ampersand replacement=\&, column sep=1cm, nodes={draw,
+  													   anchor=center,
+  													   text centered,
+  													   minimum size=4em},
+  			   empty/.style={draw=none, fill=white}]
+  	{|[empty]| {$x(t)$} \& \filterLP \& {$\downarrow M$} \& |[empty]| {$x'(n)$} \\ };
+
+  	{[start chain, every on chain/.style={join=by ->}]
+  	\chainin (d-1-1);
+  	\chainin (d-1-2);
+  	\chainin (d-1-3);
+  	\chainin (d-1-4);
+  	};
+  \end{tikzpicture}
+  }\\
+  \subfloat[Filtro factorial con factor $L/M$.]{
+  \label{fig:fractional}
+  \begin{tikzpicture}[scale=0.8, transform shape]
+  \matrix (d) [matrix of nodes, ampersand replacement=\&, column sep=1cm, nodes={draw,
+  													   anchor=center,
+  													   text centered,
+  													   minimum size=4em},
+  			   empty/.style={draw=none, fill=white}]
+  	{|[empty]| {$x(t)$} \& {$\uparrow L$} \& \filterLP \& {$\downarrow M$} \& |[empty]| {$x'(n)$} \\ };
+
+  	{[start chain, every on chain/.style={join=by ->}]
+  	\chainin (d-1-1);
+  	\chainin (d-1-2);
+  	\chainin (d-1-3);
+  	\chainin (d-1-4);
+  	\chainin (d-1-5);
+  	};
+  \end{tikzpicture}
+  }
+  \vspace{0.3in}
+  \caption{Estructuras basicas de filtros multi tasas.}
+  \label{fig:multirate}
+\end{figure}
+
+La figura \ref{fig:interpol} muestra la estructura de un interpolador simple con factor de
+interpolacion $L$. Este filtro reconstruye una se\~nal $x(n)$ a una taza $L$ veces mas que la taza
+de muestreo original. Esto se logra anexando $L-1$ ceros despues de cada muestra y despues se
+utiliza un filtro pasa bajas para eliminar las imagenes espectrales que se generan alrededor de la
+se\~nal debido a la operacion de \emph{upsampling} \cite{behrouz}.
+
+La figura \ref{fig:decimat} muestra la estructura de un filtro decimador con factor $M$. Aqui el
+filtro pasa bajas se utiliza antes del decimador para reducir el ancho de banda de la se\~nal y
+prevenir que se genere el efecto alias debido a la reduccion de la frecuencia de muestreo. El
+decimador entonces tomara cada $D$ veces muestras e ignorara el resto.
+
+Los filtros anteriores utilizan factores enteros y por lo tanto no se puede realizar interpolaci\'on
+o decimaci\'on fraccional \cite{behrouz}. Un tercer filtro combina ambas estructuras para lograr precisamente esto y
+se le denomina filtros factoriales $L/M$. Su estructura se muestra en la figura
+\ref{fig:fractional}. Aqu\'i el filtro pasa bajas se encuentre entre el bloque de \emph{upsampling} y
+el bloque decimador para proporcionar interpolaci\'on a la se\~nal y protecci\'on contra el efecto
+alias.
+
+El problema principal con las estructuras anteriores es que no son muy eficientes. El filtro decimador calcula
+muchas muestras que eventualmente ser\'an descartadas y el filtro interpolador procesa las muestras de
+la se\~nal as\'i como tambi\'en los ceros introducidos por la operaci\'on \emph{upsampling}. Para
+solucionar esto se utiliza una estructura de filtros polif\'asicos para lograr que el filtro decimador
+e interpolador procesen la se\~nal a la taza de muestreo original y no a la taza modificada. La
+estructura del filtro decimador en su descomposici\'on polif\'asica se muestra en la figura
+\ref{fig:polydecim}.
+
+\begin{figure}[htp]
+  \centering
+  \vspace{0.5in}
+  \begin{tikzpicture}[scale=0.8, transform shape]
+  \matrix (d) [matrix of nodes, column sep=1cm, nodes={draw,
+    													   anchor=center,
+    													   text centered,
+    													   minimum size=3em},
+    			   empty/.style={draw=none, fill=white}]
+    	{|[empty]| {$x(t)$} & |[coordinate]| & {$\downarrow M$}     & {$H_0(z)$}           & & \\
+    	                    & {$z^{-1}$}     &                      &                      & & \\
+    	                    & |[coordinate]| & {$\downarrow M$}     & {$H_1(z)$}           & \sumop & |[empty]| {$y(t)$} \\
+    	                    &                &                      &                      & & \\
+    	                    &                &                      &                      & & \\
+    	                    & {$z^{-1}$}     & |[empty]| {$\vdots$} & |[empty]| {$\vdots$} & & \\
+    	                    & |[coordinate]| & {$\downarrow M$} & {$H_n(z)$} & & \\
+    	                    };
+    	\draw (d-1-1) edge (d-1-2);
+    	\draw[->] (d-1-2) -- (d-1-3);
+    	\draw[->] (d-1-3) -- (d-1-4);
+    	\draw[->] (d-1-4) -- (d-3-5);
+    	\draw[->] (d-1-2) -- (d-2-2);
+    	\draw (d-2-2) edge (d-3-2);
+    	\draw[->, dotted] (d-3-2) -- (d-6-2);
+    	
+    	\draw[->] (d-3-2) -- (d-3-3);
+    	\draw[->] (d-3-3) -- (d-3-4);
+    	\draw[->] (d-3-4) -- (d-3-5);
+    	\draw[->] (d-3-5) -- (d-3-6);
+    	
+    	\draw (d-6-2) edge (d-7-2);
+    	\draw[->] (d-7-2) -- (d-7-3);
+    	\draw[->] (d-7-3) -- (d-7-4);
+    	\draw[->] (d-7-4) -- (d-3-5);
+  \end{tikzpicture}
+  \vspace{0.3in}
+  \caption{Descomposicion del filtro decimador en su representacion polifasica.}
+  \label{fig:polydecim}
+\end{figure}
+
+La estructura del modulador DQPSK fue modificada con la introducci\'on de estos filtros al c\'odigo fuente. La estructura de
+la segunda versi\'on de este bloque jer\'arquico, llamado DQPSK2, se muestra en la figura \ref{fig:dqpsk2}. El bloque
+ilustrado de rojo representa la modificaci\'on que se realizo al grafo del bloque jer\'arquico.
+
+\begin{figure}[htp]
+  \centering
+  \vspace{0.5in}
+  \begin{tikzpicture}[scale=0.8, transform shape]
+	\node (data) [grblock] {\footnotesize{Datos codificados}};
+	\node (packtounpack) [grblock, right=of data] {\footnotesize{Desempaquetado de bits}}
+	edge [<-] (data);
+	\node (map) [grblock, right=of packtounpack] {\footnotesize{Mapeo de constelaci\'on}}
+	edge [<-] (packtounpack);
+	\node (difcode) [grblock, right=of map] {\footnotesize{Codificador diferencial}}
+	edge [<-] (map);
+	\node (symbols) [grblock, below=of difcode] {\footnotesize{Bloques a s\'imbolos}}
+	edge [<-] (difcode);
+	\node (rrc) [grblock, fill=red!30, left=of symbols] {\footnotesize{Re-muestreo arbitrario RRC}}
+	edge [<-] (symbols);
+	\node (usrp) [grblock, left=of rrc] {\footnotesize{Salida al USRP}}
+	edge [<-] (rrc);
+  \end{tikzpicture}
+  \vspace{0.3in}
+  \caption{Estructura del modulador DQPSK con filtros polif\'asicos}
+  \label{fig:dqpsk2}
+\end{figure}
+
+% El codigo fuente de \gnuradio actualmente contiene los siguientes bloques que implementan estos conceptos:
+% \begin{itemize}
+%   \item \textbf{gr\_pfb\_arb\_resampler}: Este bloque implementa un re-muestreador arbitrario utilizando un banco de filtros
+%   polifasicos. La tasa de re-muestreo puede ser cualquier numero real $r$ y realiza la operacion construyendo $N$ cantidad de
+%   filtros donde $N$ es el factor de interpolacion. El factor $D$ se calcula de la siguiente manera: $D=N/r$. Utilizando $N$ y
+%   $D$ el bloque realiza un muestreo arbitrario con $N/D$ representando un numero racional cercano a la tasa especificada $r$
+%   y utilizando $N$ cantidad de filtros ciclandose atravez de un banco de filtros polifasicos.
+%   \item \textbf{gr\_pfb\_clock\_sync}: Este bloque realiza sincronizacion de tiempo para se\~nales PAM. Lo logra minimizando
+%   la derivada de la se\~nal filtrada, lo cual maximiza el SNR y minimiza el efecto ISI. Para lograr esto el bloque construye
+%   dos bancos de filtros; el primero contiene el filtro de forma de pulso (ejemplo: filtro de coseno elevado). El segundo
+%   banco de filtros contiene la derivada de los filtros del primero banco. Si se observa esto desde el dominio del tiempo, el
+%   primer banco de filtros contiene filtros que tienen una respuesta al impulso de la forma sinc. El objetivo es alinear la
+%   se\~nal de salida de tal forma que sea muestreada justamente en el pico de la funcion sinc. La derivada de la funcion sinc
+%   es cero en su punto maximo, o sea, $sinc(0)=1$, $sinc(0)'=0$. Este echo se utiliza para generar una se\~nal de error
+%   $e(n)$. Esta se\~nal entrega un valor proporcional a la distancia con respecto al punto cero. El bloque utiliza un PLL de
+%   segundo orden para lograr que el error llege a cero.
+% \end{itemize}
