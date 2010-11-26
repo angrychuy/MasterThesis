@@ -307,7 +307,7 @@ El concepto que se aplica para los programas realizados con esta librer\'ia es
 el de grafos. Cada aplicaci\'on cuenta con una serie de nodos o bloques
 conectados entre s\'i para crear una cadena completa de RF llamado grafo de
 flujo. Los bloques se encargan de realizar alguna operaci\'on sobre la
-informaci\'on que fluye atreves de la grafica y est\'os pueden ser operaciones
+informaci\'on que fluye atreves del grafo y est\'os pueden ser operaciones
 matem\'aticas, envi\'o de datos a alg\'un puerto, etc., mientras que las aristas
 transportan la informaci\'on entre los nodos. Cada bloque tiene definido una
 serie de puertos de entradas y salidas las cuales aceptan y entregan un tipo de
@@ -595,7 +595,7 @@ envia a el grafo de RF. La estructura general del transmisor se muestra en la fi
 		\node (cp) [grblock] {\small{Codificador de paquetes}};
 		\path (cp.west)+(-2.2,1.5) node (rs) [optional] {\small{Fuente aleatoria}};
 		\path (cp.west)+(-2.2,-1.5) node (file) [optional] {\small{Fuente archivo}};
-		\node (qpsk) [grblock, right=of cp] {\small{Modulador QPSK}}
+		\node (qpsk) [grblock, right=of cp] {\small{Modulador DQPSK}}
 		edge [<-] (cp);
 		\node (usrp) [grblock, right=of qpsk] {\small{USRP}}
 		edge [<-] (qpsk);
@@ -603,7 +603,7 @@ envia a el grafo de RF. La estructura general del transmisor se muestra en la fi
 		\path[draw,->, dashed] (file.east) -- node {}(cp.200);
 \end{tikzpicture}
 \vspace{0.5in}
-\caption{Diagrama a bloques del transmisor QPSK.}
+\caption{Diagrama a bloques del transmisor DQPSK.}
 \label{fig:grqpsk}
 \end{figure}
 
@@ -781,7 +781,7 @@ configura al USRP en modo de transmisi\'on autom\'atica lo cual quiere decir que
 estar\'a transmitiendo continuamente lo que se encuentre en sus buffers hasta que la aplicaci\'on
 termine de ejecutarse.
 
-\subsection{Estructura del modulador DQPSK}
+\subsection{Estructura del modulador DQPSK}\label{subsec:estrucdqpsk}
 \gnuradio contiene varios bloques que definen varios esquemas de modulaci\'on digital. El estudio de
 este trabajo se enfoca en el bloque DQPSK. La estructura del grafo que implementa este esquema se
 muestra en la figura \ref{fig:dqpsk}.
@@ -870,7 +870,8 @@ r\'apido pero a consecuencia de una mayor cantidad de ancho de banda utilizada. 
 de banda se interpreta en t\'erminos de porcentaje con referencia a la frecuencia de Nyquist, por
 ejemplo, un valor de $\alpha=0.25$ significa 25\% de exceso de ancho de banda y $\alpha=1$
 significa 100\%. La respuesta a la frecuencia y al impulso de este filtro se muestra en las figuras
-\ref{fig:rrcfreq} y \ref{fig:rrctime}.
+\ref{fig:rrcfreq} y \ref{fig:rrctime}. Finalmente los datos procesados por el filtro RRC se colocan en la salida del bloque
+jerarquico para que sean enviados al siguiente bloque del grafo. 
 
 
 \begin{figure}[htp]
@@ -889,11 +890,23 @@ significa 100\%. La respuesta a la frecuencia y al impulso de este filtro se mue
   \label{fig:rrctime}
 \end{figure}
 
-Una vez que los s\'imbolos han sido procesados por el filtro de coseno elevado son enviados al USRP
-por medio del puerto USB. El bloque de salida al USRP se configura de tal manera que el DUC eleve la
-frecuencia de la se\~nal en banda base a una frecuencia intermedia. Esta frecuencia puede ser la que
-se transmite o, dependiendo la tarjeta auxiliar que se est\'e utilizando, puede ser elevada a una
-frecuencia de RF mayor para luego ser transmitida.
+La clase \verb|blks2.dqpsk_mod| representa el modulador DQPSK. Un ejemplo de su uso en un programa sencillo se muestra en el
+capitulo \ref{ch:resultados}. La clase se puede configurar de acuerdo a los siguientes par\'ametros de entrada:
+
+\begin{itemize}
+  \item \textbf{samples\_per\_symbol}: Especifica la tasa de muestras por s\'imbolo. Acepta valores $\geq 2$.
+  \item \textbf{excess\_bw}: Especifica el porcentaje de exceso de ancho de banda que utiliza el filtro RRC.
+  \item \textbf{gray\_code}: Bandera booleana que activa o desactiva la codificaci\'on Gray para la generaci\'on de la
+  constelaci\'on.
+  \item \textbf{verbose}: Especifica si el modulador va imprimir su informaci\'on de configuraci\'on a la consola.
+  \item \textbf{log}: Activa la generaci\'on de archivos con los datos que viajan atravez de las aristas del grafo.
+\end{itemize} 
+
+% Una vez que los s\'imbolos han sido procesados por el filtro de coseno elevado son enviados al USRP
+% por medio del puerto USB. El bloque de salida al USRP se configura de tal manera que el DUC eleve la
+% frecuencia de la se\~nal en banda base a una frecuencia intermedia. Esta frecuencia puede ser la que
+% se transmite o, dependiendo la tarjeta auxiliar que se est\'e utilizando, puede ser elevada a una
+% frecuencia de RF mayor para luego ser transmitida.
 
 
 \subsection{Modulador DQPSK con filtros polif\'asicos}
@@ -1037,7 +1050,7 @@ estructura del filtro decimador en su descomposici\'on polif\'asica se muestra e
 
 La estructura del modulador DQPSK fue modificada con la introducci\'on de estos filtros al c\'odigo fuente. La estructura de
 la segunda versi\'on de este bloque jer\'arquico, llamado DQPSK2, se muestra en la figura \ref{fig:dqpsk2}. El bloque
-ilustrado de rojo representa la modificaci\'on que se realizo al grafo del bloque jer\'arquico.
+ilustrado de rojo representa la modificaci\'on que se realizo al grafo del bloque jer\'arquico original.
 
 \begin{figure}[htp]
   \centering
@@ -1061,6 +1074,63 @@ ilustrado de rojo representa la modificaci\'on que se realizo al grafo del bloqu
   \caption{Estructura del modulador DQPSK con filtros polif\'asicos}
   \label{fig:dqpsk2}
 \end{figure}
+
+El bloque en rojo de la figura \ref{fig:dqpsk2} implementa un re-muestreador arbitrario utilizando un banco de filtros
+polif\'asicos. La tasa de re-muestreo puede ser cualquier n\'umero real $r$ y realiza la operaci\'on construyendo $N$
+cantidad de filtros donde $N$ es el factor de interpolaci\'on. El factor $D$ se calcula de la siguiente manera: $D=N/r$.
+Utilizando $N$ y $D$ el bloque realiza un muestreo arbitrario con factor $N/D$ que representa un numero racional cercano a
+la tasa especificada $r$ y utilizando $N$ cantidad de filtros que se forman el banco de filtros polif\'asicos.
+
+Este modulador se encuentra dentro del mismo paquete \verb|blsk2| que la versi\'on anterior. Los par\'ametros que acepta la
+clase son los mismos que se describieron en el apartado \ref{subsec:estrucdqpsk}.
+
+\subsection{Estructura del receptor}
+El programa principal del receptor se encuentra en el archivo \verb|benchmark_rx.py|. La estructura del programa es muy
+similar a la del transmisor y la diferencia principal es en el uso de una funci\'on auxiliar que es manejada por el grafo y
+se encarga de recibir los paquetes que van recibiendo y desplegar su estatus en la consola. Esta funci\'on se puede
+modificar para realizar cualquier otra operaci\'on con los paquetes de datos. El c\'odigo de esta funci\'on se muestra
+en el listado \ref{ex:callback}. La estructura del receptro se muestra en la figura \ref{fig:grdqpskrx}.
+
+\begin{figure}[htp]
+  \centering
+  \begin{tikzpicture}[scale=0.8, transform shape]
+  	\node (usrp) [grblock] {\footnotesize{USRP}};
+  	\node (preselect) [grblock, right=of usrp] {\footnotesize{Filtro pre-selector}}
+	edge [<-] (usrp);
+	\node (demod) [grblock, right=of preselect] {\footnotesize{Demodulador DQPSK}}
+	edge [<-] (preselect);
+	\node (decod) [grblock, right=of demod] {\footnotesize{Decodificador de paquetes}}
+	edge [<-] (demod);
+  \end{tikzpicture}
+  \vspace{0.3in}
+  \caption{Diagrama a bloques del receptor DQPSK}
+  \label{fig:grdqpskrx}
+\end{figure}
+
+\begin{lstlisting}[float, label=ex:callback, caption={Funci\'on auxiliar que recibe los paquetes decodificados},
+breaklines=true]
+    def rx_callback(ok, payload):
+        global n_rcvd, n_right
+        (pktno,) = struct.unpack('!H', payload[0:2])
+        n_rcvd += 1
+        if ok:
+            n_right += 1
+
+        print "ok = %5s  pktno = %4d  n_rcvd = %4d  n_right = %4d" % (
+            ok, pktno, n_rcvd, n_right)
+\end{lstlisting}
+
+Al igual que el transmisor, el receptor define un grafo principal con un solo bloque jer\'arquico que encapsula todas las
+diversas operaciones del programa (configuraci\'on del USRP, demodulaci\'on y decodificaci\'on de datos) y su
+implementaci\'on se mantiene separado en diversos archivos, cada uno con un prop\'osito exclusivo.
+
+La configuraci\'on del USRP se lleva a cabo dentro del archivo \\ \verb|usrp_receive_path.py|. Las operaciones principales
+que realiza el grafo de este archivo es configurar la frecuencia central y el factor de decimaci\'on que se va utilizar dentro
+del DDC. Igualmente el programa realiza el c\'alculo de la tasa de bits con los par\'ametros que el usuario especifico y si
+no se logra la configuraci\'on el programa emite un mensaje de error. Posteriormente, el control se pasa al archivo
+\verb|receive_path.py| para la generaci\'on y configuraci\'on del grafo que crea la instancia del demodulador DQPSK.
+
+
 
 % El codigo fuente de \gnuradio actualmente contiene los siguientes bloques que implementan estos conceptos:
 % \begin{itemize}

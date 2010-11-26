@@ -2,6 +2,7 @@
 % Capitulo 4. Resultados
 %==========================================================================
 \chapter{Resultados}
+\label{ch:resultados}
 
 En este cap\'itulo se muestran los resultados del estudio de la plataforma USRP. El experimento
 consisti\'o en transmitir datos generados de una fuente aleatoria por software y de una fuente fija
@@ -709,11 +710,6 @@ se muestra en el listado \ref{ex:eyeprog}.
 %==========================================================================
 \section{Constelaci\'on observada}
 
-%TODO: Incluir ambas imagenes de la constelacion para ilustrar los problemas que se tuvieron.
-% Explicar el uso de QT (breve) para el desarrollo de interfazes de usuario y los 4 sinks que
-% proporciona GR_QT (freq display, waterfall, time domain, constellation). Explicar como se
-% transmitio la informacion aleatoria y el archivo fijo. Tambien explicar las modificaciones que se
-% hisieron a benchmark_tx y rx para lograr la transmision correcta.
 Para poder observar la constelaci\'on recibida se utilizo la versi\'on que utiliza la librer\'ia QT
 del programa benchmark. El programa RX contiene dos versiones en el c\'odigo fuente, una que utiliza
 la consola y otra que genera una interfaz de usuario para monitorear la se\~nal de manera gr\'afica.
@@ -852,7 +848,7 @@ dentro del constructor de la clase \verb|usrp_receive_path| despu\'es de la etap
 del USRP y en el archivo principal \verb|benchmark_rx2.py| en la funcion \verb|main()|. Esta
 modificaci\'on se muestra en el listado \ref{ex:qtsink}.
 
-\begin{lstlisting}[float, label=ex:qtsink, caption={Modificacion del programa \emph{benchmark} para
+\begin{lstlisting}[float, label=ex:qtsink, caption={Modificaci\'on del programa \emph{benchmark} para
 desplegar el bloque grafico de QT.}, breaklines=true] 
 class usrp_receive_path(gr.hier_block2):
     def __init__(self, demod_class, rx_callback, options):
