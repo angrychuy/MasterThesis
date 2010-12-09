@@ -100,7 +100,7 @@ en la figura \ref{fig:siscom}.
 \centering
 	\begin{tikzpicture}[scale=0.8, transform shape, node distance = 20mm and 10mm, pin distance=10mm,
 	inpin/.style={pin={[pin distance=10mm,pin edge={<-,black}]left:Mensaje a enviar}},
-	outpin/.style={pin={[pin distance=10mm,pin edge={->,black}]left:Mensaje recivido}}]
+	outpin/.style={pin={[pin distance=10mm,pin edge={->,black}]left:Mensaje recibido}}]
 		\node (format) [sc, inpin] {Formato de mensaje};
 		\node (mod) [sc, right=of format] {Modulaci\'on por pulsos}
 			edge[<-] (format);
@@ -117,7 +117,7 @@ en la figura \ref{fig:siscom}.
 		\draw (demod.east) -- ++(1,0) \antenna;
 	\end{tikzpicture}
 	\vspace{0.3in}
-	\caption{Diagrama a bloques de un sistema de comunicaciones digitales}
+	\caption{Diagrama a bloques de un sistema de comunicacion digital con transmisi\'on de datos pasa banda}
 	\label{fig:siscom}
 \end{figure}
 
@@ -243,7 +243,7 @@ muestra en la figura \ref{fig:gauss}.
 \begin{figure}[ht]
 \centering
 	\includegraphics[width=5.5in]{figs/gauss}
-	\caption{Funci\'on de densidad de probabilidad de la distribuci\'on Gausseano}
+	\caption{Funci\'on de densidad de probabilidad de la distribuci\'on Gaussiano}
 	\label{fig:gauss}
 \end{figure}
 
@@ -272,7 +272,7 @@ y le agregamos ruido aditivo blanco la se\~nal recivida ser\'a
 r(t)=s_i(t)+n(t) \quad i=1,2 \quad 0\leq t \leq T
 \end{equation}
 
-donde $s_i(t)$ es el s\'imbolo recivido y $n(t)$ es el ruido aleatorio causado por el movimiento de
+donde $s_i(t)$ es el s\'imbolo recibido y $n(t)$ es el ruido aleatorio causado por el movimiento de
 los electrones.
 
 Las caracter\'isticas del ruido AWGN son comunmente utilizadas para modelar la interferencia en
@@ -299,7 +299,7 @@ figura \ref{fig:simpledemod}.
 \begin{figure}[tp]
 \centering
 	\includegraphics[scale=0.5]{figs/simpledemod}
-	\caption{Diagrama simple de un demodulador.}
+	\caption{Diagrama simple de un demodulador digital.}
 	\label{fig:simpledemod}
 \end{figure}
 
@@ -312,7 +312,7 @@ implementa un filtro acoplado que se utiliza para recuperar los pulsos de banda 
 taza de se\~nal a ruido (SNR). En algunos casos se utiliza un filtro equalizador para reducir el
 fen\'omeno de ISI inducido por el canal y se introduce despues del filtro acoplado. La mayoria de
 veces es preferible implementar un solo filtro que realize ambas operaciones para que de esa manera
-pueda compensar las distorciones generadas por ambos, el transmisor y el canal.
+pueda compensar las distorsiones generadas por ambos, el transmisor y el canal.
 
 Asumiendo que el ruido que contiene la se\~nal es Gauseano, la salida del demodulador en la figura
 \ref{fig:simpledemod} entrega la siguiente prueba estadistica:
@@ -322,7 +322,7 @@ z(T)=a_i(T)+n_0(T) \quad i=1,2
 \end{equation}
 
 para un sistema binario, donde $a_i(T)$ es la se\~nal deseada y $n_0$ es el ruido. Como el ruido es
-un proceso Gauseano aleatorio, $z(T)$ es una vareable Gauseana aleatoria que tendra una media de
+un proceso Gauseano aleatorio, $z(T)$ es una variable Gauseana aleatoria que tendra una media de
 $a_1$ o $a_2$ dependiendo si un 1 o un 0 binario fue enviado. Con esto podemos expresar las
 funciones de densidad de probabilidad condicionales para cada s\'imbolo de la siguiente manera:
 
@@ -348,11 +348,11 @@ Una representaci\'on grafica de estas probabilidades condicionales se muestra en
 	\label{fig:condpdf}
 \end{figure}
 
-El eje x representa todo el rango de valores posibles que pueden ser recividos y las distribuciones
+El eje x representa todo el rango de valores posibles que pueden ser recibidos y las distribuciones
 representan la densidad de probabilidad dado que $s_1$ o $s_2$ alla sido transmitido. Debido a que
-$z(T)$ es un voltaje proporcional a la energia del s\'imbolo recivido, entre mas grande sea la
+$z(T)$ es un voltaje proporcional a la energia del s\'imbolo recibido, entre mas grande sea la
 magnitud de $z(T)$ habr\'a menos errores en el proceso de decisi\'on de s\'imbolos. Esta decisi\'on
-se realiza tomando la hipotesis resultante de la medicion del umbral dada por la ecuaci\'on
+se realiza tomando la hip\'otesis resultante de la medicion del umbral dada por la ecuaci\'on
 \ref{eq:ineq}\cite{sklar}:
 
 \begin{equation}
@@ -446,7 +446,7 @@ local con la fase de la del oscilador del modulador. Tal receptor multiplica la
 se\~nal por separado con una se\~nal seno y coseno para producir los estimados
 de $I(t)$ y $Q(t)$ respectivamente.
 
-Matematicamente $I(t)$ puede ser demodulada multiplicando la se\~nal transmitida
+Matem\'aticamente $I(t)$ puede ser demodulada multiplicando la se\~nal transmitida
 con una se\~nal coseno
 \begin{equation}
 \begin{aligned}
@@ -504,14 +504,14 @@ dise\~no del sistema. Un ejemplo se muestra en la figura \ref{fig:eyeform}\cite{
 La forma convencional de generar el diagrama de ojo es por medio de un osciloscopio en modo de
 persistencia. Cada captura es obtenida mediante un reloj de sincronizaci\'on obtenida de la misma
 forma de onda recibida. El modo de persistencia causara que los trazos de la onda se sobre pongan
-una con la otra hasta formar el patr\'on de ojo sobre la pantalla. Los parametros que se pueden
+una con la otra hasta formar el patr\'on de ojo sobre la pantalla. Los par\'ametros que se pueden
 medir se muestran en la figura \ref{fig:eyeparams}\cite{breed}.
 
-La distorci\'on en el tiempo de muestreo es generada por el fenomeno de ISI. La diferiencia en
+La distorci\'on en el tiempo de muestreo es generada por el fenomeno de ISI. La diferencia en
 tiempo pico a pico de los cruces por cero se le conoce tambien como ``\emph{jitter}''. El momento
-optimo para iniciar el muestreo de un s\'imbolo es en la parte que esta mas abierta del ojo. Conforme el
-SNR es mas bajo el ojo comenzara a cerrarse haciendo asi mas dificil y, por concecuencia,
-mas erroneo el muestreo de la se\~nal recibida.
+\'optimo para iniciar el muestreo de un s\'imbolo es en la parte que esta mas abierta del ojo. Conforme el
+SNR es mas bajo el ojo comenzara a cerrarse haciendo as\'i m\'as dif\'icil y, por concecuencia,
+m\'as err\'oneo el muestreo de la se\~nal recibida.
 
 \begin{figure}[hbp]
 \centering
@@ -522,7 +522,7 @@ mas erroneo el muestreo de la se\~nal recibida.
 
 \subsection{Espectrograma}
 El espectrograma, tambien conocido como grafica de cascada (\emph{waterfall}), muestra las
-variaciones de la densidad espectral de la se\~nal a trav\'es del tiempo. Utiliza tres parametros
+variaciones de la densidad espectral de la se\~nal a trav\'es del tiempo. Utiliza tres par\'ametros
 para mostrar una imagen representando la distribuci\'on espectral: el tiempo, la frecuencia y la
 amplitud. El eje X representa el tiempo, el eje Y la frecuencia y una escala de colores muestra la
 intensidad de cada punto en la imagen. Los ejes X y Y pueden ser invertidos para visualizar la
