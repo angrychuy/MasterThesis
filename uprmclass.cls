@@ -420,7 +420,7 @@
       \pagestyle{plain}%
       \chapter*{\contentsname}%
       \vspace*{-\RS@ptsize}%
-      \noindent\phantom{Table}\hfill\uline{pagina}\par%
+      \noindent\phantom{Table}\hfill\uline{p\'agina}\par%
       \@starttoc{toc}%
     \end{simpleenv}%
     \setboolean{SetDSpace}{true}}%
@@ -437,7 +437,7 @@
       \chapter*{\listtablename}%
       \vspace*{-\RS@ptsize}%
       \addcontentsline{toc}{extrachapter}{\listtablename}%
-      \noindent\uline{Tabla}\hfill\uline{pagina}\par%
+      \noindent\uline{Tabla}\hfill\uline{p\'agina}\par%
       \@starttoc{lot}%
     \end{simpleenv}%
     \setboolean{SetDSpace}{true}}%
@@ -473,7 +473,7 @@
       \chapter*{\listfigurename}%
       \vspace*{-\RS@ptsize}%
       \addcontentsline{toc}{extrachapter}{\listfigurename}%
-      \noindent\uline{Figura}\hfill\uline{pagina}\par%
+      \noindent\uline{Figura}\hfill\uline{p\'agina}\par%
       \@starttoc{lof}%
     \end{simpleenv}%
     \setboolean{SetDSpace}{true}}%
@@ -532,7 +532,7 @@
     en\\*[\BaseDiff\baselineskip]%
     \MakeUppercase{\Specialty}\\*[\BaseDiff\baselineskip]%
     \vspace{1.0in}%
-    UNIVERSIDAD AUTONOMA DE BAJA CALIFORNIA \\%
+    UNIVERSIDAD AUT\'ONOMA DE BAJA CALIFORNIA \\%
     \MakeUppercase{\Departamento}\\*[\BaseDiff\baselineskip]%
     \GradMes, \GradYear%
     \end{RS@Cent}%

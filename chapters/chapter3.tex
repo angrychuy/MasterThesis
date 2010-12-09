@@ -312,7 +312,7 @@ matem\'aticas, envi\'o de datos a alg\'un puerto, etc., mientras que las aristas
 transportan la informaci\'on entre los nodos. Cada bloque tiene definido una
 serie de puertos de entradas y salidas las cuales aceptan y entregan un tipo de
 datos espec\'ifico. No es posible realizar una conexi\'on entre dos puertos con
-tipos de datos incompatibles. Un ejemplo de una grafica de flujo sencilla se
+tipos de datos incompatibles. Un ejemplo de una gr\'afica de flujo sencilla se
 muestra en la figura \ref{fig:radioflow}.
 
 \begin{figure}[hpt]
@@ -328,7 +328,7 @@ muestra en la figura \ref{fig:radioflow}.
 		edge [<-] (fft);
 	\end{tikzpicture}
 	\vspace{0.5in}
-	\caption{Ejemplo de una grafica de flujo en \emph{GNURadio}}
+	\caption{Ejemplo de una gr\'afica de flujo en \emph{GNURadio}}
 	\label{fig:radioflow}
 \end{figure}
 
@@ -340,7 +340,7 @@ medio de alguna interfaz delantera. Esta interfaz se encarga del
 acondicionamiento de la se\~nal y de su digitalizaci\'on por medio de un ADC
 para luego ser procesada por el bloque de \gnuradio. Estos conceptos se
 aplican igualmente para bloques de salidas. Estos bloques pueden llevar sus
-datos a alg\'un archivo, desplegarlos en forma de alguna grafica o sacarlos a
+datos a alg\'un archivo, desplegarlos en forma de alguna gr\'afica o sacarlos a
 trav\'es de alguna interfaz por medio de un DAC y luego al mundo exterior. Un
 ejemplo de un programa que ilustra estos conceptos se muestra en el listado
 \ref{ex:radioexp}. Este programa utiliza dos bloques que generan dos se\~nales
@@ -377,9 +377,9 @@ Aqu\'i se importa el modulo \verb|gnuradio| y dos de sus submodulos: \verb|gr| y
 \verb|audio|. Despu\'es se declara una clase que se deriva de \verb|top_block|.
 Todas las clases de \gnuradio\ se tienen que derivar de
 \verb|top_block| o de \verb|hier_block2| ya que estas dos clases act\'uan como
-un contenedor para la grafica de flujo. La primera clase act\'ua como un
-contenedor para una \'unica grafica y la segunda soporta el desarrollo de
-graficas jer\'arquicas.
+un contenedor para la gr\'afica de flujo. La primera clase act\'ua como un
+contenedor para una \'unica gr\'afica y la segunda soporta el desarrollo de
+gr\'aficas jer\'arquicas.
 
 Los bloques y sus conexiones se definen dentro del constructor de la clase, en
 este caso es la funci\'on \verb|__init__|. Esta l\'inea de c\'odigo tambi\'en
@@ -428,7 +428,7 @@ se\~nal al puerto 0 y la segunda conexi\'on lleva la segunda se\~nal al puerto
 	\draw [->] (sg2.east) -- ++(1,0) |- (as);
 	\end{tikzpicture}
 \vspace{0.5in}
-\caption{Grafica de flujo del programa ejemplo.}
+\caption{Gr\'afica de flujo del programa ejemplo.}
 \label{fig:gnuradioexam}
 \end{figure}
 
@@ -437,7 +437,7 @@ ejecuta declarando una instancia de nuestra clase, y mandando llamar su
 funci\'on run. Esta funci\'on tambi\'en es proporcionada por la clase
 \verb|top_block|. Cuando este programa se ejecute el resultado debe ser un tono
 emitido a trav\'es de las bocinas de la PC a la frecuencia de las dos se\~nales
-generadas. La grafica representativa de este programa se muestra en la figura
+generadas. La gr\'afica representativa de este programa se muestra en la figura
 \ref{fig:gnuradioexam}.
 
 % Descripcion del experimento
@@ -468,11 +468,11 @@ de 90-260VAC @ 50/60Hz lo cual permite que funcione en diferentes paises.
 
 %TODO: Agregar imagen de las conecciones internas del usrp aqui. Tambien anexar expliacion.
 
-\subsection{Codigo fuente de GNURadio}
+\subsection{C\'odigo fuente de GNURadio}
 El c\'odigo fuente de \gnuradio proporciona varios ejemplos que implementan varios conceptos
 utiliznado los bloques de procesamiento que proporciona el \emph{framework}. Algunos de estos
 ejemplos son: receptor de FM, decodificador de se\~nales ATSC, captura y analisis de audio,
-modulacion OFDM, etc. La compilaci\'on del codigo fuente genera tambien la documentaci\'on de todos
+modulacion OFDM, etc. La compilaci\'on del c\'odigo fuente genera tambien la documentaci\'on de todos
 los bloques de procesamiento, el cual es muy \'util como referencia mientras se desarrolla cualquier
 aplicaci\'on. La estructura de los directorios que contienen los ejemplos se muestra en la figura
 \ref{fig:extree}.
@@ -516,7 +516,7 @@ aplicaci\'on. La estructura de los directorios que contienen los ejemplos se mue
 El experimento se bas\'o en el ejemplo del directorio \verb|digital|. Este programa implementa un
 transmisor completo utilizando varias modulaciones digitales como GMSK, BPSK y QPSK y viene en dos
 versiones: una se maneja a trav\'es de una consola de comandos y la otra implementa una interfaz de
-usuario utiliando la libreria QT que ayuda a visualizar de manera grafica lo que el sistema esta
+usuario utiliando la libreria QT que ayuda a visualizar de manera gr\'afica lo que el sistema esta
 recibiendo. El programa utiliza varias tecnicas de programaci\'on orientada a objetos, as\'i como
 tambi\'en estructuraci\'on del codigo de diferentes m\'odulos para separar todos los componentes
 importantes y poder utilizarlos en otras aplicaciones. La figura \ref{fig:relbench} muestra una gr\'afica
@@ -569,7 +569,7 @@ empaquetar los bits que se desean transmitir.
 La relaci\'on que se muestra en la figura \ref{fig:relbench} es la base para las otras versiones de
 del mismo ejemplo. Para el receptor la operaci\'on es la misma solo que utiliza los m\'odulos
 \verb|receive_path| y \verb|usrp_receive_path|. Tambi\'en existen versiones que implementan una
-interfaz grafica utilizando la libreria QT que muestra el espectro de la se\~nal, la constelaci\'on
+interfaz gr\'afica utilizando la libreria QT que muestra el espectro de la se\~nal, la constelaci\'on
 recibida, etc.
 
 % Descripcion del flujo del software

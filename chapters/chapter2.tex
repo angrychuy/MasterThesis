@@ -16,7 +16,7 @@ definidas dentro de un intervalo de tiempo $t$. Este intervalo es normalmente
 infinito aunque tambi\'en se puede acotar a un
 intervalo espec\'ifico, dependiendo del instante de tiempo que se desea medir. 
 Las se\~nales discretas se definen como una funci\'on derivada de un conjunto de 
-n\'umeros acotados a un intervalo especifico. Estos n\'umeros son las muestras
+n\'umeros acotados a un intervalo espec\'ifico. Estos n\'umeros son las muestras
 que se tomaron de la se\~nal en tiempos discretos. Esta informaci\'on es
 almacenada como dato digital para posteriormente ser analizado y / o manipulado.
 Un ejemplo de una se\~nal continua y discreta se muestra en la figura
@@ -34,7 +34,7 @@ determin\'istica a una se\~nal la cual no existe ninguna incertidumbre con
 respecto a su valor dentro de un lapso de tiempo. Las se\~nales
 determin\'isticas pueden ser expresadas por ecuaciones matem\'aticas, tales como
 $x(t)=5\cos(10t)$. No es posible utilizar este tipo de ecuaciones para describir
-se\~nales aleatorias, tambi\'en conocidas como procesos aleatorios, aunque si 
+se\~nales aleatorias, tambi\'en conocidas como procesos aleatorios, aunque s\'i 
 es posible analizarlas utilizando m\'etodos estad\'isticos y de probabilidad
 \cite{sklar}.
 
@@ -59,7 +59,7 @@ Algunos ejemplos de varios tipos de se\~nales se muestran en la tabla
 		\hline
 		Variaciones en tiempo y espacio en una dimensi\'on (1D) &
 		\begin{itemize}
-		  \item Ac\'usticos: Se\~nales sonares, eco de murci\'elagos y delfines.
+		  \item Ac\'usticos: Se\~nales sonoras, eco de murci\'elagos y delfines.
 		  \item Ingenier\'ia Electr\'onica: Se\~nales emitidas por una antena de
 		  transmisi\'on.
 		  \item Qu\'imica: Temperatura de una reacci\'on qu\'imica.
@@ -75,16 +75,17 @@ Algunos ejemplos de varios tipos de se\~nales se muestran en la tabla
 		  ciudad.
 		\end{itemize} \\
 		\hline
-		Variaciones volum\'utricas de tres dimensiones (3D) &
+		Variaciones volum\'etricas de tres dimensiones (3D) &
 		\begin{itemize}
 		  \item Mec\'anica de fluidos: perfil de flujo-velocidad de un ala de un
 		  avi\'on.
-		  \item Biolog\'ia: distribuci\'on CO2 de un bioreactor.
+		  \item Biolog\'ia: distribuci\'on CO\textsubscript{2} de un bioreactor.
 		\end{itemize} \\
 		\hline
-	\end{tabular}\label{tbl:signals}
+	\end{tabular}
 	\vspace{0.5in}
 	\caption{Ejemplos de se\~nales}
+	\label{tbl:signals}
 \end{center}
 \end{table}
 
@@ -180,7 +181,7 @@ radio.
 Otro beneficio que ofrece la modulaci\'on es de poder colocar la frecuencia de la se\~nal en otra
 donde los requerimientos de filtrado y amplificaci\'on, entre otros requerimientos de dise\~no,
 puedan ser logrados de una manera mas eficiente. Este es el caso donde por ejemplo, en el receptor,
-la se\~nal de RF que es recivida es convertida a una frecuencia intermedia (IF) para que el sistema
+la se\~nal de RF que es recibida es convertida a una frecuencia intermedia (IF) para que el sistema
 pueda procesarla correctamente.
 
 % 2.4 Envolvente compleja
@@ -223,7 +224,7 @@ s(t)&=x(t)\cos\omega_0t-y(t)\sin\omega_0t
 
 El proceso de demodulaci\'on consiste en recuperar la informaci\'on (bits) de la se\~nal
 transmitida con la menor cantidad de errores posible. Estos errores son causados por el ruido, el
-cual se puede definir como cualquier distorci\'on no deseada en la se\~nal. Podemos considerar dos
+cual se puede definir como cualquier distorsi\'on no deseada en la se\~nal. Podemos considerar dos
 causas principales de ruido. La primera es debido al filtrado que se emplea en el transmisor, canal
 y receptor. Si la funci\'on de transferencia de estos filtros no es la ideal pueden llegar a causar
 un fen\'omeno conocido como interferencia entre s\'imbolos (ISI). La otra causa de degradaci\'on de
@@ -243,19 +244,19 @@ muestra en la figura \ref{fig:gauss}.
 \begin{figure}[ht]
 \centering
 	\includegraphics[width=5.5in]{figs/gauss}
-	\caption{Funci\'on de densidad de probabilidad de la distribuci\'on Gaussiano}
+	\caption{Funci\'on de densidad de probabilidad de la distribuci\'on Gaussiana}
 	\label{fig:gauss}
 \end{figure}
 
-Otra caracter\'istica del ruido t\'ermino es que su distribuci\'on de potencia es igual para
+Otra caracter\'istica del ruido t\'ermico es que su distribuci\'on de potencia es igual para
 todas las frecuencias, en otras palabras, su potencia esta uniformemente distribuida a trav\'es de
-todo el espectro. Esta caracteristica le da el nombre ruido blanco.
+todo el espectro. Esta caracter\'istica le da el nombre ruido blanco.
 
-Este ruido est\'a presente en todos los sistemas de comunicaci\'on y recive el nombre de AWGN, as\'i
+Este ruido est\'a presente en todos los sistemas de comunicaci\'on y recibe el nombre de AWGN, as\'i
 agrupando todas las caracter\'isticas anteriormente mencionadas (A de aditivo, W \emph{white} o
 blanco y G de Gaussiano).
 
-Si concideramos un sistema de comunicaciones binario que envia un 1 o un 0 en un intervalo de
+Si consideramos un sistema de comunicaciones binario que envia un 1 o un 0 en un intervalo de
 s\'imbolo $T$
 
 \begin{equation}\label{eq:binarycom}
@@ -266,7 +267,7 @@ s_2(t) & \quad 0\leq t \leq T & \quad \mbox{binario 0}\\
 \end{array}\right.
 \end{equation}
 
-y le agregamos ruido aditivo blanco la se\~nal recivida ser\'a
+y le agregamos ruido aditivo blanco la se\~nal recibida ser\'a
 
 \begin{equation}\label{eq:signoise}
 r(t)=s_i(t)+n(t) \quad i=1,2 \quad 0\leq t \leq T
@@ -290,10 +291,10 @@ extraer la informaci\'on que se transmiti\'o de la se\~nal modulada. El m\'etodo
 utilizado para llevar a cabo la recuperaci\'on de la informaci\'on depende del
 tipo de modulaci\'on que se emple\'o para la transmisi\'on. A los demoduladores
 tambi\'en se les llama detectores. Un sistema que puede modular y demodular una
-se\~nal se conoce como modem, el cual su nombre es una contracci\'on de las
+se\~nal se conoce como m\'odem, el cual su nombre es una contracci\'on de las
 palabras modulador y demodulador. 
 
-Un sistema t\'ipico de para la demodulaci\'on y detecci\'on de se\~nales se muestra en la
+Un sistema t\'ipico para la demodulaci\'on y detecci\'on de se\~nales se muestra en la
 figura \ref{fig:simpledemod}. 
 
 \begin{figure}[tp]
@@ -310,19 +311,19 @@ tipo pasa bandas. Su empleo es totalmente opcional ya que se utiliza para acondi
 de la se\~nal a una que el sistema de detecci\'on pueda utilizar adecuadamente. El siguiente bloque
 implementa un filtro acoplado que se utiliza para recuperar los pulsos de banda base con la mejor
 taza de se\~nal a ruido (SNR). En algunos casos se utiliza un filtro equalizador para reducir el
-fen\'omeno de ISI inducido por el canal y se introduce despues del filtro acoplado. La mayoria de
+fen\'omeno de ISI inducido por el canal y se introduce despu\'es del filtro acoplado. La mayor\'ia de
 veces es preferible implementar un solo filtro que realize ambas operaciones para que de esa manera
 pueda compensar las distorsiones generadas por ambos, el transmisor y el canal.
 
 Asumiendo que el ruido que contiene la se\~nal es Gauseano, la salida del demodulador en la figura
-\ref{fig:simpledemod} entrega la siguiente prueba estadistica:
+\ref{fig:simpledemod} entrega la siguiente prueba estad\'istica:
 
 \begin{equation}
 z(T)=a_i(T)+n_0(T) \quad i=1,2
 \end{equation}
 
 para un sistema binario, donde $a_i(T)$ es la se\~nal deseada y $n_0$ es el ruido. Como el ruido es
-un proceso Gauseano aleatorio, $z(T)$ es una variable Gauseana aleatoria que tendra una media de
+un proceso Gauseano aleatorio, $z(T)$ es una variable Gauseana aleatoria que tendr\'a una media de
 $a_1$ o $a_2$ dependiendo si un 1 o un 0 binario fue enviado. Con esto podemos expresar las
 funciones de densidad de probabilidad condicionales para cada s\'imbolo de la siguiente manera:
 
@@ -338,7 +339,7 @@ p(z|s_2)=\frac{1}{\sigma_0
 \sqrt{2\pi}}\exp{\left[-\frac{1}{2}\left(\frac{z-a_2}{\sigma_0}\right)^2 \right]}
 \end{equation}
 
-Una representaci\'on grafica de estas probabilidades condicionales se muestra en la figura
+Una representaci\'on gr\'afica de estas probabilidades condicionales se muestra en la figura
 \ref{fig:condpdf}.
 
 \begin{figure}[htp]
@@ -349,17 +350,17 @@ Una representaci\'on grafica de estas probabilidades condicionales se muestra en
 \end{figure}
 
 El eje x representa todo el rango de valores posibles que pueden ser recibidos y las distribuciones
-representan la densidad de probabilidad dado que $s_1$ o $s_2$ alla sido transmitido. Debido a que
-$z(T)$ es un voltaje proporcional a la energia del s\'imbolo recibido, entre mas grande sea la
+representan la densidad de probabilidad dado que $s_1$ o $s_2$ haya sido transmitido. Debido a que
+$z(T)$ es un voltaje proporcional a la energ\'ia del s\'imbolo recibido, entre m\'as grande sea la
 magnitud de $z(T)$ habr\'a menos errores en el proceso de decisi\'on de s\'imbolos. Esta decisi\'on
-se realiza tomando la hip\'otesis resultante de la medicion del umbral dada por la ecuaci\'on
+se realiza tomando la hip\'otesis resultante de la medici\'on del umbral dada por la ecuaci\'on
 \ref{eq:ineq}\cite{sklar}:
 
 \begin{equation}
 z(T)\overset{H_1}{\underset{H_2}{\overset{<}{>}}}\gamma
 \end{equation}\label{eq:ineq}
 
-donde $H_1$ y $H_2$ son dos posibles hipotesis binarias e indica que la hipotesis $H_1$ es la que se
+donde $H_1$ y $H_2$ son dos posibles hip\'otesis binarias e indica que la hip\'otesis $H_1$ es la que se
 escoge si $z(T)>\gamma$ y $H_2$ se escoge si $z(T)< \gamma$. Esto es equivalente a escoger un 0 o un
 1 binario dependiendo si $s_1$ o $s_2$ fue enviado.
 %==========================================================================
@@ -477,7 +478,7 @@ senoidal y luego por un filtro pasa bajas para obtener $Q(t)$.
 %==========================================================================
 \section{Tasa de error de bits QPSK}
 El estudio de la tasa de error de bits es de gran importancia ya que nos proporciona una medida del
-rendimiento del sistema de comunicaciones. Esta medida se interpreta en terminos de probabilidad de
+rendimiento del sistema de comunicaciones. Esta medida se interpreta en t\'erminos de probabilidad de
 error del s\'imbolo enviado $P_E$ dado que fue corrompido por el ruido del canal. El ruido se puede
 definir como un disturbio no deseable en la se\~nal que se est\'a transmitiendo. Este fen\'omeno
 siempre existe en un canal de transmisi\'on y generalmente no se puede evitar, por lo que es
@@ -487,7 +488,7 @@ necesario tomarlo en cuenta durante el dise\~no de un sistema de comunicaci\'on.
 \section{Herramientas de medici\'on de desempe\~no}
 Las herramientas que se mencionan en \'esta secci\'on proporcionan un panorama completo del
 rendimiento de un sistema de comunicaciones, ya sea de la etapa de transmisi\'on o recepci\'on y
-son ampliamente utilizadas para verificar el an\'alisis teorico \'o pr\'actico.
+son ampliamente utilizadas para verificar el an\'alisis te\'orico o pr\'actico.
 
 \subsection{Diagrama de ojo}
 Una manera eficiente de visualizar la calidad de la se\~nal en el receptor es por medio del diagrama
@@ -503,14 +504,14 @@ dise\~no del sistema. Un ejemplo se muestra en la figura \ref{fig:eyeform}\cite{
 
 La forma convencional de generar el diagrama de ojo es por medio de un osciloscopio en modo de
 persistencia. Cada captura es obtenida mediante un reloj de sincronizaci\'on obtenida de la misma
-forma de onda recibida. El modo de persistencia causara que los trazos de la onda se sobre pongan
+forma de onda recibida. El modo de persistencia causar\'a que los trazos de la onda se sobrepongan
 una con la otra hasta formar el patr\'on de ojo sobre la pantalla. Los par\'ametros que se pueden
 medir se muestran en la figura \ref{fig:eyeparams}\cite{breed}.
 
-La distorci\'on en el tiempo de muestreo es generada por el fenomeno de ISI. La diferencia en
-tiempo pico a pico de los cruces por cero se le conoce tambien como ``\emph{jitter}''. El momento
-\'optimo para iniciar el muestreo de un s\'imbolo es en la parte que esta mas abierta del ojo. Conforme el
-SNR es mas bajo el ojo comenzara a cerrarse haciendo as\'i m\'as dif\'icil y, por concecuencia,
+La distorsi\'on en el tiempo de muestreo es generada por el fen\'omeno de ISI. La diferencia en
+tiempo pico a pico de los cruces por cero se le conoce tambi\'en como \emph{jitter}. El momento
+\'optimo para iniciar el muestreo de un s\'imbolo es en la parte que est\'a m\'as abierta del ojo. Conforme el
+SNR es m\'as bajo el ojo comenzar\'a a cerrarse haciendo as\'i m\'as dif\'icil y, por concecuencia,
 m\'as err\'oneo el muestreo de la se\~nal recibida.
 
 \begin{figure}[hbp]

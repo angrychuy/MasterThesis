@@ -5,19 +5,19 @@
 
 El proyecto que se documenta eval\'ua la plataforma USRP (\emph{Universal Sofware Radio Peripheral}) como herramienta \'util
 para la ense\~nanza de las t\'ecnicas de modulaci\'on digital. La evaluaci\'on consiste en introducir alguna secuencia de
-datos al sistema (aleatoria, datos extra\'idos de un arch\'ivo, etc.), generar la modulaci\'on y demodulaci\'on para la
+datos al sistema (aleatoria, datos extra\'idos de un archivo, etc.), generar la modulaci\'on y demodulaci\'on para la
 transmisi\'on y observar los resultados.
 
-Los sistemas de de comunicaciones digitales implementados en su  mayor parte por software se les conocen como SDR (Radios
-Definidos por Software) \cite{mitola}. El sistema se desarroll\'o dentro de la plataforma Linux, utilizando el software
+Los sistemas de de comunicaciones digitales implementados en su  mayor parte por software se les conocen como SDR (Radio
+Definido por Software) \cite{mitola}. El sistema se desarroll\'o dentro de la plataforma Linux, utilizando el software
 \emph{GNURadio}.
 
 % 1.1. Antecedentes
 %==========================================================================
 \section{Antedecentes}
 
-Gracias a los avances tecnologicos recientes, han surgido varios esfuerzos por desarrollar plataformas vers\'atiles para la
-implementaci\'on de SDRs. La complejidad de los algoritmos de modulaci\'on, codificaci\'on, filtrado, etc., los hacen buenos
+Gracias a los avances tecnol\'ogicos recientes, han surgido varios esfuerzos por desarrollar plataformas vers\'atiles para
+la implementaci\'on de SDRs. La complejidad de los algoritmos de modulaci\'on, codificaci\'on, filtrado, etc., los hacen buenos
 candidatos para ser implementados en DSPs (Procesador Digital de Se\~nales) como el C6711 de la Texas Instruments
 \cite{abendroth}.
 
@@ -33,8 +33,8 @@ sobresaliente es \emph{GNURadio} \cite{radio}. Este proyecto consiste en una lib
 matem\'aticas, as\'i como tambi\'en funciones para la implementaci\'on de algoritmos de procesamiento digital de se\~nales,
 basada en los lenguajes Python y C++. La librer\'ia motiv\'o el desarrollo de un dispositivo de bajo costo, conocido
 como el USRP, con el prop\'osito de utilizarlo para la transmisi\'on y recepci\'on de varios tipos de se\~nales generados
-por \emph{GNURadio} \cite{ettus}. Este dispositivo esta tambi\'en basado en un FPGA y un par de ADCs (Convertidor An\'alogo
-a Digital) y DACs (Convertidor Digital a An\'alago) respectivamente. La se\~nal es enviada a la PC por medio del puerto USB
+por \emph{GNURadio} \cite{ettus}. Este dispositivo est\'a tambi\'en basado en un FPGA y un par de ADCs (Convertidor
+An\'alogo a Digital) y DACs (Convertidor Digital a An\'alago) respectivamente. La se\~nal es enviada a la PC por medio del puerto USB
 (\emph{Universal Serial Bus}) utilizando el controlador CY7C68013 de la compa\~n\'ia Cypress. A pesar de ser un sistema
 \emph{Open Source}, el USRP y \emph{GNURadio} han sido utilizados en diversos campos de investigaci\'on y desarrollo como
 acad\'emicos, comerciales, militares y gubernamentales.
@@ -102,7 +102,7 @@ Los objetivos del presente proyecto son los siguientes:
 
 La metodolog\'ia a seguir es la siguiente:
 \begin{itemize}
-  \item El desarrollo se llevara a cabo en el Sistema Operativo GNU/Linux
+  \item El desarrollo se llevar\'a a cabo en el Sistema Operativo GNU/Linux
   utilizando el software \emph{GNURadio}.
   \item Instalaci\'on del sistema operativo y el software.
   \item Validaci\'on de la instalaci\'on. Ejecuci\'on de programas de prueba
