@@ -36,6 +36,7 @@ herramientas proporcionadas por \gnuradio.
 \begin{figure}[t]
 \centering
 	\includegraphics[width=5.5in]{figs/usrp}
+	\vspace{0.3in}
 	\caption{Placa principal del USRP.}
 	\label{fig:sisusrp}
 \end{figure}
@@ -48,8 +49,8 @@ tarjeta puede acceder a dos de los 4 ADC/DACs. Si la tarjeta utiliza muestreo re
 entonces esto permitir\'a tener 2 secciones de RF independientes, para un total de 4. Si se utiliza
 muestreo complejo IQ entonces cada tarjeta tendra una sola etapa de RF, para un total de 2 en todo
 el sistema. Cada tarjeta auxiliar tiene dos conectores SMA para transmitir o recibir se\~nales y una
-EEPROM con bus de datos I2C que identifica la tarjeta al sistema. Esto permite que el software en la
-PC pueda configurar el sistema basandose en la tarjeta que este instalada. Las tarjetas que
+EEPROM con bus de datos I\textsuperscript{2}C que identifica la tarjeta al sistema. Esto permite que el software en la
+PC pueda configurar el sistema bas\'andose en la tarjeta que este instalada. Las tarjetas que
 actualmente soporta el USRP se muestran en la tabla \ref{tbl:cards}.
 
 \begin{table}[htp]
@@ -64,7 +65,7 @@ actualmente soporta el USRP se muestran en la tabla \ref{tbl:cards}.
 		\hline
 		LFTX y LFRX & Similar al BasicTX y RX pero las salidas estan acopladas por amplificadores
 		diferenciales en lugar de transformadores. Esto las permite trabajar con frecuencias hasta DC.
-		Tambien cuentan con un filtro pasabajas con frecuencia de corte de 30Mhz. & DC-30Mhz\\
+		Tambi\'en cuentan con un filtro pasabajas con frecuencia de corte de 30Mhz. & DC-30Mhz\\
 		\hline
 		TVRX & Sistema receptor de VHF y UHF basando en un sintonizador de TV con un ancho de banda de
 		canal de 6Mhz. & 50Mhz-860Mhz\\
@@ -80,11 +81,11 @@ actualmente soporta el USRP se muestran en la tabla \ref{tbl:cards}.
 		\hline
 		RFX1800 & TX y RX con 100mW(20dBm) de potencia & 1.5Ghz-2.1Ghz\\
 		\hline
-		RFX2400 & TX y RX con 50mW(17dBm) de potencia con un filtro pasa bandas alrededor de la banda
-		ISM(2400-2433Mhz). El filtro se puede desabilitar para utilizar todo el rango de frecuencias. &
+		RFX2400 & TX y RX con 50mW(17dBm) de potencia con un filtro pasabandas alrededor de la banda
+		ISM(2400-2433Mhz). El filtro se puede deshabilitar para utilizar todo el rango de frecuencias. &
 		2.3Ghz-2.9Ghz\\
 		\hline
-		XCVR2450 & TX y RX que cubre toda la banda ISM asi como tambien algunas bandas japonesas. &
+		XCVR2450 & TX y RX que cubre toda la banda ISM asi como tambi\'en algunas bandas japonesas. &
 		2.4-2.5Ghz y 4.9-5.9Ghz\\
 		\hline
 		WBX & TX y RX que cubre varias bandas incluyendo televisi\'on, comunicaciones m\'obiles, sensores

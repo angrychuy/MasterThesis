@@ -522,13 +522,11 @@ m\'as err\'oneo el muestreo de la se\~nal recibida.
 \end{figure}
 
 \subsection{Espectrograma}
-El espectrograma, tambien conocido como grafica de cascada (\emph{waterfall}), muestra las
-variaciones de la densidad espectral de la se\~nal a trav\'es del tiempo. Utiliza tres par\'ametros
-para mostrar una imagen representando la distribuci\'on espectral: el tiempo, la frecuencia y la
-amplitud. El eje X representa el tiempo, el eje Y la frecuencia y una escala de colores muestra la
-intensidad de cada punto en la imagen. Los ejes X y Y pueden ser invertidos para visualizar la
-imagen de abajo hacia arriba. Un ejemplo de un espectrograma se muestra en la figura
-\ref{fig:spectrogram}.
+El espectrograma, tambi\'en conocido como gr\'afica de cascada (\emph{waterfall}), muestra las variaciones de la densidad
+espectral de la se\~nal a trav\'es del tiempo. Utiliza tres par\'ametros para mostrar una imagen representando la distribuci\'on
+espectral: el tiempo, la frecuencia y la amplitud. El eje X representa el tiempo, el eje Y la frecuencia y una escala de colores
+muestra la intensidad de cada punto en la imagen. Los ejes X y Y pueden ser invertidos para visualizar la imagen de abajo hacia
+arriba. Un ejemplo de un espectrograma se muestra en la figura \ref{fig:spectrogram}.
 
 \begin{figure}[tp]
 \centering
@@ -541,20 +539,15 @@ imagen de abajo hacia arriba. Un ejemplo de un espectrograma se muestra en la fi
 %==========================================================================
 \section{Concepto de radio reconfigurable por software}
 
-El concepto del radio definido por software fue primeramente establecido por
-Joseph Mitola\citeyear{mitola}. Normalmente se les llaman SDR por sus siglas en
-ingles (\emph{Software Defined Radio}). Este tipo de radio consiste en
-reemplazar los moduladores, filtros, amplificadores, etc., de un sistema de RF
-t\'ipico y reemplazarlos por software. La idea principal es conectar la antena
-lo m\'as cerca al procesador. Un sistema b\'asico podr\'ia consistir en una PC,
-una tarjeta de sonido y alguna circuiter\'ia de RF para acoplar la antena.
-Un diagrama a bloques del sistema b\'asico de un SDR se muestra en la figura
-\ref{fig:sdr}. Para un sistema receptor SDR lo \'unico que se tiene que cambiar
-es el bloque de DAC por un ADC. Gracias al procesamiento digital de se\~nales dentro del
-procesador, este tipo de radio puede trabajar con diferentes tipos de se\~nales,
-codificaciones y modulaciones con tan solo cambiar el software. Algunas ventajas
-que estos sistemas ofrecen son: bajo costo, un factor de tama\~no m\'as peque\~no
-y una mayor facilidad de mantenimiento y actualizaci\'on.
+El concepto del radio definido por software fue primeramente establecido por Joseph Mitola\citeyear{mitola}. Normalmente se les
+llaman SDR por sus siglas en ingles (\emph{Software Defined Radio}). Este tipo de radio consiste en reemplazar los moduladores,
+filtros, amplificadores, etc., de un sistema de RF t\'ipico y reemplazarlos por software. La idea principal es conectar la antena
+lo m\'as cerca al procesador. Un sistema b\'asico podr\'ia consistir en una PC, una tarjeta de sonido y alguna circuiter\'ia de RF
+para acoplar la antena. Un diagrama a bloques del sistema b\'asico de un SDR se muestra en la figura \ref{fig:sdr}. Para un
+sistema receptor SDR lo \'unico que se tiene que cambiar es el bloque de DAC por un ADC. Gracias al procesamiento digital de
+se\~nales dentro del procesador, este tipo de radio puede trabajar con diferentes tipos de se\~nales, codificaciones y
+modulaciones con tan solo cambiar el software. Algunas ventajas que estos sistemas ofrecen son: bajo costo, un factor de tama\~no
+m\'as peque\~no y una mayor facilidad de mantenimiento y actualizaci\'on.
 
 \begin{figure}[tp]
 \centering
@@ -570,16 +563,12 @@ y una mayor facilidad de mantenimiento y actualizaci\'on.
 	\label{fig:sdr}
 \end{figure}
 
-Los requerimientos del procesador general para la implementaci\'on de algoritmos
-que llevan a cabo las tareas de modulaci\'on, codificaci\'on, etc., son tan
-grandes que hoy en d\'ia aun no hay plataformas suficientemente poderosas para
-implementar el SDR ideal. Mas sin embargo, los avances tecnol\'ogicos de hoy
-est\'an permitiendo el desarrollo de nuevos procesadores con capacidades
-suficientemente poderosas para esta aplicaci\'on en especial. Algunos
-procesadores como el OMAP3 de la Texas Instruments \cite{ti} y los FPGAs Virtex
-de Xilinx \cite{lyrtech} ofrecen plataformas altamente flexibles
-y con capacidad suficiente para la implementaci\'on de algoritmos sofisticados
-de modulaci\'on y codificaci\'on, as\'i como tambi\'en filtrado entre otros.
+Los requerimientos del procesador general para la implementaci\'on de algoritmos que llevan a cabo las tareas de modulaci\'on,
+codificaci\'on, etc., son tan grandes que hoy en d\'ia aun no hay plataformas suficientemente poderosas para implementar el SDR
+ideal. Sin embargo, los avances tecnol\'ogicos de hoy est\'an permitiendo el desarrollo de nuevos procesadores con capacidades
+suficientemente poderosas para esta aplicaci\'on en especial. Algunos procesadores como el OMAP3 de la Texas Instruments
+\cite{ti} y los FPGAs Virtex de Xilinx \cite{lyrtech} ofrecen plataformas altamente flexibles y con capacidad suficiente para la
+implementaci\'on de algoritmos sofisticados de modulaci\'on y codificaci\'on, as\'i como tambi\'en filtrado entre otros.
 
 Algunas de las \'areas donde se aplican los conceptos de los SDRs son por
 ejemplo en el \'area militar. El sistema de comunicaciones del ej\'ercito
