@@ -435,7 +435,7 @@ ejecuta declarando una instancia de nuestra clase, y mandando llamar su
 funci\'on \verb|run|. Esta funci\'on tambi\'en es proporcionada por la clase
 \verb|top_block|. Cuando este programa se ejecute el resultado debe ser un tono
 emitido a trav\'es de las bocinas de la PC a la frecuencia de las dos se\~nales
-generadas. La grafo representativo de este programa se muestra en la figura
+generadas. El grafo representativo de este programa se muestra en la figura
 \ref{fig:gnuradioexam}.
 
 % Descripcion del experimento
@@ -467,10 +467,10 @@ de 90-260VAC @ 50/60Hz lo cual permite que funcione en diferentes paises.
 %TODO: Agregar imagen de las conecciones internas del usrp aqui. Tambien anexar expliacion.
 
 \subsection{C\'odigo fuente de GNURadio}
-El c\'odigo fuente de \gnuradio proporciona varios ejemplos que implementan varios conceptos
+El c\'odigo fuente de \gnuradio proporciona varios ejemplos que implementan varios conceptos de programaci\'on
 utilizando los bloques de procesamiento que proporciona el \emph{framework}. Algunos de estos
-ejemplos son: receptor de FM, decodificador de se\~nales ATSC, captura y analisis de audio,
-modulacion OFDM, etc. La compilaci\'on del c\'odigo fuente genera tambien la documentaci\'on de todos
+ejemplos son: receptor de FM, decodificador de se\~nales ATSC, captura y an\'alisis de audio,
+modulaci\'on OFDM, etc. La compilaci\'on del c\'odigo fuente genera tambi\'en la documentaci\'on de todos
 los bloques de procesamiento, el cual es muy \'util como referencia mientras se desarrolla cualquier
 aplicaci\'on. La estructura de los directorios que contienen los ejemplos se muestra en la figura
 \ref{fig:extree}.
@@ -545,26 +545,26 @@ de las principales dependencias entre los m\'odulos de Python que forman parte d
 El m\'odulo \verb|benchmark_tx| es el principal y el que el usuario ejecuta para arrancar la
 aplicaci\'on. \verb|modulation_utils| contiene una funci\'on que regresa un diccionario con todos los
 esquemas de modulaci\'on registrados en \gnuradio. Este diccionario se utiliza para preparar las
-opciones que se le ofrecen al usario y asi impedir que no seleccione una que no exista.
+opciones que se le ofrecen al usario y as\'i impedir que no seleccione una que no exista.
 \verb|usrp_transmit_path| encapsula la operaci\'on de inicializar el USRP y consiste en enviar los
-comandos de selecci\'on de decimaci\'on\textbackslash interpolaci\'on, frecuencia a la que se deben
-sintonizar las tarjetas auxiliares, el valor del multiplexor que controla las conecci\'ones de los codecs al FPGA,
+comandos de selecci\'on de decimaci\'on / interpolaci\'on, frecuencia a la que se deben
+sintonizar las tarjetas auxiliares, el valor del multiplexor que controla las conexiones de los codecs al FPGA,
 etc. Todas estas operaciones son delegadas a una clase contenida en \verb|usrp_options|. El
 resultado es un objeto de tipo \emph{usrp\_sink} configurado para enviar datos al puerto USB. El
-m\'odulo \verb|pick_tx_bitrate| se utiliza para calcular una tasa de bits \'optima apartir de los
-parametros muestras por s\'imbolo, decimaci\'on\textbackslash interpolaci\'on y bits por s\'imbolo.
-La tasa de bits se puede especificar tambien y el modulo verificar\'a que se pueda alcansar con los otros
-parametros especificados. De no ser asi entonces har\'a un ajuste a la tasa de bits para poder
-utilizar correctamente los otros parametros. Si no se especifica ning\'un parametro entonces el
+m\'odulo \verb|pick_tx_bitrate| se utiliza para calcular una tasa de bits \'optima a partir de los
+par\'ametros muestras por s\'imbolo, decimaci\'on / interpolaci\'on y bits por s\'imbolo.
+La tasa de bits se puede especificar tambi\'en y el modulo verificar\'a que se pueda alcanzar con los otros
+par\'ametros especificados. De no ser as\'i entonces har\'a un ajuste a la tasa de bits para poder
+utilizar correctamente los otros par\'ametros. Si no se especifica ning\'un par\'ametro entonces el
 m\'odulo trabajar\'a con un valor default de 500kb/s.
 El m\'odulo \verb|transmit_path| realiza las operaciones de preparar y crear un objeto que encapsula
-el esquema de modulaci\'on que el usuario seleccion\'o. Los esquemas de modulaci\'on se encentran
-dentro del paquete \verb|blk2impl|, el cual se accede por medio del m\'odulo \verb|blk2| y se
+el esquema de modulaci\'on que el usuario seleccion\'o. Los esquemas de modulaci\'on se encuentran
+dentro del paquete \verb|blk2impl|, al cual se accede por medio del m\'odulo \verb|blk2| y se
 encarga de importar todo el contenido de \verb|blk2impl| al programa principal. Los dos \'ultimos
 m\'odulos, \verb|mod_pkts| y \verb|packet_utils| se encargan de realizar la operaci\'on de
 empaquetar los bits que se desean transmitir.
 
-La relaci\'on que se muestra en la figura \ref{fig:relbench} es la base para las otras versiones de
+La relaci\'on que se muestra en la figura \ref{fig:relbench} es la base para las otras versiones
 del mismo ejemplo. Para el receptor la operaci\'on es la misma solo que utiliza los m\'odulos
 \verb|receive_path| y \verb|usrp_receive_path|. Tambi\'en existen versiones que implementan una
 interfaz gr\'afica utilizando la libreria QT que muestra el espectro de la se\~nal, la constelaci\'on
@@ -580,10 +580,10 @@ que constan de un solo \emph{script} o de varios asociados unos con el otro.
 
 \subsection{Estructura del transmisor}
 El programa principal \verb|benchmark_tx.py| genera los datos que se van a enviar de dos formas:
-autom\'aticamente o apartir de un archivo proporcionado por el usuario. En el modo autom\'atico
-(este es el modo default) el programa genera una secuencia consecutiva de caracteres ASCII del tama\~no
+autom\'aticamente o a partir de un archivo proporcionado por el usuario. En el modo autom\'atico
+(\'este es el modo default) el programa genera una secuencia consecutiva de caracteres ASCII del tama\~no
 que el usuario especific\'o. Esta secuencia es enviada a una funci\'on de Python que a su vez la
-envia a el grafo de RF. La estructura general del transmisor se muestra en la figura
+env\'ia a el grafo de RF. La estructura general del transmisor se muestra en la figura
 \ref{fig:grqpsk}.
 
 \begin{figure}[htp]
@@ -606,7 +606,7 @@ envia a el grafo de RF. La estructura general del transmisor se muestra en la fi
 \end{figure}
 
 La declaraci\'on del grafo principal se muestra en el listado \ref{ex:hrblock}. Este grafo consta de
-un solo bloque que transfiere sus parametros de entrada a un sub-bloque que encapsula las
+un solo bloque que transfiere sus par\'ametros de entrada a un sub-bloque que encapsula las
 operaciones de inicializacion del USRP.
  
 \begin{lstlisting}[float,frame=single,label=ex:hrblock,caption={Declaraci\'on del bloque
@@ -622,7 +622,7 @@ class my_top_block(gr.top_block):
 \end{lstlisting}
 
 Todos los bloques son clases Python que se derivan de la clase \verb|top_block|. Esta clase se
-encuentra dentro del modulo \verb|gr| y se accede a ella utilizando el operador punto. En el
+encuentra dentro del m\'odulo \verb|gr| y se accede a ella utilizando el operador punto. En el
 constructor se inicializa un nuevo bloque creando una nueva instancia de la clase
 \verb|usrp_transmit_path|. A esta clase se le pasan los mismos par\'ametros que recibi\'o el bloque
 principal y son el tipo de modulador que se va utilizar y las opciones del programa. La clase
@@ -1067,6 +1067,7 @@ ilustrado de rojo representa la modificaci\'on que se realizo al grafo del bloqu
 	edge [<-] (symbols);
 	\node (usrp) [grblock, left=of rrc] {\footnotesize{Salida al USRP}}
 	edge [<-] (rrc);
+	
   \end{tikzpicture}
   \vspace{0.3in}
   \caption{Estructura del modulador DQPSK con filtros polif\'asicos}
@@ -1084,10 +1085,10 @@ clase son los mismos que se describieron en el apartado \ref{subsec:estrucdqpsk}
 
 \subsection{Estructura del receptor}
 El programa principal del receptor se encuentra en el archivo \verb|benchmark_rx.py|. La estructura del programa es muy
-similar a la del transmisor y la diferencia principal es en el uso de una funci\'on auxiliar que es manejada por el grafo y
+similar a la del transmisor y la diferencia principal es en el uso de una funci\'on auxiliar que maneja el grafo RX y
 se encarga de recibir los paquetes que van recibiendo y desplegar su estatus en la consola. Esta funci\'on se puede
 modificar para realizar cualquier otra operaci\'on con los paquetes de datos. El c\'odigo de esta funci\'on se muestra
-en el listado \ref{ex:callback}. La estructura del receptro se muestra en la figura \ref{fig:grdqpskrx}.
+en el listado \ref{ex:callback}. La estructura del receptor se muestra en la figura \ref{fig:grdqpskrx}.
 
 \begin{figure}[htp]
   \centering
@@ -1128,15 +1129,102 @@ del DDC. Igualmente el programa realiza el c\'alculo de la tasa de bits con los 
 no se logra la configuraci\'on el programa emite un mensaje de error. Posteriormente, el control se pasa al archivo
 \verb|receive_path.py| para la generaci\'on y configuraci\'on del grafo que crea la instancia del demodulador DQPSK.
 
+%Estructur del demodulador
+\subsection{Estructura del demodulador DQPSK}
+La estructura del grafo del demodulador DQPSK se muestra en la figura \ref{fig:dqpskdemod}.
 
+\begin{figure}[htp]
+	\centering
+	\begin{tikzpicture}[scale=0.8, transform shape]
+		\node (usrp) [grblock] {\footnotesize{USRP Rx}};
+		\node (prescale) [grblock, right=of usrp] {\footnotesize{Pre-escalador \\ $\pm$}}
+		edge [<-] (usrp);
+		\node (gain) [grblock, right=of prescale] {\footnotesize{Control autom\'atico de ganancia}}
+		edge [<-] (prescale);
+		\node (rrc) [grblock, right=of gain] {\footnotesize{Filtro RRC}}
+		edge [<-] (gain);
+		\node (receiver) [grblock, below=of rrc] {\footnotesize{Receptor MPSK \\ (PLL y M\&M)}}
+		edge [<-] (rrc);
+		\node (difdecod) [grblock, left=of receiver] {\footnotesize{Decodificador diferencial}}
+		edge [<-] (receiver);
+		\node (constel) [grblock, left=of difdecod] {\footnotesize{Decodificador de constelaci\'on}}
+		edge [<-] (difdecod);
+		\node (sym) [grblock, left=of constel)] {\footnotesize{Selector de s\'imbolos}}
+		edge [<-] (constel);
+		\node (unpack) [grblock, below=of sym] {\footnotesize{Desempaquetado de bits}}
+		edge [<-] (sym);
+		\node (data) [grblock, right=of unpack] {\footnotesize{Datos recibidos}}
+		edge [<-] (unpack);
+	\end{tikzpicture}
+	\vspace{0.3in}
+	\caption{Estructura del demodulador DQPSK}
+	\label{fig:dqpskdemod}
+\end{figure}
+
+La se\~nal que entrega el USRP es multiplicada por una constante para escalarla de su rango completo ,$\pm$16384, a $\pm$1.
+Despu\'es se entrega a un controlador autom\'atico de ganancia no causal el cual se encarga de calcular la ganancia requerida en
+base al valor absoluto m\'aximo sobre $n$ muestras.
+
+Al igual que el transmisor, el demodulador cuenta con un filtro de coseno elevado con las mismas caracter\'isticas utilizadas en
+la etapa de transmisi\'on. El filtro es necesario para completar el acoplamiento ya que individualmente son filtros ra\'iz de
+coseno elevado y su respuesta a la frecuencia combinada es la del filtro coseno elevado \cite{sklar} como se muestra en la ecuaci\'on
+\ref{eq:rrc}.
+
+\begin{equation}\label{eq:rrc}
+H_{rc}(f) = H_{rrc}(f) \cdot H_{rrc}(f)
+\end{equation}
+
+El bloque \verb|Receptor MPSK| se encarga de realizar la sincron\'ia de la fase y frecuencia de la se–al y del reloj de
+s\'imbolos. Esto lo hace en dos etapas las cuales son por medio de un PLL llamado Lazo de Costas y un algoritmo de sincron\'ia de
+reloj llamado M\&M (Mueller \& Muller por los nombres de sus autores). El Lazo de Costas encuentra el error en la se\~nal recibida
+compar\'andola con su punto de constelaci\'on mas cercano. La frecuencia y la fase de un NCO (Oscilador controlado
+num\'ericamente) son actualizados en base a este error. La sincronizaci\'on de s\'imbolos se realiza por medio de una versi\'on
+modificada del algoritmo de Mueller y Muller descrita en el art\'iculo t\'ecnico \emph{Optimisation of modified Mueller and Muller
+algorithm} publicado el 22 de Junio de 1995. El algoritmo realiza una interpolaci\'on de una muestra (utilizando el NCO del Lazo
+de Costas) cada $\mu$ muestras y luego encuentra el error de muestreo basado en el actual y los pasados s\'imbolos y la decisi\'on
+tomada sobre las muestras. Para los dos, PLL y M\&M, \gnuradio implementa algoritmos optimizados para BPSK y QPSK pero para 8PSK
+utiliza una soluci\'on que los autores le llaman \emph{fuerza bruta} para calcular la distancia m\'inima de los puntos de la
+constelaci\'on.
+
+Antes de iniciar con la decodificaci\'on de la constelaci\'on, los bits son decodificados a trav\'es de un decodificador
+diferencial utilizando la ecuaci\'on \ref{eq:difdecod}. El resto de los bloques se encargan de convertir los valores complejos a
+bits y decodificar los puntos de la constelaci\'on para luego entregar cada bit individualmente al resto de la aplicaci\'on. 
+
+\subsection{Demodulador DQPSK con filtros polif\'asicos}
+
+Para la segunda version del codigo que implementa el esquema DQPSK con filtros polifasicos las modificaciones se muestran en la
+figura \ref{fig:dqpsk2demod}.
+
+\begin{figure}[htp]
+	\centering
+	\begin{tikzpicture}[scale=0.8, transform shape]
+		\node (usrp) [grblock] {\footnotesize{USRP Rx}};
+		\node (gain) [grblock, right=of usrp] {\footnotesize{Control autom\'atico de ganancia}}
+		edge [<-] (usrp);
+		\node (fll) [grblock, fill=red!30, right=of gain] {\footnotesize{Correcci\'on de frecuencia (FLL)}}
+		edge [<-] (gain);
+		\node (rrc) [grblock, fill=red!30, right=of fll] {\footnotesize{Sincronizador de s\'imbolos y RCC}}
+		edge [<-] (fll);
+		\node (costas) [grblock, fill=red!30, below=of rrc] {\footnotesize{Lazo de Costas (PLL)}}
+		edge [<-] (rrc);
+		\node (difdecod) [grblock, left=of costas] {\footnotesize{Decodificador diferencial}}
+		edge [<-] (costas);
+		\node (constel) [grblock, left=of difdecod] {\footnotesize{Decodificador de constelaci\'on}}
+		edge [<-] (difdecod);
+		\node (sym) [grblock, left=of constel)] {\footnotesize{Selector de simbolos}}
+		edge [<-] (constel);
+		\node (data) [grblock, below=of sym] {\footnotesize{Datos recibidos}}
+		edge [<-] (sym);
+	\end{tikzpicture}
+	\vspace{0.3in}
+	\caption{Estructura del demodulador DQPSK con filtros polif\'asicos.}
+	\label{fig:dqpsk2demod}
+\end{figure}
+
+Los bloques mostrados en rojo representan las modificaciones que se le hiso al grafo original. 
 
 % El codigo fuente de \gnuradio actualmente contiene los siguientes bloques que implementan estos conceptos:
 % \begin{itemize}
-%   \item \textbf{gr\_pfb\_arb\_resampler}: Este bloque implementa un re-muestreador arbitrario utilizando un banco de filtros
-%   polifasicos. La tasa de re-muestreo puede ser cualquier numero real $r$ y realiza la operacion construyendo $N$ cantidad de
-%   filtros donde $N$ es el factor de interpolacion. El factor $D$ se calcula de la siguiente manera: $D=N/r$. Utilizando $N$ y
-%   $D$ el bloque realiza un muestreo arbitrario con $N/D$ representando un numero racional cercano a la tasa especificada $r$
-%   y utilizando $N$ cantidad de filtros ciclandose atravez de un banco de filtros polifasicos.
 %   \item \textbf{gr\_pfb\_clock\_sync}: Este bloque realiza sincronizacion de tiempo para se\~nales PAM. Lo logra minimizando
 %   la derivada de la se\~nal filtrada, lo cual maximiza el SNR y minimiza el efecto ISI. Para lograr esto el bloque construye
 %   dos bancos de filtros; el primero contiene el filtro de forma de pulso (ejemplo: filtro de coseno elevado). El segundo
