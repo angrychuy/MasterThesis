@@ -700,7 +700,7 @@ tipicos la presicion es de 64 bits: 1 bit para el signo, 11 para el exponente y 
 utiliza la constante \verb|gr_complex| el cual equivale en lenguaje C a \emph{float}. Este tipo de
 dato es de 32 bits: 1 bit para el signo, 8 bits para el exponente y 23 bits para la mantisa. Python
 por default no tiene soporte para representar el tipo \emph{float} de C lo cual introduce errores en la
-representacion de las muestras del USRP. La libreria \emph{Numpy} y \emph{Scipy} de Python encapsula
+representacion de las muestras del USRP. La biblioteca \emph{Numpy} y \emph{Scipy} de Python encapsula
 varias representaciones de numeros flotantes \cite{scipy} lo cual es necesario utilizar la correcta
 cuando se trabaja con muestras que genera el USRP de manera independiente de los programas de
 \emph{GNURadio}. Cada muestra compleja que transmite o recive el USRP es representado por dos
@@ -710,13 +710,13 @@ se muestra en el listado \ref{ex:eyeprog}.
 %==========================================================================
 \section{Constelaci\'on observada}
 
-Para poder observar la constelaci\'on recibida se utilizo la versi\'on que utiliza la librer\'ia QT
+Para poder observar la constelaci\'on recibida se utilizo la versi\'on que utiliza la biblioteca QT
 del programa benchmark. El programa RX contiene dos versiones en el c\'odigo fuente, una que utiliza
 la consola y otra que genera una interfaz de usuario para monitorear la se\~nal de manera gr\'afica.
 Esta aplicaci\'on tambi\'en es un buen ejemplo para ilustrar el uso de los controles gr\'aficos de
-\gnuradio que utilizan esta librer\'ia. Su diferencia con los controles que utilizan la librer\'ia
+\gnuradio que utilizan esta biblioteca. Su diferencia con los controles que utilizan la biblioteca
 \emph{wxWidgets} es que el c\'odigo de los controles QT ya esta optimizado para realizar gr\'aficas
-con la ayuda de la extensi\'on \emph{QWT} el cual es una librer\'ia madura mientras que los
+con la ayuda de la extensi\'on \emph{QWT} el cual es una biblioteca madura mientras que los
 controles que utilizan \emph{wxWidgets} fueron creados desde cero por los autores de \gnuradio y no
 est\'an optimizados en su totalidad. \emph{QWT} es necesario que se instale correctamente para poder
 utilizar los controles de QT. La instalaci\'on se explica a detalle en el ap\'endice \ref{AppA}. Los
@@ -787,9 +787,9 @@ mostrados en la figura \ref{fig:dqpsktrans} para una transmisi\'on con una taza 
   \label{fig:dqpsktrans}
 \end{figure}
 
-El GUI que muestra la figura \ref{fig:dqpsktrans} es una aplicaci\'on completa con la librer\'ia QT.
+El GUI que muestra la figura \ref{fig:dqpsktrans} es una aplicaci\'on completa con la biblioteca QT.
 El usuario puede modificar toda la interfaz a su gusto o bien generar una totalmente diferente aunque
-esto requiere conocimientos de programaci\'on con esta librer\'ia. La aportaci\'on de \gnuradio a
+esto requiere conocimientos de programaci\'on con esta biblioteca. La aportaci\'on de \gnuradio a
 esta aplicaci\'on son los dos bloques QT que muestran los controles con las graficas. Los controles
 de la izquierda muestran la se\~nal antes de ser demodulada en software, o sea, despu\'es de la
 etapa DDC del USRP. Los controles de la derecha muestran la se\~nal despu\'es de la etapa de

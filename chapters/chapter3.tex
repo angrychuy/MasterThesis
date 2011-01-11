@@ -170,7 +170,7 @@ N&=\text{n\'umero de etapas por filtro}
 \end{equation*}
 
 El USRP implementa este filtro con los siguientes par\'ametros: $R$ = variable (4 m\'inimo), $M$ = 1
-y $N$ = 4. La respuesta a la frecuencia de esta configuraci\'on se muestra en la
+y $N$ = 4. La respuesta a la frecuencia de esta configuraci\'on se muestra en la figura
 \ref{fig:cicresp}.
 
 \begin{figure}[hpt]
@@ -301,10 +301,10 @@ los que ya existen.
 \gnuradio es un conjunto de m\'odulos de Python con la capacidad de
 realizar diversas operaciones de procesamiento digital de se\~nales para el desarrollo de
 sistemas de radios configurables por software. Es posible mezclar diferentes
-m\'odulos de otros \emph{frameworks} o librer\'ias junto con los de \gnuradio\
+m\'odulos de otros \emph{frameworks} o bibliotecas junto con los de \gnuradio\
 para incluir mayor soporte al que se ofrece.
 
-El concepto que se aplica para los programas realizados con esta librer\'ia es
+El concepto que se aplica para los programas realizados con esta biblioteca es
 el de grafos. Cada aplicaci\'on cuenta con una serie de nodos o bloques
 conectados entre s\'i para crear una cadena completa de RF llamado grafo de
 flujo. Los bloques se encargan de realizar alguna operaci\'on sobre la
@@ -322,11 +322,11 @@ muestra en la figura \ref{fig:radioflow}.
 	\begin{tikzpicture}
 		\node (sg) [grblock] {\small{Generador de se\~nales}};
 		\node (os) [grblock, right=of sg] {\small{Osciloscopio}}
-		edge [<-] (sg);
+		edge [<-, very thick] (sg);
 		\node (fft) [grblock, below=of os] {FFT};
-		\draw[->] (sg) |- (fft);
+		\draw[->, very thick] (sg) |- (fft);
 		\node (os2) [grblock, right =of fft] {\small{Osciloscopio}}
-		edge [<-] (fft);
+		edge [<-, very thick] (fft);
 	\end{tikzpicture}
 	\vspace{0.5in}
 	\caption{Ejemplo de una grafo de flujo en \emph{GNURadio}}
@@ -422,8 +422,8 @@ primera conexi\'on lleva la primera se\~nal al puerto 0 y la segunda conexi\'on 
 						Amp=1\\
 						Freq=440Hz}};
 	\node (as) [grblock, below right=of sg, yshift=1.7cm] {\small{Audio.sink}};
-	\draw [->] (sg.east) -- ++(1,0) |- (as);
-	\draw [->] (sg2.east) -- ++(1,0) |- (as);
+	\draw [->, very thick] (sg.east) -- ++(1,0) |- (as);
+	\draw [->, very thick] (sg2.east) -- ++(1,0) |- (as);
 	\end{tikzpicture}
 \vspace{0.5in}
 \caption{Grafo que env\'ia dos senoidales a la tarjeta de audio de una PC.}
@@ -514,7 +514,7 @@ aplicaci\'on. La estructura de los directorios que contienen los ejemplos se mue
 El experimento se bas\'o en el ejemplo del directorio \verb|digital|. Este programa implementa un
 transmisor completo utilizando varias modulaciones digitales como GMSK, BPSK y QPSK y viene en dos
 versiones: una se maneja a trav\'es de una consola de comandos y la otra implementa una interfaz de
-usuario utiliando la librer\'ia QT que ayuda a visualizar de manera gr\'afica lo que el sistema est\'a
+usuario utiliando la biblioteca QT que ayuda a visualizar de manera gr\'afica lo que el sistema est\'a
 recibiendo. El programa utiliza varias t\'ecnicas de programaci\'on orientada a objetos, as\'i como
 tambi\'en estructuraci\'on del c\'odigo de diferentes m\'odulos para separar todos los componentes
 importantes y poder utilizarlos en otras aplicaciones. La figura \ref{fig:relbench} muestra una gr\'afica
@@ -567,7 +567,7 @@ empaquetar los bits que se desean transmitir.
 La relaci\'on que se muestra en la figura \ref{fig:relbench} es la base para las otras versiones
 del mismo ejemplo. Para el receptor la operaci\'on es la misma solo que utiliza los m\'odulos
 \verb|receive_path| y \verb|usrp_receive_path|. Tambi\'en existen versiones que implementan una
-interfaz gr\'afica utilizando la libreria QT que muestra el espectro de la se\~nal, la constelaci\'on
+interfaz gr\'afica utilizando la biblioteca QT que muestra el espectro de la se\~nal, la constelaci\'on
 recibida, etc.
 
 % Descripcion del flujo del software
@@ -594,11 +594,11 @@ env\'ia a el grafo de RF. La estructura general del transmisor se muestra en la 
 		\path (cp.west)+(-2.2,1.5) node (rs) [optional] {\small{Fuente aleatoria}};
 		\path (cp.west)+(-2.2,-1.5) node (file) [optional] {\small{Fuente archivo}};
 		\node (qpsk) [grblock, right=of cp] {\small{Modulador DQPSK}}
-		edge [<-] (cp);
+		edge [<-, very thick] (cp);
 		\node (usrp) [grblock, right=of qpsk] {\small{USRP}}
-		edge [<-] (qpsk);
-		\path[draw,->, dashed] (rs.east) -- node {}(cp.160);
-		\path[draw,->, dashed] (file.east) -- node {}(cp.200);
+		edge [<-, very thick] (qpsk);
+		\path[draw,->, dashed, very thick] (rs.east) -- node {}(cp.160);
+		\path[draw,->, dashed, very thick] (file.east) -- node {}(cp.200);
 \end{tikzpicture}
 \vspace{0.5in}
 \caption{Diagrama a bloques del transmisor DQPSK.}
@@ -790,17 +790,17 @@ muestra en la figura \ref{fig:dqpsk}.
   \begin{tikzpicture}[scale=0.8, transform shape]
 	\node (data) [grblock] {\footnotesize{Datos codificados}};
 	\node (packtounpack) [grblock, right=of data] {\footnotesize{Desempaquetado de bits}}
-	edge [<-] (data);
+	edge [<-, very thick] (data);
 	\node (map) [grblock, right=of packtounpack] {\footnotesize{Mapeo de constelaci\'on}}
-	edge [<-] (packtounpack);
+	edge [<-, very thick] (packtounpack);
 	\node (difcode) [grblock, right=of map] {\footnotesize{Codificador diferencial}}
-	edge [<-] (map);
+	edge [<-, very thick] (map);
 	\node (symbols) [grblock, below=of difcode] {\footnotesize{Bloques a s\'imbolos}}
-	edge [<-] (difcode);
+	edge [<-, very thick] (difcode);
 	\node (rrc) [grblock, left=of symbols] {\footnotesize{Filtro de coseno elevado}}
-	edge [<-] (symbols);
+	edge [<-, very thick] (symbols);
 	\node (usrp) [grblock, left=of rrc] {\footnotesize{Salida al USRP}}
-	edge [<-] (rrc);
+	edge [<-, very thick] (rrc);
   \end{tikzpicture}
   \vspace{0.3in}
   \caption{Estructura del modulador DQPSK de \gnuradio}
@@ -822,8 +822,8 @@ ofrece protecci\'on contra la inversi\'on de polaridad. Este m\'etodo nos permit
 informaci\'on independientemente si este fen\'omeno sucede o no. Como estamos utilizando dos bits
 para la codifiaci\'on, la desventaja principal es que un error causar\'ia errores en dos bits en
 lugar de uno y por consecuencia aumenta la probabilidad de error de bits. La representaci\'on
-matematica del codificador y decodificador se muestra en las ecuaciones \ref{eq:difcoder} y
-\ref{eq:difdecod}.
+matematica del codificador y decodificador se muestra en las ecuaciones \eqref{eq:difcoder} y
+\eqref{eq:difdecod}.
 \begin{alignat}{2}
 e_k &=e_{k-1}\oplus b_k &\quad &\rightarrow \text{ codificador}\label{eq:difcoder}\\
 b_k &=e_k \oplus e_{k-1} &\quad &\rightarrow \text{ decodificador}\label{eq:difdecod}
@@ -837,7 +837,7 @@ reducir la cantidad de ancho de banda requerida para transmitirlos y eliminar el
 (Interferencia entre s\'imbolos). La respuesta a la frecuencia de este filtro est\'a caracterizada
 por el par\'ametro $\alpha$ que especifica la cantidad de ancho de banda mas all\'a del l\'imite de
 Nyquist de $1/2T$ \cite{sklar}. A este par\'ametro se le llama exceso de ancho de banda. La
-respuesta a la frecuencia de este filtro se muestra en la ecuaci\'on \ref{eq:rrctransfer}.
+respuesta a la frecuencia de este filtro se muestra en la ecuaci\'on \eqref{eq:rrctransfer}.
 
 \begin{equation}\label{eq:rrctransfer}
 H(s)=\left\{
@@ -1056,18 +1056,17 @@ ilustrado de rojo representa la modificaci\'on que se realizo al grafo del bloqu
   \begin{tikzpicture}[scale=0.8, transform shape]
 	\node (data) [grblock] {\footnotesize{Datos codificados}};
 	\node (packtounpack) [grblock, right=of data] {\footnotesize{Desempaquetado de bits}}
-	edge [<-] (data);
+	edge [<-, very thick] (data);
 	\node (map) [grblock, right=of packtounpack] {\footnotesize{Mapeo de constelaci\'on}}
-	edge [<-] (packtounpack);
+	edge [<-, very thick] (packtounpack);
 	\node (difcode) [grblock, right=of map] {\footnotesize{Codificador diferencial}}
-	edge [<-] (map);
+	edge [<-, very thick] (map);
 	\node (symbols) [grblock, below=of difcode] {\footnotesize{Bloques a s\'imbolos}}
-	edge [<-] (difcode);
+	edge [<-, very thick] (difcode);
 	\node (rrc) [grblock, fill=red!30, left=of symbols] {\footnotesize{Re-muestreo arbitrario RRC}}
-	edge [<-] (symbols);
+	edge [<-, very thick] (symbols);
 	\node (usrp) [grblock, left=of rrc] {\footnotesize{Salida al USRP}}
-	edge [<-] (rrc);
-	
+	edge [<-, very thick] (rrc);
   \end{tikzpicture}
   \vspace{0.3in}
   \caption{Estructura del modulador DQPSK con filtros polif\'asicos}
@@ -1095,11 +1094,11 @@ en el listado \ref{ex:callback}. La estructura del receptor se muestra en la fig
   \begin{tikzpicture}[scale=0.8, transform shape]
   	\node (usrp) [grblock] {\footnotesize{USRP}};
   	\node (preselect) [grblock, right=of usrp] {\footnotesize{Filtro pre-selector}}
-	edge [<-] (usrp);
+	edge [<-, very thick] (usrp);
 	\node (demod) [grblock, right=of preselect] {\footnotesize{Demodulador DQPSK}}
-	edge [<-] (preselect);
+	edge [<-, very thick] (preselect);
 	\node (decod) [grblock, right=of demod] {\footnotesize{Decodificador de paquetes}}
-	edge [<-] (demod);
+	edge [<-, very thick] (demod);
   \end{tikzpicture}
   \vspace{0.3in}
   \caption{Diagrama a bloques del receptor DQPSK}
@@ -1138,23 +1137,23 @@ La estructura del grafo del demodulador DQPSK se muestra en la figura \ref{fig:d
 	\begin{tikzpicture}[scale=0.8, transform shape]
 		\node (usrp) [grblock] {\footnotesize{USRP Rx}};
 		\node (prescale) [grblock, right=of usrp] {\footnotesize{Pre-escalador \\ $\pm$}}
-		edge [<-] (usrp);
+		edge [<-, very thick] (usrp);
 		\node (gain) [grblock, right=of prescale] {\footnotesize{Control autom\'atico de ganancia}}
-		edge [<-] (prescale);
+		edge [<-, very thick] (prescale);
 		\node (rrc) [grblock, right=of gain] {\footnotesize{Filtro RRC}}
-		edge [<-] (gain);
+		edge [<-, very thick] (gain);
 		\node (receiver) [grblock, below=of rrc] {\footnotesize{Receptor MPSK \\ (PLL y M\&M)}}
-		edge [<-] (rrc);
+		edge [<-, very thick] (rrc);
 		\node (difdecod) [grblock, left=of receiver] {\footnotesize{Decodificador diferencial}}
-		edge [<-] (receiver);
+		edge [<-, very thick] (receiver);
 		\node (constel) [grblock, left=of difdecod] {\footnotesize{Decodificador de constelaci\'on}}
-		edge [<-] (difdecod);
+		edge [<-, very thick] (difdecod);
 		\node (sym) [grblock, left=of constel)] {\footnotesize{Selector de s\'imbolos}}
-		edge [<-] (constel);
+		edge [<-, very thick] (constel);
 		\node (unpack) [grblock, below=of sym] {\footnotesize{Desempaquetado de bits}}
-		edge [<-] (sym);
+		edge [<-, very thick] (sym);
 		\node (data) [grblock, right=of unpack] {\footnotesize{Datos recibidos}}
-		edge [<-] (unpack);
+		edge [<-, very thick] (unpack);
 	\end{tikzpicture}
 	\vspace{0.3in}
 	\caption{Estructura del demodulador DQPSK}
@@ -1174,7 +1173,7 @@ coseno elevado y su respuesta a la frecuencia combinada es la del filtro coseno 
 H_{rc}(f) = H_{rrc}(f) \cdot H_{rrc}(f)
 \end{equation}
 
-El bloque \verb|Receptor MPSK| se encarga de realizar la sincron\'ia de la fase y frecuencia de la se–al y del reloj de
+El bloque \verb|Receptor MPSK| se encarga de realizar la sincron\'ia de la fase y frecuencia de la se\~nal y del reloj de
 s\'imbolos. Esto lo hace en dos etapas las cuales son por medio de un PLL llamado Lazo de Costas y un algoritmo de sincron\'ia de
 reloj llamado M\&M (Mueller \& Muller por los nombres de sus autores). El Lazo de Costas encuentra el error en la se\~nal recibida
 compar\'andola con su punto de constelaci\'on mas cercano. La frecuencia y la fase de un NCO (Oscilador controlado
@@ -1187,51 +1186,82 @@ utiliza una soluci\'on que los autores le llaman \emph{fuerza bruta} para calcul
 constelaci\'on.
 
 Antes de iniciar con la decodificaci\'on de la constelaci\'on, los bits son decodificados a trav\'es de un decodificador
-diferencial utilizando la ecuaci\'on \ref{eq:difdecod}. El resto de los bloques se encargan de convertir los valores complejos a
-bits y decodificar los puntos de la constelaci\'on para luego entregar cada bit individualmente al resto de la aplicaci\'on. 
+diferencial utilizando la ecuaci\'on \eqref{eq:difdecod}. El resto de los bloques se encargan de convertir los valores
+complejos a bits y decodificar los puntos de la constelaci\'on para luego entregar cada bit individualmente al resto de la aplicaci\'on. 
 
 \subsection{Demodulador DQPSK con filtros polif\'asicos}
 
-Para la segunda version del codigo que implementa el esquema DQPSK con filtros polifasicos las modificaciones se muestran en la
-figura \ref{fig:dqpsk2demod}.
+Para la segunda versi\'on del c\'odigo que implementa el esquema DQPSK con filtros polif\'asicos las modificaciones se
+muestran en la figura \ref{fig:dqpsk2demod}. Los bloques mostrados en rojo representan las modificaciones al grafo original.
 
 \begin{figure}[htp]
 	\centering
 	\begin{tikzpicture}[scale=0.8, transform shape]
 		\node (usrp) [grblock] {\footnotesize{USRP Rx}};
 		\node (gain) [grblock, right=of usrp] {\footnotesize{Control autom\'atico de ganancia}}
-		edge [<-] (usrp);
+		edge [<-, very thick] (usrp);
 		\node (fll) [grblock, fill=red!30, right=of gain] {\footnotesize{Correcci\'on de frecuencia (FLL)}}
-		edge [<-] (gain);
+		edge [<-, very thick] (gain);
 		\node (rrc) [grblock, fill=red!30, right=of fll] {\footnotesize{Sincronizador de s\'imbolos y RCC}}
-		edge [<-] (fll);
+		edge [<-, very thick] (fll);
 		\node (costas) [grblock, fill=red!30, below=of rrc] {\footnotesize{Lazo de Costas (PLL)}}
-		edge [<-] (rrc);
+		edge [<-, very thick] (rrc);
 		\node (difdecod) [grblock, left=of costas] {\footnotesize{Decodificador diferencial}}
-		edge [<-] (costas);
+		edge [<-, very thick] (costas);
 		\node (constel) [grblock, left=of difdecod] {\footnotesize{Decodificador de constelaci\'on}}
-		edge [<-] (difdecod);
-		\node (sym) [grblock, left=of constel)] {\footnotesize{Selector de simbolos}}
-		edge [<-] (constel);
+		edge [<-, very thick] (difdecod);
+		\node (sym) [grblock, left=of constel)] {\footnotesize{Selector de s\'imbolos}}
+		edge [<-, very thick] (constel);
 		\node (data) [grblock, below=of sym] {\footnotesize{Datos recibidos}}
-		edge [<-] (sym);
+		edge [<-, very thick] (sym);
 	\end{tikzpicture}
 	\vspace{0.3in}
 	\caption{Estructura del demodulador DQPSK con filtros polif\'asicos.}
 	\label{fig:dqpsk2demod}
 \end{figure}
 
-Los bloques mostrados en rojo representan las modificaciones que se le hiso al grafo original. 
+Despu\'es de la etapa de control de ganancia el sistema inicia con un FLL (Bucle de Enganche de Frecuencia) el cual se
+encarga de generar una se\~nal de referencia con la frecuencia correcta de la portadora. El FLL cubre el ancho de banda superior e
+inferior de la se\~nal modulada. Este rango se determina por el factor $\alpha$ (exceso de ancho de banda) de la se\~nal y
+las esquinas superior e inferior del ancho de banda son determinadas por la taza de sobre-muestreo (el numero de muestras
+por s\'imbolo) y el factor $\alpha$.
 
-% El codigo fuente de \gnuradio actualmente contiene los siguientes bloques que implementan estos conceptos:
-% \begin{itemize}
-%   \item \textbf{gr\_pfb\_clock\_sync}: Este bloque realiza sincronizacion de tiempo para se\~nales PAM. Lo logra minimizando
-%   la derivada de la se\~nal filtrada, lo cual maximiza el SNR y minimiza el efecto ISI. Para lograr esto el bloque construye
-%   dos bancos de filtros; el primero contiene el filtro de forma de pulso (ejemplo: filtro de coseno elevado). El segundo
-%   banco de filtros contiene la derivada de los filtros del primero banco. Si se observa esto desde el dominio del tiempo, el
-%   primer banco de filtros contiene filtros que tienen una respuesta al impulso de la forma sinc. El objetivo es alinear la
-%   se\~nal de salida de tal forma que sea muestreada justamente en el pico de la funcion sinc. La derivada de la funcion sinc
-%   es cero en su punto maximo, o sea, $sinc(0)=1$, $sinc(0)'=0$. Este echo se utiliza para generar una se\~nal de error
-%   $e(n)$. Esta se\~nal entrega un valor proporcional a la distancia con respecto al punto cero. El bloque utiliza un PLL de
-%   segundo orden para lograr que el error llege a cero.
-% \end{itemize}
+El FLL filtra las bandas superior e inferior en $x_u(t)$ y $x_l(t)$ respectivamente \cite{radio}. Estas se combinan para
+formar
+
+\begin{equation}\label{eq:ffl1}
+cc(t)=x_u(t)+x_l(t)
+\end{equation}
+
+y 
+
+\begin{equation}\label{eq:ffl2}
+ss(t)=x_u(t)-x_l(t)
+\end{equation}
+
+Combinando \eqref{eq:ffl1} y \eqref{eq:ffl2} nos da la se\~nal
+
+\begin{equation}
+e(t)=Re\{cc(t) \times ss(t)^*\}
+\end{equation}
+
+donde $^*$ es el operador del conjugado complejo. Esta se\~nal error es directamente proporcional a la frecuencia de la
+portadora. Despu\'es se crea un lazo de segundo orden utilizando esta se\~nal. El bloque realiza todos estos c\'alculos
+internamente dentro de una funci\'on llamada \verb|design_filter()|.
+
+El bloque \emph{Sincronizador de s\'imbolos} realiza sincronizaci\'on de tiempo a se\~nales PAM (Modulaci\'on por Amplitud
+de Pulsos) por medio de la minimizaci\'on de la derivada de la se\~nal filtrada, el cual a su vez maximiza el SNR y minimiza el
+efecto ISI \cite{radio}. Para lograr esto el bloque construye dos bancos de filtros polif\'asicos; el primero contiene el
+filtro de forma de pulso (ejemplo: filtro de coseno elevado). El segundo banco contiene la derivada de los filtros del
+primer banco. Si se observa esto desde el dominio del tiempo, el primer banco contiene filtros que tienen una respuesta al impulso
+de forma sinc. El objetivo es alinear la se\~nal de salida de tal forma que sea muestreada justamente en el pico de esta
+funci\'on. La derivada de la funci\'on sinc es cero en su punto m\'aximo, o sea, $sinc(0)=1$, $sinc(0)'=0$. Este hecho se
+utiliza para generar una se\~nal de error $e(n)$. Esta se\~nal entrega un valor proporcional a la distancia con respecto al punto
+cero. El bloque utiliza un PLL de segundo orden para lograr que el error llegue a cero.
+
+El tercer bloque rojo simplemente implementa el Lazo de Costas para la correcci\'on de la fase de la se\~nal por separado
+(anteriormente lo implementaba dentro de un solo bloque junto con la sincronizaci\'on de s\'imbolos). La clase que la
+implementa se llama \verb|gr.costas_loop_cc|. Con esto, esta versi\'on del demodulador realiza la recuperaci\'on de la
+portadora en tres etapas: correcci\'on de frecuencia, sincronizaci\'on de s\'imbolos y filtro de forma de pulso por medio de
+filtros polif\'asicos y correcci\'on de fase por medio del Lazo de Costas. Una comparaci\'on detallada del rendimiento de
+ambos m\'etodos (con y sin filtros polif\'asicos) de demodulaci\'on QPSK se muestra en el siguiente cap\'itulo.

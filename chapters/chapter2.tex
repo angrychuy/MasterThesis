@@ -231,15 +231,15 @@ un fen\'omeno conocido como interferencia entre s\'imbolos (ISI). La otra causa 
 la se\~nal es debido a la interferencia generada por el medio ambiente incluyendo interferencia con
 otras se\~nales. Existe un fen\'omeno natural que no se puede eliminar ni controlar denominado
 \emph{ruido t\'ermico}. Este tipo de ruido es generado por el movimiento t\'ermico de los electrones
-en cualquier medio conductor. Sus caracter\'isticas son que las amplitudes del ruido presentan una
-distribuci\'on gausseana caracterizada de la siguiente manera:
+en cualquier medio conductor y puede ser descrito como un proceso aleatorio Gausseano con media cero, o sea, $\mu=0$. Un
+proceso Gausseano $n(t)$ es una funci\'on aleatoria el cual su valor $n$ en cualquier punto en un tiempo $t$ esta
+caracterizado por la funci\'on de densidad de probabilidad (PDF)
 
 \begin{equation}\label{eq:gauss}
-p(z)=\frac{1}{\sigma\sqrt{2\pi}}\exp\left[-\frac{1}{2}\left(\frac{z-a}{\sigma}\right)^2\right]
+p(n)=\frac{1}{\sigma\sqrt{2\pi}}\exp\left[-\frac{1}{2}\left(\frac{n}{\sigma}\right)^2\right]
 \end{equation}
 
-donde $\sigma^2$ es la varianza de la muestra $n$. Su funci\'on de densidad de probabilidad (PDF) se
-muestra en la figura \ref{fig:gauss}.
+donde $\sigma^2$ es la varianza de la muestra $n$. Su representaci\'on gr\'afica se muestra en la figura \ref{fig:gauss}.
 
 \begin{figure}[ht]
 \centering
@@ -297,9 +297,11 @@ palabras modulador y demodulador.
 Un sistema t\'ipico para la demodulaci\'on y detecci\'on de se\~nales se muestra en la
 figura \ref{fig:simpledemod}. 
 
+%FIXME: Rehacer imagen ya que no se alcanza a distinguir bien
 \begin{figure}[tp]
 \centering
 	\includegraphics[scale=0.5]{figs/simpledemod}
+	\vspace{0.3in}
 	\caption{Diagrama simple de un demodulador digital.}
 	\label{fig:simpledemod}
 \end{figure}
@@ -322,8 +324,8 @@ Asumiendo que el ruido que contiene la se\~nal es Gauseano, la salida del demodu
 z(T)=a_i(T)+n_0(T) \quad i=1,2
 \end{equation}
 
-para un sistema binario, donde $a_i(T)$ es la se\~nal deseada y $n_0$ es el ruido. Como el ruido es
-un proceso Gauseano aleatorio, $z(T)$ es una variable Gauseana aleatoria que tendr\'a una media de
+para un sistema binario, donde $a_i(T)$ es la se\~nal deseada, $n_0$ es el ruido y $T$ es la duraci\'on del s\'imbolo. Como
+el ruido es un proceso Gauseano aleatorio, $z(T)$ es una variable Gauseana aleatoria que tendr\'a una media de
 $a_1$ o $a_2$ dependiendo si un 1 o un 0 binario fue enviado. Con esto podemos expresar las
 funciones de densidad de probabilidad condicionales para cada s\'imbolo de la siguiente manera:
 
@@ -483,6 +485,8 @@ error del s\'imbolo enviado $P_E$ dado que fue corrompido por el ruido del canal
 definir como un disturbio no deseable en la se\~nal que se est\'a transmitiendo. Este fen\'omeno
 siempre existe en un canal de transmisi\'on y generalmente no se puede evitar, por lo que es
 necesario tomarlo en cuenta durante el dise\~no de un sistema de comunicaci\'on.
+
+
 %==========================================================================
 
 \section{Herramientas de medici\'on de desempe\~no}
