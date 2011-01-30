@@ -100,21 +100,21 @@ en la figura \ref{fig:siscom}.
 \begin{figure}[hpt]
 \centering
 	\begin{tikzpicture}[scale=0.8, transform shape, node distance = 20mm and 10mm, pin distance=10mm,
-	inpin/.style={pin={[pin distance=10mm,pin edge={<-,black}]left:Mensaje a enviar}},
-	outpin/.style={pin={[pin distance=10mm,pin edge={->,black}]left:Mensaje recibido}}]
+	inpin/.style={pin={[pin distance=10mm,pin edge={<-,black, very thick}]left:Mensaje a enviar}},
+	outpin/.style={pin={[pin distance=10mm,pin edge={->,black, very thick}]left:Mensaje recibido}}]
 		\node (format) [sc, inpin] {Formato de mensaje};
 		\node (mod) [sc, right=of format] {Modulaci\'on por pulsos}
-			edge[<-] (format);
+			edge[<-, very thick] (format);
 		\node (modpass) [sc, right=of mod] {Modulaci\'on pasa bandas}
-			edge[<-] (mod);
+			edge[<-, very thick] (mod);
 		\node[coordinate] (out) [right=of modpass]{};
 		\draw (modpass) -- (out) \antenna;
 		
 		\node (formatin) [sc, outpin, below=of format] {Formato de mensaje};
 		\node (detect) [sc, right=of formatin] {Detecci\'on}
-			edge [->] (formatin);
+			edge [->, very thick] (formatin);
 		\node (demod) [sc, right=of detect] {Demodulaci\'on y muestreo}
-			edge [->] (detect);
+			edge [->, very thick] (detect);
 		\draw (demod.east) -- ++(1,0) \antenna;
 	\end{tikzpicture}
 	\vspace{0.3in}

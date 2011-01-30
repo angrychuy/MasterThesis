@@ -134,19 +134,19 @@ figura \ref{fig:siggen}.
   \begin{tikzpicture}[scale=0.8, transform shape, node distance=0.5cm and 0.4cm]
   	\node (glfsr) [grblock] {\footnotesize{Fuente de n\'umeros pseudo-aleatorios}};
   	\node (limiter) [grblock, right=of glfsr] {\footnotesize{Limitador de datos}}
-  	edge [<-] (glfsr);
+  	edge [<-, very thick] (glfsr);
   	\node (srcbits) [grblock, below=of limiter] {\footnotesize{src\_bits.dat}}
-  	edge [<-] (limiter);
+  	edge [<-, very thick] (limiter);
   	\node (unpacktopack) [grblock, right=of limiter] {\footnotesize{Empaquetado de bits}}
-  	edge [<-] (limiter);
+  	edge [<-, very thick] (limiter);
   	\node (newmod) [grblock, above right=of unpacktopack] {\footnotesize{Mod\_Demod \\ Poly}};
-  	\draw [->] (unpacktopack.east) -- ++(0.2,0) |- (newmod);
+  	\draw [->, very thick] (unpacktopack.east) -- ++(0.2,0) |- (newmod);
   	\node (cleanbb) [grblock, right=of newmod] {\footnotesize{limpio\_bb.dat}}
-  	edge [<-] (newmod);
+  	edge [<-, very thick] (newmod);
   	\node (oldmod) [grblock, below right=of unpacktopack] {\footnotesize{Mod\_Demod \\ Costas\_MM}};
-  	\draw [->] (unpacktopack.east) -- ++(0.2,0) |- (oldmod);
+  	\draw [->, very thick] (unpacktopack.east) -- ++(0.2,0) |- (oldmod);
   	\node (cleanoldbb) [grblock, right=of oldmod] {\footnotesize{limpio\_oldbb.dat}}
-  	edge [<-] (oldmod);
+  	edge [<-, very thick] (oldmod);
   \end{tikzpicture}
   \vspace{0.3in}
   \caption{Grafo generador de datos modulados para la evaluaci\'on del BER.}
@@ -215,12 +215,12 @@ aplica ruido Gaussiano para simular un canal de transmisi\'on AWGN. El grafo se 
   	\node (sigsource) [grblock] {\footnotesize{Fuente de datos de un archivo}};
   	\node (noisesource) [grblock, below=of sigsource] {\footnotesize{Fuente de ruido}};
   	\node (sum) [op, below right=of sigsource, yshift=1.4cm] {$\sum$};
-  	\draw [->] (sigsource.east) -- ++(1,0) |- (sum);
-  	\draw [->] (noisesource.east) -- ++(1,0) |- (sum);
+  	\draw [->, very thick] (sigsource.east) -- ++(1,0) |- (sum);
+  	\draw [->, very thick] (noisesource.east) -- ++(1,0) |- (sum);
   	\node (noisesig) [grblock, right=of sum] {\footnotesize{Archivo \\ ruido\_bb.dat}}
-  	edge [<-] (sum);
+  	edge [<-, very thick] (sum);
   	\node (noisedat) [grblock, below=of noisesource] {\footnotesize{Archivo ruido.dat}}
-  	edge [<-] (noisesource);
+  	edge [<-, very thick] (noisesource);
   \end{tikzpicture}
   \vspace{0.3in}
   \caption{Grafo que simula un canal AWGN}
@@ -324,11 +324,11 @@ etapa se muestra en la figura \ref{fig:analizer}.
   \begin{tikzpicture}[scale=0.8, transform shape]
   	\node (sigsource) [grblock] {\footnotesize{Archivo con se\~nal y ruido}};
   	\node (fir) [grblock, right=of sigsource] {\footnotesize{Filtro pre-selector}}
-  	edge [<-] (sigsource);
+  	edge [<-, very thick] (sigsource);
   	\node (demod) [grblock, right=of fir] {\footnotesize{Demodulador}}
-  	edge [<-] (fir);
+  	edge [<-, very thick] (fir);
   	\node (sink) [grblock, below=of demod] {\footnotesize{bits\_demod\_bb.dat}}
-  	edge [<-] (demod);
+  	edge [<-, very thick] (demod);
   \end{tikzpicture}
   \vspace{0.3in}
   \caption{Grafo que realiza la demodulaci\'on de la se\~nal simulada}
@@ -706,6 +706,7 @@ cuando se trabaja con muestras que genera el USRP de manera independiente de los
 \emph{GNURadio}. Cada muestra compleja que transmite o recive el USRP es representado por dos
 numeros flotantes de 32 bits por lo que es necesario utilizar el tipo de dato \emph{complex64} como
 se muestra en el listado \ref{ex:eyeprog}.
+
 %Constelacion observada
 %==========================================================================
 \section{Constelaci\'on observada}
