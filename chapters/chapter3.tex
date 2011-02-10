@@ -868,8 +868,10 @@ r\'apido pero a consecuencia de una mayor cantidad de ancho de banda utilizada. 
 de banda se interpreta en t\'erminos de porcentaje con referencia a la frecuencia de Nyquist, por
 ejemplo, un valor de $\alpha=0.25$ significa 25\% de exceso de ancho de banda y $\alpha=1$
 significa 100\%. La respuesta a la frecuencia y al impulso de este filtro se muestra en las figuras
-\ref{fig:rrcfreq} y \ref{fig:rrctime}. Finalmente los datos procesados por el filtro RRC se colocan en la salida del bloque
-jerarquico para que sean enviados al siguiente bloque del grafo. 
+\ref{fig:rrcfreq} y \ref{fig:rrctime}. En estas gr\'aficas se puede observar como el valor de $\alpha$ afecta la forma del
+pulso. A valores cercanos de 1 el filtro se comienza a tomar la forma de la funci\'on coseno mientras que a valores
+cercanos a 0 toma una forma al filtro ideal rectangular. Finalmente los datos procesados por el filtro RRC se colocan en la
+salida del bloque jer\'arquico para que sean enviados al siguiente bloque del grafo.
 
 
 \begin{figure}[htp]

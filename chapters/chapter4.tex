@@ -7,8 +7,18 @@
 En este cap\'itulo se muestran los resultados del estudio de la plataforma USRP. El experimento
 consisti\'o en transmitir datos generados de una fuente aleatoria por software y de una fuente fija
 que consiste en una imagen entre las tarjetas LFTX y LFRX por medio de un cable coaxial. Estos
-datos son modulados con el esquema DQPSK como esta implementado en \gnuradio. Despu\'es se
-observaron los resultados utilizando las herramientas proporcionadas por \gnuradio y el lenguaje Python.
+datos son modulados con el esquema DQPSK como esta implementado en \emph{GNURadio}. Despu\'es se
+observaron los resultados utilizando las herramientas proporcionadas por \gnuradio y el lenguaje Python. El c\'odigo base que se
+utiliz\'o fueron los programas \emph{benchmark\_tx} y \emph{benchmark\_rx}. Estos programas son parte de los ejemplos que ofrece
+el c\'odigo fuente de \emph{GNURadio}. La caracter\'istica principal de estos dos programas es que emplean la gran mayor\'ia de
+los conceptos y t\'ecnicas de modulaci\'on que ofrece el sistema, as\'i como tambi\'en ilustra el uso de las herramientas graficas que
+se pueden utilizar para crear interfaces de usuario para formar aplicaciones desde sencillas hasta complejas.
+
+Como su nombre lo indica, estos programas fueron desarrollados por los autores de \gnuradio con el fin de poder evaluar los
+conceptos y todas las variantes del USRP. La aplicaci\'on consiste en un transmisor y receptor unidireccional. Ambos programas
+tienen acceso a todos los esquemas de modulaci\'on y demodulaci\'on del c\'odigo fuente y el usuario puede elegir a trav\'es de
+comandos del programa cual desea utilizar para su aplicaci\'on. Los programas se pueden modificar y tambi\'en se pueden utilizar
+como base para desarrollar otras aplicaciones y por lo tanto se eligieron para ilustrar el uso del sistema. 
 
 %Material utilizado
 %==========================================================================
