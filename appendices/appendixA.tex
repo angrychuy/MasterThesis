@@ -36,6 +36,7 @@ usuarios si uno lo desea.
 \begin{figure}[hpt]
 \centering
 	\includegraphics[scale=0.5]{figs/wubi}
+	\vspace{0.1in}
 	\caption{Opciones del instalador \emph{Wubi}}
 	\label{fig:wubi}
 \end{figure}
@@ -68,6 +69,7 @@ muestra en la figura \ref{fig:desktop}.
 \begin{figure}[htp]
 \centering
 	\includegraphics[scale=0.8]{figs/boot}
+	\vspace{0.1in}
 	\caption{Men\'u de arranque con la opci\'on de \emph{Ubuntu}}
 	\label{fig:bootmenu}
 \end{figure}
@@ -75,6 +77,7 @@ muestra en la figura \ref{fig:desktop}.
 \begin{figure}[htp]
 \centering
 	\includegraphics[scale=0.7]{figs/desk}
+	\vspace{0.1in}
 	\caption{Escritorio \emph{GNOME} de la distribuci\'on \emph{Ubuntu}}
 	\label{fig:desktop}
 \end{figure}
@@ -177,6 +180,7 @@ seleccionarlas manualmente.
 \begin{figure}
 \centering
 	\includegraphics[scale=0.7]{figs/synaptic}
+	\vspace{0.1in}
 	\caption{Administrador de software Synaptic}
 	\label{fig:synaptic}
 \end{figure}
@@ -186,7 +190,7 @@ Para llevar a cabo este procedimiento se deben seguir los siguientes pasos:
 \begin{enumerate}
   \item Abrir una consola e ir a un directorio adecuado para descargar el
   c\'odigo fuente.
-  \item Ejecutar el siguiente comando para obtener el codigo fuente de GIT:\\
+  \item Ejecutar el siguiente comando para obtener el codigo fuente del repositorio \emph{git}:\\
   \verb|git clone http://gnuradio.org/git/gnuradio.git|. Esto crear\'a un nuevo
   directorio llamado \emph{gnuradio}.
   \item Entrar al nuevo directorio y ejecutar el siguiente comando:\\
@@ -240,7 +244,8 @@ ejecute la aplicaci\'on del usuario se aplican los siguientes pasos:
   para agregar este nuevo grupo a los que est\'an permitidos acceder al puerto
   USB:\\
   \verb|echo 'ACTION=="add", BUS=="usb", SYSFS{idVendor}=="fffe",|\\
-  \verb|SYSFS{idProduct}=="0002", GROUP:="usrp", MODE:="0660"' > tmpfile|
+  \verb|SYSFS{idProduct}=="0002", GROUP:="usrp", MODE:="0660"'|\\
+  \verb|> tmpfile|
   \item Modificar los atributos de este archivo para que sea propiedad de root:\\
   \verb|sudo chown root.root tmpfile|
   \item Mover el archivo temporal al directorio de reglas de \emph{udev}:\\
@@ -250,3 +255,28 @@ ejecute la aplicaci\'on del usuario se aplican los siguientes pasos:
 Es posible aplicar los cambios al ejecutar el siguiente comando:\\
 \verb|sudo udevadm control--reload-rules|. Si esto no funciona entonces se necesita reiniciar la PC
 para que los cambios tengan efecto.
+
+Para poder actualizar el c\'odigo fuente con los cambios mas recientes del repositorio \emph{git}, se deben seguir los siguientes
+pasos:
+
+\begin{enumerate}
+  \item Desinstalar la versi\'on actual con el siguiente comando: \verb|make uninstall|
+  \item Bajar las actualizaciones e integrarlas al c\'odigo fuente que ya se tiene con el siguiente comando:
+  \verb|git pull|. De esta manera no es necesario tener que bajar todo el c\'odigo fuente ya que \'unicamente se integraran las
+  diferencias entre el c\'odigo que ya se tiene y el que se encuentra en el repositorio.
+  \item Realizar los pasos para compilar el nuevo c\'odigo:
+  \begin{enumerate}
+    \item \verb|./bootstrap|
+    \item \verb|./configure|
+    \item \verb|make|
+    \item \verb|make check|
+    \item \verb|sudo make install|
+   \end{enumerate}
+\end{enumerate}
+
+Si por alguna raz\'on el proceso de actualizaci\'on arroja algun error del cual no se pueda recuperar entonces es posible corregir
+el repositorio local (el c\'odigo fuente que ya se hab\'ia bajado) sin tener que iniciar desde cero y bajar todo de nuevo. Para
+lograr esto es necesario ejecutar el siguiente comando: \verb|git clean -d -x -f|. Este comando vuelve a establecer el repositorio a su
+estado original desde la ultima vez que se bajo de la pagina de \emph{GNURadio}, aunque se debe tomar en cuenta que si se
+realizaron cambios en el c\'odigo fuente por parte del usuario estos se van a perder. Una vez realizado esto se puede volver a
+intentar el proceso de actualizaci\'on.

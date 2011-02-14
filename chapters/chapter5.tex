@@ -2,7 +2,47 @@
 % Capitulo 5. Conclusion
 %==========================================================================
 \chapter{Conclusiones}
+\gnuradio es una plataforma muy flexible para el desarrollo de aplicaciones en el \'area de telecomunicaciones y gracias a que es
+un proyecto abierto, es constantemente desarrollado y actualizado por una comunidad muy activa. El foro de discusi\'on que se
+encuentra en la p\'agina de \gnuradio \cite{radio} fue de gran apoyo para el desarrollo de este trabajo debido a que la gente que
+se encuentra participando activamente ayuda mucho a los nuevos usuarios por lo cual se recomienda que se utilice mucho este recurso para
+cualquier persona que desee utilizar \gnuradio para sus aplicaciones.
 
+La versi\'on de \gnuradio que se utilizo fue la mas reciente que se encuentra en el repositorio \emph{git} del proyecto. Este
+repositorio es actualizado constantemente conforme los autores y la gente de la comunidad contribuye cambios y mejoras al c\'odigo
+fuente y por lo tanto, ofrece la mayor cantidad de herramientas y bloques que la versi\'on oficial que se encuentra en la pagina
+principal. La versi\'on que se esta utilizando en el momento puede ser f\'acilmente actualizada a la mas nueva simplemente
+siguiendo las instrucciones que se presentan en el ap\'endice \ref{AppA}. De esta manera uno puede estar seguro que siempre
+tendr\'a acceso a las mejoras mas recientes del c\'odigo y se podr\'an utilizar inmediatamente en la aplicaci\'on del usuario.
 
+Los experimentos realizados durante el desarrollo de este trabajo fueron satisfactorios e ilustraron como utilizar los bloques de
+procesamiento de \gnuradio para transmitir datos utilizando un esquema de modulaci\'on de $M$ estados, en este caso QPSK donde
+$M=4$. Se mostro una aplicaci\'on que se puede utilizar como base para la implementaci\'on de los diferentes conceptos de
+telecomunicaciones como son la creaci\'on de paquetes de datos, desarrollo de protocolos de comunicaci\'on, implementaci\'on de
+otros esquemas de modulacion (BPSK, GMSK, etc.), filtrado, etc. Por ultimo se mostro una herramienta indispensable para la ayuda del
+entendimiento de los conceptos de telecomunicaciones y tambi\'en como apoyo para el desarrollo de aplicaciones, que es
+\emph{GNURadio Companion}.
+
+En conclusi\'on, \gnuradio y el USRP son herramientas flexibles y de bajo costo que se pueden utilizar en un ambiente acad\'emico
+para acelerar y mejorar la comprensi\'on de los conceptos de telecomunicaciones, ya sea a nivel licenciatura para el entendimiento
+de los conceptos b\'asicos o a nivel maestr\'ia para la investigacio\'n de conceptos mas avanzados. La plataforma es capaz de
+ajustarse a las diferentes necesidades de los alumnos e investigadores, gracias a la amplia gama de frecuencias que soporta y su
+flexibilidad de implementar e incorporar las diferentes t\'ecnicas de modulaci\'on, codificaci\'on, filtrado, etc., en una
+plataforma que permite observar resultados reales y en tiempo real. Esto es de gran importancia para su entendimiento y
+comparaci\'on con la teoria que forma parte de la \'area de telecomunicaciones.
 
 \section{Trabajo futuro}
+Utilizando los conocimientos que se presentaron en este trabajo, se puede trabajar en mejorar el c\'odigo fuente con aportaciones
+que implementen t\'ecnicas que aun no se encuentren integradas en \gnuradio. Un trabajo interesante es la implementaci\'on del
+esquema QAM. Actualmente el c\'odigo fuente contiene un modulador sencillo de QAM pero el demodulador solamente contiene el
+esqueleto de un bloque jer\'arquico sin ning\'un funcionamiento. Los autores aun no lo han implementado pero dejaron la estructura
+del bloque lista para que alguien pueda desarrollarlo.
+
+Algunas aplicaciones en las que se puede trabajar a futuro pueden ser las que se mencionan a continuaci\'on. La gama de
+aplicaciones es amplia y estas son solamente algunas de ellas:
+\begin{itemize}
+  \item GPS
+  \item Comunicaci\'on satelital
+  \item Comunicaciones moviles
+  \item T\'ecnicas de acceso como TDMA, FDMA y CDMA.
+\end{itemize}
