@@ -161,8 +161,7 @@ algun valor variable que puede modificar cualquier par\'ametro del grafo. Para i
 ejemplo se anexa un bloque de este tipo con el nombre de amplitud. Al bloque se le especifica un valor default,
 valor m\'aximo y m\'inimo y el tipo de dato con el que trabaja. Asignando esta variable a los campos
 de amplitud de los dos bloques \verb|Signal Source| se puede modificar la amplitud de ambos moviendo la
-barra deslizadora que aparece en la ventana de visualizaci\'on como se muestra en la figura
-\ref{fig:vargrc}.
+barra deslizadora que aparece en la ventana de visualizaci\'on como se muestra en la figura \ref{fig:vargrc}.
 
 \begin{figure}[htp]
   \centering
@@ -171,6 +170,153 @@ barra deslizadora que aparece en la ventana de visualizaci\'on como se muestra e
   \caption{Modificaci\'on de par\'ametros por medio de bloques variables en GRC}
   \label{fig:vargrc}
 \end{figure}
+
+Todo el trabajo realizado dentro de GRC se guarda dentro de una archivo con extensi\'on \verb|.grc| y contiene la estructura del
+diagrama realizado en formato XML. Una porci\'on del archivo generado por el ejemplo de este ap\'endice se muestra en el listado
+\ref{ex:grc}.
+
+\begin{lstlisting}[float, language=XML, label=ex:grc, caption={C\'odigo XML del archivo de un proyecto de GRC}]
+<?xml version='1.0' encoding='ASCII'?>
+<flow_graph>
+  <timestamp>Sat Oct 23 11:19:29 2010</timestamp>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>id</key>
+      <value>samp_rate</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>32000</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(10, 170)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  .
+  .
+  .
+  <connection>
+    <source_block_id>gr_sig_source_x_0</source_block_id>
+    <sink_block_id>gr_add_xx_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+</flow_graph>
+\end{lstlisting}
+
+Cada uno de los bloques que forman parte del grafo se definen entre las llaves \verb|<block> </block>| y dentro de estas llaves se
+definen los par\'ametros del bloque en cuesti\'on. Las conexiones se definen entre las llaves \verb|<connection> </connection>|.
+Cuando se ejecuta el programa, GRC traduce el archivo XML en un archivo Python que lleva a cabo el funcionamiento del grafo que se
+defini\'o. Su estructura se basa en un esqueleto pre-definido para todos los programas que genera, ya sea si son gr\'aficos o por
+medio de la consola. El programa Python generado se muestra en el listado \ref{ex:grcpython}.
+
+\begin{lstlisting}[float=hp, breaklines=true]
+#!/usr/bin/env python
+##################################################
+# Gnuradio Python Flow Graph
+# Title: Ejemplo
+# Author: Jesus Espinoza Hernandez
+# Description: Suma de dos senales
+# Generated: Sat Oct 23 11:19:35 2010
+##################################################
+
+from gnuradio import eng_notation
+from gnuradio import gr
+from gnuradio import window
+from gnuradio.eng_option import eng_option
+from gnuradio.gr import firdes
+from gnuradio.wxgui import fftsink2
+from gnuradio.wxgui import scopesink2
+from grc_gnuradio import wxgui as grc_wxgui
+from optparse import OptionParser
+import wx
+
+class top_block(grc_wxgui.top_block_gui):
+
+	def __init__(self):
+		grc_wxgui.top_block_gui.__init__(self, title="Ejemplo")
+		_icon_path = "/usr/share/icons/hicolor/32x32/apps/gnuradio-grc.png"
+		self.SetIcon(wx.Icon(_icon_path, wx.BITMAP_TYPE_ANY))
+
+		##################################################
+		# Variables
+		##################################################
+		self.samp_rate = samp_rate = 32000
+
+		##################################################
+		# Blocks
+		##################################################
+		self.gr_add_xx_0 = gr.add_vff(1)
+		self.gr_sig_source_x_0 = gr.sig_source_f(samp_rate, gr.GR_COS_WAVE, 1000, 1, 0)
+		self.gr_sig_source_x_1 = gr.sig_source_f(samp_rate, gr.GR_COS_WAVE, 2000, 1, 0)
+		self.gr_throttle_0 = gr.throttle(gr.sizeof_float*1, samp_rate)
+\end{lstlisting}
+
+\begin{lstlisting}[float=hp, breaklines=true]
+		self.wxgui_fftsink2_0 = fftsink2.fft_sink_f(
+			self.GetWin(),
+			baseband_freq=0,
+			y_per_div=10,
+			y_divs=10,
+			ref_level=50,
+			ref_scale=2.0,
+			sample_rate=samp_rate,
+			fft_size=1024,
+			fft_rate=30,
+			average=True,
+			avg_alpha=None,
+			title="Espectro",
+			peak_hold=False,
+		)
+		self.Add(self.wxgui_fftsink2_0.win)
+		self.wxgui_scopesink2_0 = scopesink2.scope_sink_f(
+			self.GetWin(),
+			title="Senal Original",
+			sample_rate=samp_rate,
+			v_scale=0,
+			v_offset=0,
+			t_scale=0,
+			ac_couple=False,
+			xy_mode=False,
+			num_inputs=1,
+			trig_mode=gr.gr_TRIG_MODE_AUTO,
+		)
+		self.Add(self.wxgui_scopesink2_0.win)
+
+		##################################################
+		# Connections
+		##################################################
+		self.connect((self.gr_sig_source_x_0, 0), (self.gr_add_xx_0, 0))
+		self.connect((self.gr_sig_source_x_1, 0), (self.gr_add_xx_0, 1))
+		self.connect((self.gr_add_xx_0, 0), (self.gr_throttle_0, 0))
+		self.connect((self.gr_throttle_0, 0), (self.wxgui_scopesink2_0, 0))
+		self.connect((self.gr_throttle_0, 0), (self.wxgui_fftsink2_0, 0))
+\end{lstlisting}
+
+\begin{lstlisting}[float=hp, label=ex:grcpython, caption={C\'odigo Python generado por GRC}, breaklines=true]
+	def set_samp_rate(self, samp_rate):
+		self.samp_rate = samp_rate
+		self.gr_sig_source_x_0.set_sampling_freq(self.samp_rate)
+		self.wxgui_fftsink2_0.set_sample_rate(self.samp_rate)
+		self.gr_sig_source_x_1.set_sampling_freq(self.samp_rate)
+		self.wxgui_scopesink2_0.set_sample_rate(self.samp_rate)
+
+if __name__ == '__main__':
+	parser = OptionParser(option_class=eng_option, usage="%prog: [options]")
+	(options, args) = parser.parse_args()
+	tb = top_block()
+	tb.Run(True)
+\end{lstlisting}
 
 El ejemplo ilustrado en este ap\'endice es un solo un peque\~na ilustraci\'on de las capacidades de
 \emph{GNURadio Companion}. Los bloques de los generadores de se\~nales se pueden remplazar por
