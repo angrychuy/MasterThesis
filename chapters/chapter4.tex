@@ -47,6 +47,12 @@ t\'ecnica de filtros polif\'asicos. Esta versi\'on, incluyendo los bloques que i
 filtros, fueron incluidos en el c\'odigo fuente el 23 de Marzo de 2010 y fueron incluidos en este
 estudio para comparar el rendimiento de ambas versiones.
 
+Se opt\'o por utilizar un cable coaxial entre las tarjetas TX y RX para observar el rendimiento del sistema lo mas cercas posible
+a lo te\'orico, es decir, con la menor cantidad de perdidas en la transmisi\'on. Como trabajo a futuro se puede emplear un
+conector SMA a BNC para conectar una antena. La impedancia de los conectores es de 50$\Omega$. Los conectores SMA manejan un rango de
+frecuencias entre 0 y 18Ghz. La se–al viaja a entre del conductor central y una capa protectora, com\'unmente aluminio. Este
+arreglo ofrece una buena protecci\'on contra el ruido externo \cite{coax}.
+
 
 %Parametros utilizados
 %==========================================================================
@@ -605,7 +611,7 @@ grafica. Los colores tenues a un lado de la barra verde representan las bandas l
 portadora. Desde esta aplicaci\'on es posible modificar varios par\'ametros del USRP como la
 ganancia, la frecuencia y el valor de decimaci\'on del DDC. Los ejes tambi\'en se pueden ajustar por
 medio de las opciones que aparecen en la derecha de la pantalla (Time Scale, Dyn Range, Ref Level).
-En este ejemplo la portadora se puede apreciar claramente debido a la ausencia de ruido ya que se
+En este ejemplo la portadora se puede apreciar claramente debido a la minima cantidad de ruido ya que se
 utilizo un cable coaxial para la transmisi\'on el cual introduce una cantidad despreciable de ruido.
 %Diagrama de ojo
 %==========================================================================
@@ -668,7 +674,7 @@ de procesamiento.
 
 El programa que genera el diagrama de ojo apartir de un archivo con muestras del USRP se muestra en
 el listado \ref{ex:eyeprog}.
-%FIXME: Explicar la funcion get_traces.
+%TODO: Explicar la funcion get_traces.
 \begin{lstlisting}[float, label=ex:eyeprog, caption={Programa que genera el diagrama de ojo a partir
 de muestras tomadas del USRP.}, breaklines=true]
 
