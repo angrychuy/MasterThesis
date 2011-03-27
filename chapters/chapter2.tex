@@ -108,14 +108,14 @@ en la figura \ref{fig:siscom}.
 		\node (modpass) [sc, right=of mod] {Modulaci\'on pasa bandas}
 			edge[<-, very thick] (mod);
 		\node[coordinate] (out) [right=of modpass]{};
-		\draw (modpass) -- (out) \antenna;
+		\draw[very thick] (modpass) -- (out) \antenna;
 		
 		\node (formatin) [sc, outpin, below=of format] {Formato de mensaje};
 		\node (detect) [sc, right=of formatin] {Detecci\'on}
 			edge [->, very thick] (formatin);
 		\node (demod) [sc, right=of detect] {Demodulaci\'on y muestreo}
 			edge [->, very thick] (detect);
-		\draw (demod.east) -- ++(1,0) \antenna;
+		\draw[very thick] (demod.east) -- ++(1,0) \antenna;
 	\end{tikzpicture}
 	\vspace{0.3in}
 	\caption{Diagrama a bloques de un sistema de comunicacion digital con transmisi\'on de datos pasa banda}
