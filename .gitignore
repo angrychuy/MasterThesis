@@ -1,3 +1,6 @@
 tmp
 .project
 .texlipse
+.pydevproject
+.settings/
+.tex
