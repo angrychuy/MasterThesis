@@ -558,9 +558,9 @@ m\'as peque\~no y una mayor facilidad de mantenimiento y actualizaci\'on.
 	\begin{tikzpicture}
 		\node (cpu) [sc] {Procesador General};
 		\node (dac) [sc, right=of cpu] {DAC}
-			edge [<-] (cpu);
+			edge [<-, very thick] (cpu);
 		\node (ant) [sc, right=of dac] {Antena}
-			edge [<-] (dac);
+			edge [<-, very thick] (dac);
 	\end{tikzpicture}
 	\vspace{0.3in}
 	\caption{Diagrama a bloques de un sistema ideal de SDR}
