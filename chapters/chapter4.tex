@@ -49,9 +49,9 @@ estudio para comparar el rendimiento de ambas versiones.
 
 Se opt\'o por utilizar un cable coaxial entre las tarjetas TX y RX para observar el rendimiento del sistema lo mas cercas posible
 a lo te\'orico, es decir, con la menor cantidad de perdidas en la transmisi\'on. Como trabajo a futuro se puede emplear un
-conector SMA a BNC para conectar una antena. La impedancia de los conectores es de 50$\Omega$. Los conectores SMA manejan un rango de
-frecuencias entre 0 y 18Ghz. La se–al viaja a entre del conductor central y una capa protectora, com\'unmente aluminio. Este
-arreglo ofrece una buena protecci\'on contra el ruido externo \cite{coax}.
+conector SMA a BNC para conectar una antena. La impedancia del cable es de 50$\Omega$ y soporta una frecuencia m\'axima de
+operaci\'on de 12.4Ghz. Los conectores SMA manejan un rango de frecuencias entre 0 y 18Ghz. La se–al viaja a entre del conductor
+central y una capa protectora, com\'unmente aluminio. Este arreglo ofrece una buena protecci\'on contra el ruido externo \cite{coax}.
 
 
 %Parametros utilizados
@@ -79,11 +79,13 @@ Algunos par\'ametros contienen valores por defecto que se puede utilizar como pu
 aplicaci\'on que se esta desarrollando. Estos valores fueron propuestos por los autores de \gnuradio ya que durante el desarrollo
 del c\'odigo fuente les dieron resultados positivos para comprobar el correcto funcionamiento de las diversas funciones del
 c\'odigo. Estos valores no siempre ser\'an los adecuados para todas las aplicaciones pero sirven como una referencia para de ah\'i
-poder optimizarlos. Los valores que se utilicen dependen del \emph{hardware} (USRP, tarjetas, capacidad de la PC) que se este
-utilizando para desarrollar la aplicaci\'on. A menos de que se especifique lo contrario, en la mayor\'ia de los par\'ametros de
-los diferentes bloques y aplicaciones que se utilizaron para el experimento se utilizaron los valores por defecto ya establecidos
-y recomendados debido a que dieron buenos resultados y buen rendimiento. Los resultados se muestran a trav\'es de las secciones de
-este cap\'itulo.
+poder optimizarlos. Esta optimizaci\'on es necesaria para lograr una transmisi\'on eficiente con la menor cantidad de errores
+posibles. El an\'alisis matem\'atico para la obtenci\'on de estos valores esta fuera del alcance de este trabajo y se deja como
+propuesta para una investigaci\'on a futuro. Los valores que se utilicen dependen del \emph{hardware} (USRP, tarjetas, capacidad
+de la PC) que se este utilizando para desarrollar la aplicaci\'on. A menos de que se especifique lo contrario, en la mayor\'ia de
+los par\'ametros de los diferentes bloques y aplicaciones que se utilizaron para el experimento se utilizaron los valores por
+defecto ya establecidos y recomendados debido a que dieron buenos resultados y buen rendimiento. Los resultados se muestran a
+trav\'es de las secciones de este cap\'itulo.
 
 Los opciones que se utilizaron para el transmisor y receptor son los siguientes:
 
