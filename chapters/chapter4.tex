@@ -50,7 +50,7 @@ estudio para comparar el rendimiento de ambas versiones.
 Se opt\'o por utilizar un cable coaxial entre las tarjetas TX y RX para observar el rendimiento del sistema lo mas cercas posible
 a lo te\'orico, es decir, con la menor cantidad de perdidas en la transmisi\'on. Como trabajo a futuro se puede emplear un
 conector SMA a BNC para conectar una antena. La impedancia del cable es de 50$\Omega$ y soporta una frecuencia m\'axima de
-operaci\'on de 12.4Ghz. Los conectores SMA manejan un rango de frecuencias entre 0 y 18Ghz. La se–al viaja a entre del conductor
+operaci\'on de 12.4Ghz. Los conectores SMA manejan un rango de frecuencias entre 0 y 18Ghz. La seï¿½al viaja a entre del conductor
 central y una capa protectora, com\'unmente aluminio. Este arreglo ofrece una buena protecci\'on contra el ruido externo \cite{coax}.
 
 
@@ -541,7 +541,7 @@ Los resultados de la primera versi\'on de los esquemas DQPSK y DBPSK se muestran
 \begin{figure}[htp]
   \centering
   \includegraphics[scale=0.7]{figs/bernormal}
-  \caption{Grafica comparativa del BER para la primera versi\'on de los esquemas DQPSK y DBPSK.}
+  \caption{Gr\'afica comparativa del BER para la primera versi\'on de los esquemas DQPSK y DBPSK.}
   \label{fig:bernormal}
 \end{figure}
 
@@ -554,15 +554,32 @@ La segunda versi\'on de estos esquemas intenta mejorar el BER por medio de la im
 bancos de filtros polif\'asicos. La misma metodolog\'ia se sigui\'o para su an\'alisis y los
 resultados se muestran en la figura \ref{fig:berpoly}. Como se puede observar, los filtros
 polif\'asicos ofrecen una mejora en el rendimiento de ambos esquemas. A niveles bajos de SNR DQPSK
-tiene un poco mas de tolerancia que la versi\'on anterior para generar errores. Con estos se
-demuestra el rendimiento del c\'odigo fuente actual de \emph{GNURadio}. 
+tiene un poco mas de tolerancia que la versi\'on anterior para generar errores. 
 
 \begin{figure}[t]
   \centering
   \includegraphics[scale=0.7]{figs/berpoly}
-  \caption{Grafica comparativa del BER para la segunda versi\'on de los esquemas DQPSK y DBPSK.}
+  \caption{Gr\'afica comparativa del BER para la segunda versi\'on de los esquemas DQPSK y DBPSK.}
   \label{fig:berpoly}
 \end{figure}
+
+Por ultimo se genero una simulaci\'on en Matlab utilizando la herramienta \emph{BERTool} para generar un estudio te\'orico y
+comparar los resultados con la teor\'ia. La herramienta fue configurada lo mas cercano posible a los par\'ametros que se
+utilizaron en el experimento. Se generaron dos estudios, uno para DBPSK y otro para DQPSK, con un canal de transmisi\'on AWGN. El
+resultado de esta simulaci\'on se muestra en la siguiente figura \ref{fig:berteor}.
+
+\begin{figure}[htp]
+  \centering
+  \includegraphics[scale=0.455]{figs/berteor}
+  \caption{Resultados te\'oricos de la herramienta \emph{BERTool} de Matlab.}
+  \label{fig:berteor}
+\end{figure}
+
+Al comparar los resultados de la simulaci\'on con los del experimento se observo que a menor $E_bN_0$ los algoritmos de \gnuradio
+logran un mejor rendimiento que la teor\'ia, sobre todo el esquema DBPSK. Esto se debe a los diversos m\'etodos de recuepaci\'on
+de la informaci\'on que emplean ambos algoritmos ya que constantemente han estado siendo optimizados por los autores. Con esto se
+demuestra el rendimiento del c\'odigo fuente actual de \emph{GNURadio}.
+
 
 %Espectrograma de la transmision
 %==========================================================================
