@@ -239,7 +239,9 @@ La combinaci\'on del filtro CIC y HB dan un factor de decimaci\'on m\'inimo de
 8. El ADC tiene una taza de muestreo de 64Ms/S, por lo tanto, el ancho de banda
 total ser\'a de 32Mhz. Los datos enviados son de 16 bits para I y Q, \'osea, 4
 bytes por muestra compleja. Esto resulta en un ancho de banda efectivo de 8Mhz
-(32Mhz/4bytes). El rango de decimaci\'on que soporta el USRP es [8, 256].
+(32Mhz/4bytes). El rango de decimaci\'on que soporta el USRP es [8, 256]. El ancho de banda de la se\~nal no es afectado por la
+operaci\'on de decimaci\'on, unicamente su frecuencia. Conforme el valor de decimaci\'on es mayor la taza de transferencia ser\'a
+menor. El usuario puede ajustar este valor seg\'un las necesidades de su aplicaci\'on.
 
 Para la etapa de TX el proceso es el inverso. El FPGA contiene filtros CIC interpoladores que se
 encargan de interpolar la se\~nal, elevarla a la frecuencia intermedia y despu\'es
