@@ -486,7 +486,6 @@ definir como un disturbio no deseable en la se\~nal que se est\'a transmitiendo.
 siempre existe en un canal de transmisi\'on y generalmente no se puede evitar, por lo que es
 necesario tomarlo en cuenta durante el dise\~no de un sistema de comunicaci\'on.
 
-
 %==========================================================================
 
 \section{Herramientas de medici\'on de desempe\~no}
@@ -539,6 +538,111 @@ arriba. Un ejemplo de un espectrograma se muestra en la figura \ref{fig:spectrog
 	\caption{Ejemplo de un espectrograma.}
 	\label{fig:spectrogram}
 \end{figure}
+
+%==========================================================================
+\section{Sincronizaci\'on}
+El proposito del receptor es tomar la se\~nal transmitida y recuperar el mensaje que se transmitio. Para lograr esto el receptor
+tiene que muestrear la se\~nal para convertirla en un formato digital. Como se observ\'o en los parametros del diagrama de ojo
+\ref{fig:eyeparams}, el punto optimo para muestrear un s\'imbolo es en la zona mas abierta que corresponde al punto medio de cada
+s\'imbolo. Si el muestreo se realiza en la transicion de un simbolo a otro los valores resultantes pueden llegar a ser erroneos.
+
+Si asumimos que $T$ es la taza de muestreo, $\tau$ es el tiempo que tarda en llegar el primer s\'imbolo y $\delta$ el tiempo que
+tarda la se\~nal en viajar del transmisor al receptor entonces el s\'imbolo $(k+1)$ empieza en $\tau+kT$ y tarda $\tau+kT+\delta$
+en llegar a su destino. El receptor comienza a muestrear en el momento $n$ y de ahi muestrea cada $n+kT$. Si el mejor punto para
+muestrear ocurre en $\tau+kT+ \delta + T/2$ entonces podemos hacer que $n$ sea:
+
+\begin{equation}\label{eq:sampling}
+n=\tau+\delta+T/2
+\end{equation}
+
+y de esta manera lograremos recuperar el mensaje transmitido sin ningun problema. Mas sin embargo, al observar bien la ecuacion
+\ref{eq:sampling} podemos ver dos problemas inmediatamente: el receptor no sabe a que horas se inicio la transmicion y tampoco
+sabe cuanto tarda en llegar la se\~nal. Por lo tanto la ecucacion \ref{eq:sampling} contine dos variables desconocidas. Para
+resolver este problema se requiere emplear metodos de sincronizaci\'on para poder extraer la frecuencia y el reloj de la se\~nal
+recibida.
+
+Hay varios metodos de sincronizaci\'on en receptores digitales:
+
+\begin{itemize}
+  \item Sincronizaci\'on de fase de s\'imbolos: Escoger el momento adecaudo para tomar la muestra (Escoger $T$).
+  \item Sincronizaci\'on de frecuencia de s\'imbolos: Compenzar por las diferencias en frecuencia de ambos osciladores (TX y RX).
+  \item Sincronizaci\'on de fase de portadora: Alinear la fase de la portadora en el receptor con la portadora del transmisor.
+  \item Sincronizaci\'on de frecuencia de portadora: Compenzar la frecuencia de la portadora en el receptor con la del
+  transmisor.
+  \item Sincronizaci\'on de trama: Detectar el inicio de cada mensaje.
+\end{itemize}
+
+%TODO: Insert reference to new book (spanish book)
+Para poder realizar la sincronizcion de fase se pueden emplear circuitos basados en lazos de fijacion de fase (PLL por sus siglas
+en ingles \emph{phase-locked loop}). Dos circuitos comunes son el circuito cuadrado y el lazo de costas. El diagrama a bloques
+representativo del circuito cuadrado se muestra en la figura \ref{fig:ccuad}.
+
+\begin{figure}[htp]
+\centering
+    \begin{tikzpicture}[node distance=2cm,auto,>=latex', scale=0.8, transform shape]
+        \node [int, text width=5em] (fpb) {Filtro pasa banda};
+        \node (s) [left of=fpb, node distance=4cm, coordinate] {Entrada};
+        \node [int, right of=fpb, node distance=3cm] (cuad) {$x^2$};
+        \node [int, right of=cuad] (pll) {PLL};
+        \node [int, right of=pll, node distance=3.5cm, text width=5em] (df) {Divisor\\de\\frecuencia};
+        \node (m) [right of=df, node distance=3.5cm, coordinate] {Salida};
+        
+        \path[->, very thick] (s) edge node {Entrada} (fpb);
+        \path[->, very thick] (fpb) edge node {} (cuad);
+        \path[->, very thick] (cuad) edge node {} (pll);
+        \path[->, very thick, text width=4em, text centered] (pll) edge node {Salida\\ VCO} (df);
+        \path[->, very thick] (df) edge node {Mensaje} (m);
+    \end{tikzpicture}
+    \vspace{0.3in}
+    \caption{Diagrama a bloques del circuito cuadrado.}
+    \label{fig:ccuad}
+\end{figure}
+
+La se\~nal entra al circuito donde se filtra para reducir el ancho de banda y se eleva al cuadrado para quitar la modulacion y
+generar la segunda armonica de la frecuencia portadora, la cual es rastreada con la fase por el PLL. La frecuencia de salida del
+VCO del PLL se divide entre 2 y se utiliza como referencia de fase para los detectores de producto.
+
+El lazo de costas utiliza dos circuitos de rastreo en paralelo, I y Q, para derivar el producto de los componentes I y Q de la
+se\~nal que maneja el VCO. Una vez que la frecuencia del VCO es igual a la frecuencia de la portadora suprimida, el producto de
+las se\~nales I y Q producir\'a un voltaje de error proporcional a cualquier error de fase del VCO. Este voltaje controla la fase
+y la frecuencia del VCO. El diagrama a bloques del lazo de costas se muestra en la figura \ref{fig:costas}
+
+\begin{figure}[htp]
+\centering
+ \begin{tikzpicture}[scale=0.55, transform shape]
+\matrix (d) [matrix of nodes, column sep=0.4cm, row sep=0.3cm, nodes={draw,
+                                                        anchor=center,
+                                                        text centered,
+                                                        minimum size=4em},
+                empty/.style={draw=none, fill=white}]
+{                 &                                          & |[empty, text width=13mm]| {\footnotesize{Modulador\\Balanceado I}} & & & & \\
+                  &                                          & \mulop         &       & \filterLP &                       & \\
+                  &                                          &                &       &           &                       & \\
+|[empty]|{$s(t)$} & |[text width=13mm]|{Divisor de potencia} & |[coordinate]| & VCO   &           & |[text width=13mm]| {Filtro del circuito} & \mulop \\
+                  &                                          & {$+90^o$}      &       &           &                       & \\
+                  &                                          & \mulop         &       & \filterLP &                       & \\
+                  &                                          & |[empty, text width=13mm]| {\footnotesize{Modulador\\Balanceado Q}} & & & & \\
+};
+
+\draw[very thick, ->] (d-4-1) edge (d-4-2);
+\draw[very thick, ->] (d-4-2) |- (d-2-3);
+\draw[very thick, ->] (d-4-2) |- (d-6-3);
+\draw[very thick, ->] (d-2-3) edge (d-2-5);
+\draw[very thick, ->] (d-2-5) -| node[above] {Se\~nal I} (d-4-7);
+\draw[very thick, <->] (d-2-3) -- node[left] {$\sin{\omega_ct}$} (d-5-3);
+\draw[very thick, ->] (d-5-3) edge node[right] {$\cos{\omega_ct}$} (d-6-3);
+\draw[very thick, ->] (d-6-3) edge (d-6-5);
+\draw[very thick, ->] (d-6-5) -| node[below] {Se\~nal Q} (d-4-7);
+\draw[very thick, ->] (d-4-7) edge (d-4-6);
+\draw[very thick, ->] (d-4-6) edge node [above] {Voltaje de error} (d-4-4);
+\draw[very thick, ->] (d-4-4) edge (d-4-3);
+\end{tikzpicture}
+  \vspace{0.3in}
+  \caption{Diagrama a bloques del sincronizador del lazo de costas.}
+  \label{fig:costas}
+\end{figure}
+
+
 
 %==========================================================================
 \section{Concepto de radio reconfigurable por software}

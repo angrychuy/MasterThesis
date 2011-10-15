@@ -44,6 +44,7 @@ text centered, minimum height=2em,drop shadow]
 \tikzstyle{grblock} = [draw, text width=7em, fill=blue!20, 
     minimum size=5em, rounded corners, drop shadow, text centered]
 \tikzstyle{op} = [grblock, circle, text width=1.5em]
+\tikzstyle{int}=[draw, minimum size=2em, text centered]
     
 % Used to draw an antenna with tikz
 \def\antenna{-- +(0mm,4.0mm) -- +(2.625mm,7.5mm) -- +(-2.625mm,7.5mm) -- +(0mm,4.0mm)}
@@ -61,6 +62,12 @@ text centered, minimum height=2em,drop shadow]
 \def\sumop{\node[circle, minimum size=1.5em]{};
 	\draw (0mm, -2.5mm) to (0mm, 2.5mm)
 		  (-2.5mm, 0mm) to (2.5mm, 0mm);
+}
+
+%Used to draw a multiplication block with tikz. Must be used within a matrix of nodes.
+\def\mulop{\node[circle, minimum size=1.5em]{};
+    \draw (-2.5mm, -2.5mm) to (2.5mm, 2.5mm)
+          (-2.5mm, 2.5mm) to (2.5mm, -2.5mm);
 }
     
 % Define distances for bordering
