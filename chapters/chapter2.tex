@@ -501,7 +501,7 @@ dise\~no del sistema. Un ejemplo se muestra en la figura \ref{fig:eyeform}\cite{
 \begin{figure}[htp]
 \centering
 	\includegraphics[width=5.5in]{figs/eyeform}
-	\caption{El diagrama de ojo formado al sobreponer varias secuencias de bits}
+	\caption{El diagrama de ojo formado al sobreponer varias secuencias de bits.}
 	\label{fig:eyeform}
 \end{figure}
 
@@ -574,8 +574,8 @@ Hay varios metodos de sincronizaci\'on en receptores digitales:
 
 %TODO: Insert reference to new book (spanish book)
 Para poder realizar la sincronizcion de fase se pueden emplear circuitos basados en lazos de fijacion de fase (PLL por sus siglas
-en ingles \emph{phase-locked loop}). Dos circuitos comunes son el circuito cuadrado y el lazo de costas. El diagrama a bloques
-representativo del circuito cuadrado se muestra en la figura \ref{fig:ccuad}.
+en ingles \emph{phase-locked loop}). Dos circuitos comunes son el circuito cuadrado y el lazo de costas \cite{perez}. El diagrama
+a bloques representativo del circuito cuadrado se muestra en la figura \ref{fig:ccuad}.
 
 \begin{figure}[htp]
 \centering
@@ -594,7 +594,7 @@ representativo del circuito cuadrado se muestra en la figura \ref{fig:ccuad}.
         \path[->, very thick] (df) edge node {Mensaje} (m);
     \end{tikzpicture}
     \vspace{0.3in}
-    \caption{Diagrama a bloques del circuito cuadrado.}
+    \caption{Diagrama a bloques del circuito cuadrado. \protect\cite{perez}}
     \label{fig:ccuad}
 \end{figure}
 
@@ -638,11 +638,75 @@ y la frecuencia del VCO. El diagrama a bloques del lazo de costas se muestra en 
 \draw[very thick, ->] (d-4-4) edge (d-4-3);
 \end{tikzpicture}
   \vspace{0.3in}
-  \caption{Diagrama a bloques del sincronizador del lazo de costas.}
+  \caption{Diagrama a bloques del sincronizador del lazo de costas. \protect\cite{perez}}
   \label{fig:costas}
 \end{figure}
 
+Desde el punto de vista operacional, los sincronizadores de reloj se pueden catalogar de dos formas: sincronizadores de rastreo de
+error (lazo cerrado) y sincronizadores de lazo abierto \cite{meyr}. Los sincronizadores de rastreo de error siguen el principio
+del circuito PLL para extraer el reloj. La se\~nal de entrada es comparada con una se\~nal generada localmente por un VCO por un detector de
+error de sincronia el cual su salida produce una estimacion del signo y la magnitud del error de sincronia
 
+\begin{equation}
+e = \varepsilon - \hat{\varepsilon}
+\end{equation}
+
+donde $\varepsilon$ es el error de la se\~nal PAM de entrada y $\hat{\varepsilon}$ es la estimaci\'on de sincronia. La salida
+filtrada del detector de error de sincronia ajusta la estimacion $\hat{\varepsilon}$ para reducir el error $e$. Esta estimaci\'on
+es el retraso normalizado de la se\~nal de referencia, la cual activa la etapa de muestreo.
+
+En el sincronizador de lazo abierto, la se\~nal PAM entra al detector de error de sincronia el cual mide el valor instantaneo de
+$\varepsilon$ \cite{meyr}. Las mediciones a la salida del detector de error pasan por un filtro de promedio para producir la
+estimacion $\hat{\varepsilon}$ y asi activar la etapa de muestreo.
+
+Como se ver\'a en el capitulo \ref{ch:estudio}, \gnuradio utiliza un sincronizador de lazo cerrado llamado \emph{sincronizador de
+Mueller y M\"uller} (M\&M por las iniciales de sus autores). Su diagrama a bloques funcional se muestra en la figura \ref{fig:mm}.
+
+\begin{figure}[htp]
+  \centering
+  \vspace{0.5in}
+  \begin{tikzpicture}[scale=0.7, transform shape, empty/.style={draw=none, fill=white},
+                        text centered, node distance=25mm]
+    \node (s) [empty]{$s(t)$};
+    \node (fpb) [block, right of=s] {\footnotesize{Filtro del receptor}}
+        edge [<-, very thick] (s);
+    \node (sam) [block, right of=fpb] {\footnotesize{Muestreo}}
+        edge [<-, very thick] (fpb);
+    \node [coordinate, right of=sam] (c1) {}
+        edge [-, very thick] (sam);
+    \node [block, right of=c1] (dec) {\footnotesize{Decisi\'on de s\'imbolos}}
+        edge [<-, very thick] (c1);
+    \node [coordinate, right of=dec] (c2) {}
+        edge [-, very thick] (dec);
+    \node [empty, right of=c2] (exit) {\footnotesize{salida}}
+        edge [<-, very thick] (c2);
+    \node [block, below of=dec] (mm) {\footnotesize{Detector de error M\&M}};
+    \draw[->, very thick] (c1) |- (mm);
+    \draw[->, very thick] (c2) |- (mm);
+    \node [block, below of=mm] (loop) {\footnotesize{Filtro del ciclo}}
+        edge [<-, very thick] (mm);
+    \node [block, below of=loop] (clock) {\footnotesize{Reloj ajustable}}
+        edge [<-, very thick] (loop);
+    \draw[->, very thick] (clock) -| (sam);
+    
+  \end{tikzpicture}
+  \vspace{0.3in}
+  \caption{Diagrama a bloques del sincronizador M\&M. \protect\cite{meyr}}
+  \label{fig:mm}
+\end{figure}
+
+Como el sincronizador utiliza los resultados de decision de s\'imbolos del receptor se dice que es un sincronizador
+\emph{dirigido por decisiones} \cite{louis}. El algoritmo requiere unicamente una muestra para representar cada s\'imbolo y el
+error se calcula de la siguiente manera
+
+\begin{equation}
+e_n=(y_n \cdot y_{n-1}) - (y_n \cdot y_{n-1})
+\end{equation}
+
+donde $y_n$ es la muestra del s\'imbolo actual y $y_{n-1}$ es la muestra del s\'imbolo previo. El sincronizador requiere que
+previamente se haya realizado la recuperacion de la fase ya que el algoritmo es muy sencible a offsets en la portadora. La
+discusi\'on matematica de este sincronizador esta fuera del alcanse de este trabajo pero se invita al lector a consultar la
+bibliografia si desea aprender mas sobre la composicion y funcionamiento interno de este y otros sincronizadores. 
 
 %==========================================================================
 \section{Concepto de radio reconfigurable por software}
