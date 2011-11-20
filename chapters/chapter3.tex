@@ -152,10 +152,10 @@ entradas. La se\~nal compleja que entregan los ADCs es multiplicada por otra se\
 frecuencia intermedia constante generada por un oscilador controlado num\'ericamente (NCO).  La
 se\~nal resultante se encuentra ahora centrada en 0Hz. Despu\'es es introducida al filtro CIC para
 realizar una decimaci\'on por $N$, donde $N$ es especificado por el usuario desde el programa
-del usuario. La funci\'on de transferencia del filtro CIC es la siguiente
+del usuario. La funci\'on de transferencia del filtro CIC en el dominio $Z$ es la siguiente
 \cite{cic}:
 
-\begin{equation}
+\begin{equation}\label{eq:cic}
 H(z)=H_I^N(z)H_C^N(z)=\frac{(1-z^{-RM})^N}{(1-z^{-1})^N}=\left(\sum_{k=0}^{RM-1}z^{-1}\right)^N
 \end{equation}
 
@@ -170,11 +170,12 @@ N&=\text{n\'umero de etapas por filtro}
 \end{aligned}
 \end{equation*}
 
-El USRP implementa este filtro con los siguientes par\'ametros: $R$ = variable (4 m\'inimo), $M$ = 1
-y $N$ = 4. La respuesta a la frecuencia de esta configuraci\'on se muestra en la figura
-\ref{fig:cicresp}.
+Como aclaraci\'on, la variable $Z$ en la ecuaci\'on \ref{eq:cic} no es la misma que la ecuaci\'on \ref{eq:demgauss} ya que en la
+ecuaci\'on anterior se refiere a la transformada Z y en la segunda ecucaci\'on se refiere a un proceso estoc\'astico.
+El USRP implementa este filtro con los siguientes par\'ametros: $R$ = variable (4 m\'inimo), $M$ = 1 y $N$ = 4. La respuesta a la
+frecuencia de esta configuraci\'on se muestra en la figura \ref{fig:cicresp}.
 
-\begin{figure}[hpt]
+\begin{figure}[tp]
 \centering
 	\includegraphics[width=5.9in]{figs/cicresponse}
 	\caption{Respuesta a la frecuencia del filtro CIC de 4 etapas y R =	4}
@@ -205,7 +206,7 @@ H(e^{j\omega})=e^{-j\omega N-1/2}H_0(e^{-j\omega})
 
 donde $H_0(e^{-j\omega})$ representa la respuesta a la amplitud con valor real.
 
-\begin{figure}[hpt]
+\begin{figure}[pt]
 \centering
 	\includegraphics[width=5.9in]{figs/hbresponse}
 	\caption{Respuesta a la frecuencia del filtro de media banda}

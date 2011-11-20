@@ -173,9 +173,8 @@ utilizando la siguiente expresi\'on:
 \end{aligned}
 \end{equation}
 Si la se\~nal se modula antes de enviarla con una portadora o envolvente de
-mayor frecuencia a la se\~nal que se desea enviar, por ejemplo 900Mhz, el
-di\'ametro de la antena ser\'a de 8cm. Por esta raz\'on la modulaci\'on es un
-paso esencial en todos los sistemas que involucran transmisi\'on de datos por
+mayor frecuencia a la se\~nal que se desea enviar, por ejemplo 900Mhz, la longitud de la antena ser\'a de 8cm. Por esta raz\'on
+la modulaci\'on es un paso esencial en todos los sistemas que involucran transmisi\'on de datos por
 radio.
 
 Otro beneficio que ofrece la modulaci\'on es de poder colocar la frecuencia de la se\~nal en otra
@@ -320,7 +319,7 @@ pueda compensar las distorsiones generadas por ambos, el transmisor y el canal.
 Asumiendo que el ruido que contiene la se\~nal es Gauseano, la salida del demodulador en la figura
 \ref{fig:simpledemod} entrega la siguiente prueba estad\'istica:
 
-\begin{equation}
+\begin{equation}\label{eq:demgauss}
 z(T)=a_i(T)+n_0(T) \quad i=1,2
 \end{equation}
 
@@ -482,7 +481,7 @@ senoidal y luego por un filtro pasa bajas para obtener $Q(t)$.
 El estudio de la tasa de error de bits es de gran importancia ya que nos proporciona una medida del
 rendimiento del sistema de comunicaciones. Esta medida se interpreta en t\'erminos de probabilidad de
 error del s\'imbolo enviado $P_E$ dado que fue corrompido por el ruido del canal. El ruido se puede
-definir como un disturbio no deseable en la se\~nal que se est\'a transmitiendo. Este fen\'omeno
+definir como una perturbaci\'on no deseable en la se\~nal que se est\'a transmitiendo. Este fen\'omeno
 siempre existe en un canal de transmisi\'on y generalmente no se puede evitar, por lo que es
 necesario tomarlo en cuenta durante el dise\~no de un sistema de comunicaci\'on.
 
@@ -705,8 +704,8 @@ e_n=(y_n \cdot y_{n-1}) - (y_n \cdot y_{n-1})
 
 donde $y_n$ es la muestra del s\'imbolo actual y $y_{n-1}$ es la muestra del s\'imbolo previo. El sincronizador requiere que
 previamente se haya realizado la recuperacion de la fase ya que el algoritmo es muy sencible a offsets en la portadora. La
-discusi\'on matematica de este sincronizador esta fuera del alcanse de este trabajo pero se invita al lector a consultar la
-bibliografia si desea aprender mas sobre la composicion y funcionamiento interno de este y otros sincronizadores. 
+discusi\'on matem\'atica de este sincronizador esta fuera del alcance de este trabajo pero se invita al lector a consultar la
+bibliograf\'ia si desea aprender mas sobre la composici\'on y funcionamiento interno de este y otros sincronizadores. 
 
 %==========================================================================
 \section{Concepto de radio reconfigurable por software}
