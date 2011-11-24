@@ -357,9 +357,9 @@ magnitud de $z(T)$ habr\'a menos errores en el proceso de decisi\'on de s\'imbol
 se realiza tomando la hip\'otesis resultante de la medici\'on del umbral dada por la ecuaci\'on
 \ref{eq:ineq}\cite{sklar}:
 
-\begin{equation}
+\begin{equation}\label{eq:ineq}
 z(T)\overset{H_1}{\underset{H_2}{\overset{<}{>}}}\gamma
-\end{equation}\label{eq:ineq}
+\end{equation}
 
 donde $H_1$ y $H_2$ son dos posibles hip\'otesis binarias e indica que la hip\'otesis $H_1$ es la que se
 escoge si $z(T)>\gamma$ y $H_2$ se escoge si $z(T)< \gamma$. Esto es equivalente a escoger un 0 o un
@@ -393,7 +393,7 @@ transmisi\'on.
 
 La modulaci\'on PSK tiene la siguiente expresi\'on general:
 \begin{equation}\label{eq:pskgen}
-s(t)=\sqrt{\frac{2E}{T}}\cos(\omega_0t+\phi_i(t))
+s(t)=\sqrt{\frac{2E}{T}}\cos(\omega_i(t)+\phi_i(t))
 \end{equation}
 donde $E$ es la energ\'ia por s\'imbolo, $T$ es la duraci\'on de cada s\'imbolo,
 $\omega_i(t)$ es la frecuencia de la portadora y el t\'ermino $\phi_i(t)$
