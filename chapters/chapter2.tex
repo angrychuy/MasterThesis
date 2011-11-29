@@ -71,7 +71,7 @@ Algunos ejemplos de varios tipos de se\~nales se muestran en la tabla
 		\begin{itemize}
 		  \item Ingenier\'ia de Agricultura: vegetaci\'on y evaporaci\'on en un campo.
 		  \item Geograf\'ia: temperatura de la superficie y mapas de presi\'on.
-		  \item Ingenier\'ia de Tr\'afico: taza de accidentes en un d\'ia de una
+		  \item Ingenier\'ia de Tr\'afico: tasa de accidentes en un d\'ia de una
 		  ciudad.
 		\end{itemize} \\
 		\hline
@@ -94,7 +94,7 @@ Algunos ejemplos de varios tipos de se\~nales se muestran en la tabla
 \newpage
 \section{Sistema de comunicaciones digitales}
 
-Los componentes t\'ipicos de un sistema de comunicaciones digitales se muestran
+Los componentes t\'ipicos de un sistema de comunicaciones digital se muestran
 en la figura \ref{fig:siscom}.
 
 \begin{figure}[hpt]
@@ -125,7 +125,7 @@ en la figura \ref{fig:siscom}.
 La informaci\'on que se desea enviar es convertida en d\'igitos binarios en la
 etapa de Formato de Mensaje. Estos d\'igitos son agrupados para formar mensajes
 digitales o s\'imbolos para poder asegurar compatibilidad entre la informaci\'on
-y el procesamiento de se\~nales dentro del sistema de comunicaciones digitales.
+y el procesamiento de se\~nales dentro de un sistema de comunicaciones digital.
 Hasta este punto la informaci\'on permanece en forma de una cadena de bits. La
 modulaci\'on transforma los s\'imbolos del mensaje en formas de onda compatibles
 con el canal de transmisi\'on. El bloque modulaci\'on por pulsos es importante
@@ -146,19 +146,18 @@ representa la respuesta al impulso del canal, $s_i(t)$ es la se\~nal transmitida
 y $n(t)$ representa un proceso de ruido.
 
 En el lado del receptor, el demodulador restablece $r(t)$ en pulsos banda base
-\'optimamente formados $z(t)$ en preparaci\'on para ser detectados. Algunos
-autores utilizan el t\'ermino demodulaci\'on y detecci\'on intercambiable y
-otros definen la demodulaci\'on como el proceso de recuperaci\'on de la forma de
-onda (pulso banda base), y detecci\'on como el proceso de toma de decisi\'on
-sobre el significado digital de la forma de onda.
+\'optimamente formados $z(t)$ en preparaci\'on para ser detectados.
 
-% 2.3 Concepto de modulador
+En comunicaciones digitales los t\'erminos demodulaci\'on y detecci\'on se utilizan de una manera intercambiable \cite{sklar}
+aunque la demodulaci\'on hace \'enfasis en la recuperaci\'on de la forma de onda y la detecci\'on se refiere al proceso de toma de
+decisi\'on de s\'imbolos.
+
 %==========================================================================
 \section{Concepto de modulador}
 
 En el campo de las telecomunicaciones, la modulaci\'on es el proceso de variar
-una forma de onda peri\'odica para enviar alg\'un tipo de mensaje. La necesidad
-de modular una secuencia de datos para ser transmitida es relativa tama\~no de
+una forma de onda peri\'odica para enviar alg\'un tipo de mensaje\cite{sklar}. La necesidad
+de modular una secuencia de datos para ser transmitida es relativa al tama\~no de
 la antena. Es posible transmitir una se\~nal sin antes haber sido modulada, pero
 el tama\~no de la antena para poderla transmitir ser\'ia muy grande que no
 ser\'ia factible la transmisi\'on. Por ejemplo, las se\~nales de tel\'efonos
@@ -172,15 +171,15 @@ utilizando la siguiente expresi\'on:
 \frac{\lambda}{4}&=2.5\times10^4m
 \end{aligned}
 \end{equation}
-Si la se\~nal se modula antes de enviarla con una portadora o envolvente de
+Si la se\~nal se modula antes de enviarse con una portadora o envolvente de
 mayor frecuencia a la se\~nal que se desea enviar, por ejemplo 900Mhz, la longitud de la antena ser\'a de 8cm. Por esta raz\'on
 la modulaci\'on es un paso esencial en todos los sistemas que involucran transmisi\'on de datos por
 radio.
 
 Otro beneficio que ofrece la modulaci\'on es de poder colocar la frecuencia de la se\~nal en otra
 donde los requerimientos de filtrado y amplificaci\'on, entre otros requerimientos de dise\~no,
-puedan ser logrados de una manera mas eficiente. Este es el caso donde por ejemplo, en el receptor,
-la se\~nal de RF que es recibida es convertida a una frecuencia intermedia (IF) para que el sistema
+puedan ser logrados de una manera m\'as eficiente. Este es el caso donde por ejemplo, en el receptor,
+la se\~nal de RF que es recibida es convertida a una IF (frecuencia intermedia) para que el sistema
 pueda procesarla correctamente.
 
 % 2.4 Envolvente compleja
@@ -223,16 +222,16 @@ s(t)&=x(t)\cos\omega_0t-y(t)\sin\omega_0t
 
 El proceso de demodulaci\'on consiste en recuperar la informaci\'on (bits) de la se\~nal
 transmitida con la menor cantidad de errores posible. Estos errores son causados por el ruido, el
-cual se puede definir como cualquier distorsi\'on no deseada en la se\~nal. Podemos considerar dos
+cual se puede definir como cualquier distorsi\'on no deseada en la se\~nal \cite{sklar}. Podemos considerar dos
 causas principales de ruido. La primera es debido al filtrado que se emplea en el transmisor, canal
 y receptor. Si la funci\'on de transferencia de estos filtros no es la ideal pueden llegar a causar
-un fen\'omeno conocido como interferencia entre s\'imbolos (ISI). La otra causa de degradaci\'on de
+un fen\'omeno conocido como ISI (interferencia entre s\'imbolos). La otra causa de degradaci\'on de
 la se\~nal es debido a la interferencia generada por el medio ambiente incluyendo interferencia con
 otras se\~nales. Existe un fen\'omeno natural que no se puede eliminar ni controlar denominado
 \emph{ruido t\'ermico}. Este tipo de ruido es generado por el movimiento t\'ermico de los electrones
-en cualquier medio conductor y puede ser descrito como un proceso aleatorio Gausseano con media cero, o sea, $\mu=0$. Un
+en cualquier medio conductor y puede ser descrito como un proceso aleatorio Gausseano con media cero, es decir, $\mu=0$. Un
 proceso Gausseano $n(t)$ es una funci\'on aleatoria el cual su valor $n$ en cualquier punto en un tiempo $t$ esta
-caracterizado por la funci\'on de densidad de probabilidad (PDF)
+caracterizado por la PDF (funci\'on de densidad de probabilidad)
 
 \begin{equation}\label{eq:gauss}
 p(n)=\frac{1}{\sigma\sqrt{2\pi}}\exp\left[-\frac{1}{2}\left(\frac{n}{\sigma}\right)^2\right]
@@ -240,6 +239,7 @@ p(n)=\frac{1}{\sigma\sqrt{2\pi}}\exp\left[-\frac{1}{2}\left(\frac{n}{\sigma}\rig
 
 donde $\sigma^2$ es la varianza de la muestra $n$. Su representaci\'on gr\'afica se muestra en la figura \ref{fig:gauss}.
 
+%TODO: Agregar citacion de SKLAR
 \begin{figure}[ht]
 \centering
 	\includegraphics[width=5.5in]{figs/gauss}
@@ -305,13 +305,13 @@ figura \ref{fig:simpledemod}.
 	\label{fig:simpledemod}
 \end{figure}
 
-Dentro de la etapa de demodulaci\'on, el bloque de conversi\'on de frecuencia hacia abajo
+Dentro de la etapa de demodulaci\'on, el bloque de conversi\'on de frecuencia hacia abajo (FDC)
 realiza la operaci\'on de mover la frecuencia central de la se\~nal a otra mas baja. Esta nueva
-frecuencia puede ser 0 (DC) o una intermedia. Este bloque normalmente se emplea para se\~nales de
+frecuencia puede ser 0Hz (DC o corriente directa) o una intermedia. Este bloque normalmente se emplea para se\~nales de
 tipo pasa bandas. Su empleo es totalmente opcional ya que se utiliza para acondicionar la frecuencia
 de la se\~nal a una que el sistema de detecci\'on pueda utilizar adecuadamente. El siguiente bloque
 implementa un filtro acoplado que se utiliza para recuperar los pulsos de banda base con la mejor
-taza de se\~nal a ruido (SNR). En algunos casos se utiliza un filtro equalizador para reducir el
+tasa de se\~nal a ruido (SNR). En algunos casos se utiliza un filtro equalizador para reducir el
 fen\'omeno de ISI inducido por el canal y se introduce despu\'es del filtro acoplado. La mayor\'ia de
 veces es preferible implementar un solo filtro que realize ambas operaciones para que de esa manera
 pueda compensar las distorsiones generadas por ambos, el transmisor y el canal.
@@ -323,7 +323,7 @@ Asumiendo que el ruido que contiene la se\~nal es Gauseano, la salida del demodu
 z(T)=a_i(T)+n_0(T) \quad i=1,2
 \end{equation}
 
-para un sistema binario, donde $a_i(T)$ es la se\~nal deseada, $n_0$ es el ruido y $T$ es la duraci\'on del s\'imbolo. Como
+para un sistema binario, donde $a_i(T)$ es la se\~nal deseada, $n_0$ es el ruido y $T$ es la duraci\'on de un s\'imbolo. Como
 el ruido es un proceso Gauseano aleatorio, $z(T)$ es una variable Gauseana aleatoria que tendr\'a una media de
 $a_1$ o $a_2$ dependiendo si un 1 o un 0 binario fue enviado. Con esto podemos expresar las
 funciones de densidad de probabilidad condicionales para cada s\'imbolo de la siguiente manera:
@@ -355,7 +355,7 @@ representan la densidad de probabilidad dado que $s_1$ o $s_2$ haya sido transmi
 $z(T)$ es un voltaje proporcional a la energ\'ia del s\'imbolo recibido, entre m\'as grande sea la
 magnitud de $z(T)$ habr\'a menos errores en el proceso de decisi\'on de s\'imbolos. Esta decisi\'on
 se realiza tomando la hip\'otesis resultante de la medici\'on del umbral dada por la ecuaci\'on
-\ref{eq:ineq}\cite{sklar}:
+\ref{eq:ineq} \cite{sklar}:
 
 \begin{equation}\label{eq:ineq}
 z(T)\overset{H_1}{\underset{H_2}{\overset{<}{>}}}\gamma
@@ -393,10 +393,10 @@ transmisi\'on.
 
 La modulaci\'on PSK tiene la siguiente expresi\'on general:
 \begin{equation}\label{eq:pskgen}
-s(t)=\sqrt{\frac{2E}{T}}\cos(\omega_i(t)+\phi_i(t))
+s_i(t)=\sqrt{\frac{2E}{T}}\cos(\omega_0t+\phi_i(t))
 \end{equation}
 donde $E$ es la energ\'ia por s\'imbolo, $T$ es la duraci\'on de cada s\'imbolo,
-$\omega_i(t)$ es la frecuencia de la portadora y el t\'ermino $\phi_i(t)$
+$\omega_0t$ es la frecuencia de la portadora y el t\'ermino $\phi_i(t)$
 representa los cambios de fase en la se\~nal. Estos valores son t\'ipicamente
 dados por la siguiente expresi\'on:
 \begin{equation}\label{eq:levelfase}
@@ -404,7 +404,7 @@ dados por la siguiente expresi\'on:
 \end{equation}
 donde $M$ es la cantidad de elementos del alfabeto.
 
-La forma m\'as simple de PSK se llama BPSK. Este esquema utiliza un alfabeto de
+La forma m\'as simple de PSK se llama BPSK (Modulaci\'on por corrimiento de fase binaria). Este esquema utiliza un alfabeto de
 dos posibles valores separados por 180 grados. Estos valores se pueden observar
 claramente en el diagrama de constelaci\'on mostrado en la figura
 \ref{fig:bpskconst}. Este diagrama muestra la se\~nal en forma vectorial,
@@ -444,7 +444,7 @@ envolvente.
 
 En el receptor estas dos se\~nales son demoduladas utilizando un demodulador
 coherente, es decir, un demodulador que sincroniza la fase de su oscilador
-local con la fase de la del oscilador del modulador. Tal receptor multiplica la
+local con la fase del oscilador del modulador. Tal receptor multiplica la
 se\~nal por separado con una se\~nal seno y coseno para producir los estimados
 de $I(t)$ y $Q(t)$ respectivamente.
 
@@ -472,7 +472,7 @@ r_i(t)&=\frac{1}{2}I(t)+\frac{1}{2}[I(t)\cos(4\omega_0t)+Q(t)\sin(4\omega_0t)]
 \end{equation}
 
 Aplicando un filtro pasa bajas a $r_i(t)$ se pueden eliminar los t\'erminos de
-frecuencia (los que tienen el t\'ermino $\omega_0$)dejando \'unicamente el
+frecuencia (los que tienen el t\'ermino $\omega_0$) dejando \'unicamente el
 t\'ermino $I(t)$. Similarmente se puede multiplicar $s(t)$ por una se\~nal
 senoidal y luego por un filtro pasa bajas para obtener $Q(t)$.
 
@@ -481,7 +481,7 @@ senoidal y luego por un filtro pasa bajas para obtener $Q(t)$.
 El estudio de la tasa de error de bits es de gran importancia ya que nos proporciona una medida del
 rendimiento del sistema de comunicaciones. Esta medida se interpreta en t\'erminos de probabilidad de
 error del s\'imbolo enviado $P_E$ dado que fue corrompido por el ruido del canal. El ruido se puede
-definir como una perturbaci\'on no deseable en la se\~nal que se est\'a transmitiendo. Este fen\'omeno
+definir como una perturbaci\'on no deseable en la se\~nal que se est\'a transmitiendo \cite{sklar}. Este fen\'omeno
 siempre existe en un canal de transmisi\'on y generalmente no se puede evitar, por lo que es
 necesario tomarlo en cuenta durante el dise\~no de un sistema de comunicaci\'on.
 
@@ -505,9 +505,9 @@ dise\~no del sistema. Un ejemplo se muestra en la figura \ref{fig:eyeform}\cite{
 \end{figure}
 
 La forma convencional de generar el diagrama de ojo es por medio de un osciloscopio en modo de
-persistencia. Cada captura es obtenida mediante un reloj de sincronizaci\'on obtenida de la misma
+persistencia. Cada captura es obtenida mediante un reloj de sincronizaci\'on obtenido de la misma
 forma de onda recibida. El modo de persistencia causar\'a que los trazos de la onda se sobrepongan
-una con la otra hasta formar el patr\'on de ojo sobre la pantalla. Los par\'ametros que se pueden
+una con otra hasta formar el patr\'on de ojo sobre la pantalla. Los par\'ametros que se pueden
 medir se muestran en la figura \ref{fig:eyeparams}\cite{breed}.
 
 La distorsi\'on en el tiempo de muestreo es generada por el fen\'omeno de ISI. La diferencia en
@@ -519,7 +519,7 @@ m\'as err\'oneo el muestreo de la se\~nal recibida.
 \begin{figure}[hbp]
 \centering
 	\includegraphics[width=4in]{figs/eyeparams}
-	\caption{Par\'ametros de medici\'on del diagrama de ojo.}
+	\caption{Par\'ametros de medici\'on de un diagrama de ojo.}
 	\label{fig:eyeparams}
 \end{figure}
 
@@ -540,27 +540,28 @@ arriba. Un ejemplo de un espectrograma se muestra en la figura \ref{fig:spectrog
 
 %==========================================================================
 \section{Sincronizaci\'on}
-El proposito del receptor es tomar la se\~nal transmitida y recuperar el mensaje que se transmitio. Para lograr esto el receptor
-tiene que muestrear la se\~nal para convertirla en un formato digital. Como se observ\'o en los parametros del diagrama de ojo
-\ref{fig:eyeparams}, el punto optimo para muestrear un s\'imbolo es en la zona mas abierta que corresponde al punto medio de cada
-s\'imbolo. Si el muestreo se realiza en la transicion de un simbolo a otro los valores resultantes pueden llegar a ser erroneos.
+El proposito de un receptor es tomar la se\~nal transmitida y recuperar el mensaje que se transmiti\'o. Para lograr esto el
+receptor tiene que muestrear la se\~nal para convertirla en un formato digital. Como se observa en los parametros del diagrama de
+ojo \ref{fig:eyeparams}, el punto \'optimo para muestrear un s\'imbolo es en la zona m\'as abierta que corresponde al punto medio
+de cada s\'imbolo. Si el muestreo se realiza en la transici\'on de un s\'imbolo a otro los valores resultantes pueden llegar a ser
+erroneos.
 
-Si asumimos que $T$ es la taza de muestreo, $\tau$ es el tiempo que tarda en llegar el primer s\'imbolo y $\delta$ el tiempo que
+Si asumimos que $T$ es la tasa de muestreo, $\tau$ es el tiempo que tarda en llegar el primer s\'imbolo y $\delta$ el tiempo que
 tarda la se\~nal en viajar del transmisor al receptor entonces el s\'imbolo $(k+1)$ empieza en $\tau+kT$ y tarda $\tau+kT+\delta$
-en llegar a su destino. El receptor comienza a muestrear en el momento $n$ y de ahi muestrea cada $n+kT$. Si el mejor punto para
-muestrear ocurre en $\tau+kT+ \delta + T/2$ entonces podemos hacer que $n$ sea:
+en llegar a su destino. El receptor comienza a muestrear en el momento $n$ y a partir de ese punto muestrea cada $n+kT$. Si el
+mejor punto para muestrear ocurre en $\tau+kT+ \delta + T/2$ entonces se puede hacer que $n$ sea:
 
 \begin{equation}\label{eq:sampling}
 n=\tau+\delta+T/2
 \end{equation}
 
-y de esta manera lograremos recuperar el mensaje transmitido sin ningun problema. Mas sin embargo, al observar bien la ecuacion
-\ref{eq:sampling} podemos ver dos problemas inmediatamente: el receptor no sabe a que horas se inicio la transmicion y tampoco
-sabe cuanto tarda en llegar la se\~nal. Por lo tanto la ecucacion \ref{eq:sampling} contine dos variables desconocidas. Para
-resolver este problema se requiere emplear metodos de sincronizaci\'on para poder extraer la frecuencia y el reloj de la se\~nal
-recibida.
+y de esta manera se logra recuperar el mensaje transmitido sin ning\'un problema. Mas sin embargo, al observar bien la ecuaci\'on
+\ref{eq:sampling} se puede ver dos problemas inmediatamente: el receptor no sabe en qu\'e tiempo se inici\'o la transmici\'on y
+adicionalmente, no sabe cuanto tarda en llegar la se\~nal. Por lo tanto la ecucaci\'on \ref{eq:sampling} contiene dos
+variables desconocidas. Para resolver este problema se requiere emplear m\'etodos de sincronizaci\'on que permitan extraer la
+frecuencia y el reloj de la se\~nal recibida.
 
-Hay varios metodos de sincronizaci\'on en receptores digitales:
+Existen varios m\'etodos de sincronizaci\'on en receptores digitales, tales como:
 
 \begin{itemize}
   \item Sincronizaci\'on de fase de s\'imbolos: Escoger el momento adecaudo para tomar la muestra (Escoger $T$).
@@ -571,10 +572,9 @@ Hay varios metodos de sincronizaci\'on en receptores digitales:
   \item Sincronizaci\'on de trama: Detectar el inicio de cada mensaje.
 \end{itemize}
 
-%TODO: Insert reference to new book (spanish book)
 Para poder realizar la sincronizcion de fase se pueden emplear circuitos basados en lazos de fijacion de fase (PLL por sus siglas
-en ingles \emph{phase-locked loop}). Dos circuitos comunes son el circuito cuadrado y el lazo de costas \cite{perez}. El diagrama
-a bloques representativo del circuito cuadrado se muestra en la figura \ref{fig:ccuad}.
+en Ingl\'es \emph{phase-locked loop}). Dos circuitos comunes son el circuito cuadrado y el lazo de costas \cite{perez}. El
+diagrama a bloques representativo de un circuito cuadrado se muestra en la figura \ref{fig:ccuad}.
 
 \begin{figure}[htp]
 \centering
@@ -593,16 +593,17 @@ a bloques representativo del circuito cuadrado se muestra en la figura \ref{fig:
         \path[->, very thick] (df) edge node {Mensaje} (m);
     \end{tikzpicture}
     \vspace{0.3in}
-    \caption{Diagrama a bloques del circuito cuadrado. \protect\cite{perez}}
+    \caption{Diagrama a bloques de un circuito cuadrado. \protect\cite{perez}}
     \label{fig:ccuad}
 \end{figure}
 
-La se\~nal entra al circuito donde se filtra para reducir el ancho de banda y se eleva al cuadrado para quitar la modulacion y
-generar la segunda armonica de la frecuencia portadora, la cual es rastreada con la fase por el PLL. La frecuencia de salida del
-VCO del PLL se divide entre 2 y se utiliza como referencia de fase para los detectores de producto.
+La se\~nal entra al circuito donde se filtra para reducir el ancho de banda y se eleva al cuadrado para quitar la modulaci\'on y
+generar la segunda arm\'onica de la frecuencia portadora, la cual es rastreada con la fase por el PLL. La frecuencia de salida del
+VCO (Oscilador controlado por voltaje) del PLL se divide entre dos y se utiliza como referencia de fase para los detectores de
+producto.
 
 El lazo de costas utiliza dos circuitos de rastreo en paralelo, I y Q, para derivar el producto de los componentes I y Q de la
-se\~nal que maneja el VCO. Una vez que la frecuencia del VCO es igual a la frecuencia de la portadora suprimida, el producto de
+se\~nal que maneja el VCO. Una vez que la frecuencia del VCO sea igual a la frecuencia de la portadora suprimida, el producto de
 las se\~nales I y Q producir\'a un voltaje de error proporcional a cualquier error de fase del VCO. Este voltaje controla la fase
 y la frecuencia del VCO. El diagrama a bloques del lazo de costas se muestra en la figura \ref{fig:costas}
 
@@ -637,29 +638,29 @@ y la frecuencia del VCO. El diagrama a bloques del lazo de costas se muestra en 
 \draw[very thick, ->] (d-4-4) edge (d-4-3);
 \end{tikzpicture}
   \vspace{0.3in}
-  \caption{Diagrama a bloques del sincronizador del lazo de costas. \protect\cite{perez}}
+  \caption{Diagrama a bloques de un sincronizador de Lazo de Costas. \protect\cite{perez}}
   \label{fig:costas}
 \end{figure}
 
 Desde el punto de vista operacional, los sincronizadores de reloj se pueden catalogar de dos formas: sincronizadores de rastreo de
 error (lazo cerrado) y sincronizadores de lazo abierto \cite{meyr}. Los sincronizadores de rastreo de error siguen el principio
 del circuito PLL para extraer el reloj. La se\~nal de entrada es comparada con una se\~nal generada localmente por un VCO por un detector de
-error de sincronia el cual su salida produce una estimacion del signo y la magnitud del error de sincronia
+error de sincronia el cual su salida produce una estimaci\'on del signo y la magnitud del error de sincron\'ia
 
 \begin{equation}
 e = \varepsilon - \hat{\varepsilon}
 \end{equation}
 
-donde $\varepsilon$ es el error de la se\~nal PAM de entrada y $\hat{\varepsilon}$ es la estimaci\'on de sincronia. La salida
-filtrada del detector de error de sincronia ajusta la estimacion $\hat{\varepsilon}$ para reducir el error $e$. Esta estimaci\'on
-es el retraso normalizado de la se\~nal de referencia, la cual activa la etapa de muestreo.
+donde $\varepsilon$ es el error de la se\~nal PAM (Modulaci\'on por amplitud de pulso) de entrada y $\hat{\varepsilon}$ es la
+estimaci\'on de sincron\'ia. La salida filtrada del detector de error de sincron\'ia ajusta la estimaci\'on $\hat{\varepsilon}$
+para reducir el error $e$. Esta estimaci\'on es el retraso normalizado de la se\~nal de referencia, la cual activa la etapa de muestreo.
 
-En el sincronizador de lazo abierto, la se\~nal PAM entra al detector de error de sincronia el cual mide el valor instantaneo de
+En el sincronizador de lazo abierto, la se\~nal PAM entra al detector de error de sincron\'ia el cual mide el valor instantaneo de
 $\varepsilon$ \cite{meyr}. Las mediciones a la salida del detector de error pasan por un filtro de promedio para producir la
-estimacion $\hat{\varepsilon}$ y asi activar la etapa de muestreo.
+estimaci\'on $\hat{\varepsilon}$ y as\'i activar la etapa de muestreo.
 
-Como se ver\'a en el capitulo \ref{ch:estudio}, \gnuradio utiliza un sincronizador de lazo cerrado llamado \emph{sincronizador de
-Mueller y M\"uller} (M\&M por las iniciales de sus autores). Su diagrama a bloques funcional se muestra en la figura \ref{fig:mm}.
+Como se ver\'a en el cap\'itulo \ref{ch:estudio}, \gnuradio utiliza un sincronizador de lazo cerrado llamado \emph{sincronizador
+de Mueller y M\"uller} (M\&M por las iniciales de sus autores). Su diagrama a bloques funcional se muestra en la figura \ref{fig:mm}.
 
 \begin{figure}[htp]
   \centering
@@ -694,14 +695,15 @@ Mueller y M\"uller} (M\&M por las iniciales de sus autores). Su diagrama a bloqu
   \label{fig:mm}
 \end{figure}
 
-Como el sincronizador utiliza los resultados de decision de s\'imbolos del receptor se dice que es un sincronizador
-\emph{dirigido por decisiones} \cite{louis}. El algoritmo requiere unicamente una muestra para representar cada s\'imbolo y el
+Como el sincronizador utiliza los resultados de decisi\'on de s\'imbolos del receptor se dice que es un sincronizador
+\emph{dirigido por decisiones} \cite{louis}. El algoritmo requiere \'unicamente una muestra para representar cada s\'imbolo y el
 error se calcula de la siguiente manera
 
 \begin{equation}
-e_n=(y_n \cdot y_{n-1}) - (y_n \cdot y_{n-1})
+e_n=(y_n \cdot \hat{y}_{n-1}) - (\hat{y}_n \cdot y_{n-1})
 \end{equation}
 
+%TODO: Explicar que significa y with hat
 donde $y_n$ es la muestra del s\'imbolo actual y $y_{n-1}$ es la muestra del s\'imbolo previo. El sincronizador requiere que
 previamente se haya realizado la recuperacion de la fase ya que el algoritmo es muy sencible a offsets en la portadora. La
 discusi\'on matem\'atica de este sincronizador esta fuera del alcance de este trabajo pero se invita al lector a consultar la

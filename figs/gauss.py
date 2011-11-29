@@ -35,6 +35,6 @@ annotate("$\sigma$",xy=(0.0,0.8), xytext=(1,0.76),
 annotate("$2 \sigma$",xy=(0.0,0.1), xytext=(2,0.04), 
          arrowprops=dict(arrowstyle='<->'), size=20)
 
-text(0.5,2.5,r"$p(z)=\frac{1}{\sigma\sqrt{2\pi}}\exp\left[-\frac{1}{2}\left(\frac{z-a}{\sigma}\right)^2\right]$", size=20)
+text(0.5,2.5,r"$p(n)=\frac{1}{\sigma\sqrt{2\pi}}\exp\left[-\frac{1}{2}\left(\frac{n}{\sigma}\right)^2\right]$", size=20)
 savefig('gauss.png')
 show()
