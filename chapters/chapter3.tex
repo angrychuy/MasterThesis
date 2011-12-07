@@ -866,13 +866,13 @@ Nyquist de $1/2T$ \cite{sklar}. A este par\'ametro se le llama exceso de ancho d
 respuesta a la frecuencia de este filtro se muestra en la ecuaci\'on \eqref{eq:rrctransfer}.
 
 \begin{equation}\label{eq:rrctransfer}
-H(s)=\left\{
+H(f)=\left\{
 \begin{array}{l l}
-T_b & \quad \text{para $|f| < \frac{1-\alpha}{2T_b}$}\\
+T_b & \quad \text{para $|f| \leq \frac{1-\alpha}{2T_b}$}\\
 \frac{T_b}{2}\left\{1+\cos{\left[\frac{\pi
 T_b}{\alpha}\left(|f|-\frac{1-\alpha}{2T_b}\right)\right]}\right\} & \quad \text{para
-$\frac{1-\alpha}{2T_b} \leq |f| \leq \frac{1+\alpha}{2T_b}$}\\ 0 & \quad \text{para $|f| >
-\frac{1+\alpha}{2T_b}$} \end{array}\right.
+$\frac{1-\alpha}{2T_b} \leq |f| \leq \frac{1+\alpha}{2T_b}$}\\ 0 & \quad \text{de lo contrario} 
+\end{array}\right.
 \end{equation}
 
 donde $0 \leq \alpha \leq 1$ se le conoce como el factor de exceso de ancho de banda, $T_b$ es el
@@ -881,7 +881,7 @@ periodo de s\'imbolos y $f$ es la frecuencia.
 La respuesta al impulso del filtro esta dado por:
 
 \begin{align}\label{eq:imptransfer}
-x(t)&=\frac{\sin{(\pi t/T_b)}}{\pi t/T_b}\frac{\cos{(\pi\alpha t/T_b)}}{1-4\alpha^2t^2/T_b^2}
+h(t)&=\frac{\sin{(\pi t/T_b)}}{\pi t/T_b}\frac{\cos{(\pi\alpha t/T_b)}}{1-4\alpha^2t^2/T_b^2}
 \nonumber \\ 
 &=\sinc{(t/T_b)}\frac{\cos{(\pi \alpha t/T_b)}}{1-4\alpha^2t^2/T_b^2}
 \end{align}
