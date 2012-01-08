@@ -8,13 +8,12 @@
 \section{Concepto de se\~nal}
 
 Una se\~nal se puede definir como una cantidad que se puede medir a trav\'es del
-tiempo. Esta cantidad puede representar diversas cosas dependiendo de la
+tiempo \cite{sklar}. Esta cantidad puede representar diversas cosas dependiendo de la
 aplicaci\'on. Las se\~nales pueden ser de dos tipos: an\'alogas \'o discretas.
 Las se\~nales an\'alogas, o tambi\'en conocidas como continuas, se pueden
 definir como una funci\'on de valores reales o complejos, las cuales est\'an
 definidas dentro de un intervalo de tiempo $t$. Este intervalo es normalmente 
-infinito aunque tambi\'en se puede acotar a un
-intervalo espec\'ifico, dependiendo del instante de tiempo que se desea medir. 
+infinito aunque tambi\'en se puede acotar a un intervalo espec\'ifico, dependiendo del instante de tiempo que se desea medir. 
 Las se\~nales discretas se definen como una funci\'on derivada de un conjunto de 
 n\'umeros acotados a un intervalo espec\'ifico. Estos n\'umeros son las muestras
 que se tomaron de la se\~nal en tiempos discretos. Esta informaci\'on es
@@ -243,7 +242,7 @@ donde $\sigma^2$ es la varianza de la muestra $n$. Su representaci\'on gr\'afica
 \begin{figure}[ht]
 \centering
 	\includegraphics[width=5.5in]{figs/gauss}
-	\caption{Funci\'on de densidad de probabilidad de la distribuci\'on Gaussiana}
+	\caption{Funci\'on de densidad de probabilidad de la distribuci\'on Gaussiana \protect\cite{sklar}}
 	\label{fig:gauss}
 \end{figure}
 
@@ -480,7 +479,7 @@ senoidal y luego por un filtro pasa bajas para obtener $Q(t)$.
 \section{Tasa de error de bits QPSK}
 El estudio de la tasa de error de bits es de gran importancia ya que nos proporciona una medida del
 rendimiento del sistema de comunicaciones. Esta medida se interpreta en t\'erminos de probabilidad de
-error del s\'imbolo enviado $P_E$ dado que fue corrompido por el ruido del canal. El ruido se puede
+error de un s\'imbolo enviado $P_E$ dado que fue corrompido por el ruido del canal. El ruido se puede
 definir como una perturbaci\'on no deseable en la se\~nal que se est\'a transmitiendo \cite{sklar}. Este fen\'omeno
 siempre existe en un canal de transmisi\'on y generalmente no se puede evitar, por lo que es
 necesario tomarlo en cuenta durante el dise\~no de un sistema de comunicaci\'on.
@@ -493,7 +492,7 @@ rendimiento de un sistema de comunicaciones, ya sea de la etapa de transmisi\'on
 son ampliamente utilizadas para verificar el an\'alisis te\'orico o pr\'actico.
 
 \subsection{Diagrama de ojo}
-Una manera eficiente de visualizar la calidad de la se\~nal en el receptor es por medio del diagrama
+Una manera eficiente de visualizar la calidad de la se\~nal en el receptor es por medio de un diagrama
 de ojo. Este diagrama contiene todas las posibles secuencias de bits que muestran debilidades en el
 dise\~no del sistema. Un ejemplo se muestra en la figura \ref{fig:eyeform}\cite{foster}.
 
@@ -678,7 +677,7 @@ de Mueller y M\"uller} (M\&M por las iniciales de sus autores). Su diagrama a bl
         edge [<-, very thick] (c1);
     \node [coordinate, right of=dec] (c2) {}
         edge [-, very thick] (dec);
-    \node [empty, right of=c2] (exit) {\footnotesize{salida}}
+    \node [empty, right of=c2] (exit) {\footnotesize{Salida}}
         edge [<-, very thick] (c2);
     \node [block, below of=dec] (mm) {\footnotesize{Detector de error M\&M}};
     \draw[->, very thick] (c1) |- (mm);
@@ -712,15 +711,15 @@ bibliograf\'ia si desea aprender mas sobre la composici\'on y funcionamiento int
 %==========================================================================
 \section{Concepto de radio reconfigurable por software}
 
-El concepto del radio definido por software fue primeramente establecido por Joseph Mitola\citeyear{mitola}. Normalmente se les
-llaman SDR por sus siglas en ingles (\emph{Software Defined Radio}). Este tipo de radio consiste en reemplazar los moduladores,
-filtros, amplificadores, etc., de un sistema de RF t\'ipico y reemplazarlos por software. La idea principal es conectar la antena
-lo m\'as cerca al procesador. Un sistema b\'asico podr\'ia consistir en una PC, una tarjeta de sonido y alguna circuiter\'ia de RF
-para acoplar la antena. Un diagrama a bloques del sistema b\'asico de un SDR se muestra en la figura \ref{fig:sdr}. Para un
-sistema receptor SDR lo \'unico que se tiene que cambiar es el bloque de DAC por un ADC. Gracias al procesamiento digital de
+El concepto de radio definido por software fue primeramente establecido por Joseph Mitola\cite{mitola}. Comunmente se les
+llaman SDR por sus siglas en Ingl\'es (\emph{Software Defined Radio}). Este tipo de radio consiste en reemplazar los moduladores,
+filtros, amplificadores, entre otros componentes, de un sistema t\'ipico de RF y reemplazarlos por software. Lo \'optimo
+es conectar la antena lo m\'as cerca al procesador. Un sistema b\'asico puede consistir en una PC, una tarjeta de sonido y alguna
+circuiter\'ia de RF para acoplar la antena. Un diagrama a bloques del sistema b\'asico de un SDR se muestra en la figura \ref{fig:sdr}. Para un
+sistema receptor SDR lo \'unico que se tiene que cambiar es el bloque de DAC por un ADC. Con el apoyo del procesamiento digital de
 se\~nales dentro del procesador, este tipo de radio puede trabajar con diferentes tipos de se\~nales, codificaciones y
 modulaciones con tan solo cambiar el software. Algunas ventajas que estos sistemas ofrecen son: bajo costo, un factor de tama\~no
-m\'as peque\~no y una mayor facilidad de mantenimiento y actualizaci\'on.
+reducido y una mayor facilidad de mantenimiento y actualizaci\'on.
 
 \begin{figure}[tp]
 \centering
@@ -737,8 +736,8 @@ m\'as peque\~no y una mayor facilidad de mantenimiento y actualizaci\'on.
 \end{figure}
 
 Los requerimientos del procesador general para la implementaci\'on de algoritmos que llevan a cabo las tareas de modulaci\'on,
-codificaci\'on, etc., son tan grandes que hoy en d\'ia aun no hay plataformas suficientemente poderosas para implementar el SDR
-ideal. Sin embargo, los avances tecnol\'ogicos de hoy est\'an permitiendo el desarrollo de nuevos procesadores con capacidades
+codificaci\'on, entre otras, son tan grandes que hoy en d\'ia a\'un no hay plataformas suficientemente poderosas para implementar
+el SDR ideal. Sin embargo, los avances tecnol\'ogicos de hoy est\'an permitiendo el desarrollo de nuevos procesadores con capacidades
 suficientemente poderosas para esta aplicaci\'on en especial. Algunos procesadores como el OMAP3 de la Texas Instruments
 \cite{ti} y los FPGAs Virtex de Xilinx \cite{lyrtech} ofrecen plataformas altamente flexibles y con capacidad suficiente para la
 implementaci\'on de algoritmos sofisticados de modulaci\'on y codificaci\'on, as\'i como tambi\'en filtrado entre otros.
@@ -750,9 +749,9 @@ con la capacidad de poder establecer un enlace sin importar el tipo de radio y
 con capacidad de trabajar con diversas redes de comunicaci\'on. La ventaja
 principal que los l\'ideres militares ven en el uso de SDRs es la habilidad de
 poder configurar el sistema para utilizar diversas capas de protocolos y
-formatos sin actualizar el hardware. El programa JTRS (por sus siglas en ingles
+formatos sin actualizar el hardware. El programa JTRS (por sus siglas en Ingl\'es
 \emph{Joint Tactical Radio Systems}) es un SDR que permitir\'a a los soldados
-poder comunicarse con una amplia cantidad de redes de comunicaci\'on as\'i como
+comunicarse con una amplia cantidad de redes de comunicaci\'on as\'i como
 redes que utilizan arquitecturas viejas \cite{mchale}. El plan de
 este programa es remplazar el hardware tradicional de los radios utilizados en
 el ej\'ercito militar con dispositivos que puedan emular las capacidades de
@@ -772,16 +771,15 @@ militar por el sector de comunicaciones de Rockwell Collins.
 Otro ejemplo de una aplicaci\'on en el \'area acad\'emica es el proyecto Hydra
 de la Universidad de Texas en Austin \cite{hydra}. Este proyecto consiste en un
 sistema de pruebas enfocado a redes que soportan m\'ultiples saltos
-inal\'ambricos y donde la red toma ventaja de t\'ecnicas sofisticadas como OFDM
-y MIMO. El sistema se basa en el proyecto de \emph{GNURadio} y su plataforma de
-desarrollo USRP \cite{ettus} para la implementaci\'on de la etapa de RF y del
+inal\'ambricos y donde la red toma ventaja de t\'ecnicas sofisticadas como OFDM (Multiplexac\'on por Divisi\'on de Frecuencias
+Ortogonales) y MIMO (Multiples Entradas Multiples Salidas). El sistema se basa en el proyecto de \emph{GNURadio} y su plataforma
+de desarrollo USRP \cite{ettus} para la implementaci\'on de la etapa de RF y del
 software. La estructura de este sistema se muestra en la figura \ref{fig:hydra}.
 
 \begin{figure}[hpt]
 \centering
 	\includegraphics[scale=0.7]{figs/hydra}
 	\vspace{0.5in}
-	\caption{Diagrama a bloques de un nodo del sistema Hydra (Wireless
-	Comm Group, 2007)}
+	\caption{Diagrama a bloques de un nodo del sistema Hydra \protect\cite{hydra}}
 	\label{fig:hydra}
 \end{figure}
