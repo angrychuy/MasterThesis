@@ -5,17 +5,17 @@
 \label{ch:estudio}
 
 En este cap\'itulo se aplican los conceptos de la modulaci\'on QPSK para
-analizar el rendimiento de la plataforma USRP. El experimento consta de elaborar
-un programa que realice la modulaci\'on utilizando el lenguaje Python y
-\gnuradio\ bajo el ambiente Linux. Este programa va interactuar con el USRP
-por medio del puerto USB, intercambiando la informaci\'on que se transmite y
-recibe. El an\'alisis ser\'a visualizado en la PC utilizando las herramientas
+analizar el rendimiento de la plataforma USRP. El experimento consiti\'o en elaborar
+un programa que realice la modulaci\'on utilizando el lenguaje \emph{Python} y
+\gnuradio\ bajo el ambiente Linux. Este programa interact\'ua con el USRP
+por medio de un puerto USB, intercambiando la informaci\'on que se transmite y
+recibe. El an\'alisis se visualiza en la PC utilizando las herramientas
 que \gnuradio\ proporciona.
 
-La transmisi\'on se realizar\'a utilizando las tarjetas LFTX y LFRX. Estas
+La transmisi\'on se realiz\'o utilizando las tarjetas LFTX y LFRX de la compa\~nia Ettus. Estas
 tarjetas proporcionan acceso directo a las salidas del DAC y entradas del ADC
-respectivamente sin ning\'un tipo de amplificaci\'on y filtrado. Dependiendo la
-aplicaci\'on ser\'a necesario acoplar una etapa de RF para acondicionar la
+respectivamente sin ning\'un tipo de amplificaci\'on y filtrado. Dependiendo de la
+aplicaci\'on ser\'a necesario acoplar una etapa de RF que permita acondicionar la
 se\~nal y poder ser transmitida correctamente.
 
 % 3.1. Estructura del sistema USRP
@@ -29,8 +29,8 @@ comunicaciones.
 
 La figura \ref{fig:sisusrp} muestra los componentes que forman un sistema de
 comunicaciones implementado con el USRP. Todo el procesamiento en banda base, es decir,
-modulaciones, codificaciones, etc., es llevado a cabo en una PC x86. Esta PC
-contiene el programa Python que realiza todo el procesamiento digital con la
+modulaciones, codificaciones, entre otros, se lleva a cabo en una PC x86. Esta PC
+contiene el programa \emph{Python} que realiza todo el procesamiento digital con la
 se\~nal o se\~nales que se desean trabajar. Esto se lleva a cabo utilizando las
 herramientas proporcionadas por \gnuradio.
 
@@ -38,7 +38,7 @@ herramientas proporcionadas por \gnuradio.
 \centering
 	\includegraphics[width=5.5in]{figs/usrp}
 	\vspace{0.3in}
-	\caption{Placa principal del USRP.}
+	\caption{Placa principal del dispositivo USRP.}
 	\label{fig:sisusrp}
 \end{figure}
 
@@ -46,27 +46,28 @@ Los componentes principales del USRP son el FPGA Altera Cyclone EP1C12, los code
 velocidad , las interfaces de las tarjetas auxiliares y el controlador Cypress FX2 para la
 comunicaci\'on por el puerto USB. La tarjeta cuenta con 4 conectores donde se pueden conectar 2
 tarjetas TX y 2 RX o 2 tarjetas RFX (transmisor y receptor en una sola tarjeta auxiliar). Cada
-tarjeta puede acceder a dos de los 4 ADC/DACs. Si la tarjeta utiliza muestreo real (sin usar IQ)
-entonces esto permitir\'a tener 2 secciones de RF independientes, para un total de 4. Si se utiliza
+tarjeta puede acceder a dos de los 4 ADC/DACs. Si la tarjeta utiliza muestreo real (sin usar componentes en fase y cuadratura o
+IQ) entonces esto permitir\'a tener 2 secciones de RF independientes, para un total de 4. Si se utiliza
 muestreo complejo IQ entonces cada tarjeta tendra una sola etapa de RF, para un total de 2 en todo
-el sistema. Cada tarjeta auxiliar tiene dos conectores SMA para transmitir o recibir se\~nales y una
-EEPROM con bus de datos I\textsuperscript{2}C que identifica la tarjeta al sistema. Esto permite que el software en la
-PC pueda configurar el sistema bas\'andose en la tarjeta que este instalada. Las tarjetas que
+el sistema. Cada tarjeta auxiliar tiene dos conectores SMA (Conector coaxial SubMiniatura versi\'on A) para transmitir o recibir
+se\~nales y una EEPROM (Memoria de solo lectura borrable y programable el\'ectricamente) con bus de datos I\textsuperscript{2}C
+(Bus de comunicaci\'on en serie, \emph{Inter-Integrated Circuit} por sus siglas en Ingl\'es) que identifica la tarjeta al sistema.
+Esto permite al software en la PC configurar el sistema bas\'andose en la tarjeta que est\'e instalada. Las tarjetas que
 actualmente soporta el USRP se muestran en la tabla \ref{tbl:cards}.
 
 \begin{table}[htp]
 \begin{center}
 	\begin{tabular}{|c|p{8cm}|p{3cm}|}
 		\hline
-		\textbf{Tarjeta} & \textbf{Descripci\'on} & \textbf{Frecuencia de operaci\'on}\\
+		\multicolumn{1}{|c|}{Tarjeta} & \multicolumn{1}{|c|}{Descripci\'on} & \multicolumn{1}{|c|}{Frecuencia de operaci\'on}\\
 		\hline
-		BasicTX y RX & Transmisor y Receptor para ser utilizados con equipo externo de RF. Sus salidas
-		estan acopladas por un transformador directamente a los ADC/DACs con una impedancia de 50$\Omega$.
+		BasicTX y RX & Transmisor y receptor para ser utilizados con equipo externo de RF. Sus salidas
+		est\'an acopladas por un transformador de forma directa a los ADC/DACs con una impedancia de 50$\Omega$.
 		& 1Mhz-250Mhz\\
 		\hline
-		LFTX y LFRX & Similar al BasicTX y RX pero las salidas estan acopladas por amplificadores
-		diferenciales en lugar de transformadores. Esto las permite trabajar con frecuencias hasta DC.
-		Tambi\'en cuentan con un filtro pasabajas con frecuencia de corte de 30Mhz. & DC-30Mhz\\
+		LFTX y LFRX & Similar a las tarjetas BasicTX y RX con la distinci\'on las salidas estan acopladas por amplificadores
+		diferenciales en lugar de transformadores. Esto les permite trabajar con frecuencias hasta DC.
+		Adicionalmente cuentan con un filtro pasabajas con frecuencia de corte de 30Mhz. & DC-30Mhz\\
 		\hline
 		TVRX & Sistema receptor de VHF y UHF basando en un sintonizador de TV con un ancho de banda de
 		canal de 6Mhz. & 50Mhz-860Mhz\\
@@ -82,11 +83,11 @@ actualmente soporta el USRP se muestran en la tabla \ref{tbl:cards}.
 		\hline
 		RFX1800 & TX y RX con 100mW(20dBm) de potencia & 1.5Ghz-2.1Ghz\\
 		\hline
-		RFX2400 & TX y RX con 50mW(17dBm) de potencia con un filtro pasabandas alrededor de la banda
+		RFX2400 & TX y RX con 50mW(17dBm) de potencia con un filtro pasabandas en el rango de la banda
 		ISM(2400-2433Mhz). El filtro se puede deshabilitar para utilizar todo el rango de frecuencias. &
 		2.3Ghz-2.9Ghz\\
 		\hline
-		XCVR2450 & TX y RX que cubre toda la banda ISM asi como tambi\'en algunas bandas japonesas. &
+		XCVR2450 & TX y RX que cubre toda la banda ISM as\'i como algunas bandas japonesas. &
 		2.4-2.5Ghz y 4.9-5.9Ghz\\
 		\hline
 		WBX & TX y RX que cubre varias bandas incluyendo televisi\'on, comunicaciones m\'obiles, sensores
@@ -94,19 +95,19 @@ actualmente soporta el USRP se muestran en la tabla \ref{tbl:cards}.
 		\hline
 	\end{tabular}
 	\vspace{0.5in}
-	\caption{Tarjetas auxiliares que soporta el USRP.}
+	\caption{Tarjetas auxiliares que soporta el dispostivo USRP.}
 	\label{tbl:cards}
 \end{center}
 \end{table}
 
-El controlador FX2 integra un CPU 8051 con un controlador de USB de alta velocidad que implementa 3
-\emph{endpoints} l\'ogicos para la comunicaci\'on con el FPGA y la PC como se describen en la tabla
+El controlador FX2 integra un CPU 8051 con un controlador de USB de alta velocidad que implementa tres
+\emph{endpoints} l\'ogicos para la comunicaci\'on con el FPGA y la PC como se describe en la tabla
 \ref{tbl:endpoints}. Cada \emph{endpoint} establece una v\'ia de comunicaci\'on entre el dispostivo
-USB y el \emph{host}. El endpoint 0 es el de control y es necesaria su implementaci\'on para que el
+USB y el \emph{host}. El \emph{endpoint} 0 es el de control y es necesaria su implementaci\'on para que el
 dispositivo pueda ser compatible y a su vez, ser certificado por el est\'andar de USB \cite{usb}.
-Los endpoints 2 y 6 son de tipo Bulk, que de acuerdo a la especificaci\'on del USB, son los que
+Los \emph{endpoints} 2 y 6 son de tipo Bulk, que de acuerdo a lo especificado por el estandar USB, son los que
 permiten el mayor rendimiento de transferencia (512 bytes por paquete). Estos son utilizados para
-enviar los datos de la se\~nal al FPGA. El FX2 utiliza una interfaz de prop\'osito gen\'erico (GPIF)
+enviar los datos de la se\~nal al FPGA. El FX2 utiliza una interfaz de prop\'osito gen\'erico (GPIF por sus siglas en Ingl\'es)
 para proporcionar un bus de datos al mundo exterior, esto con el prop\'osito de facilitar la
 interfaz a otros dispositivos. En este caso el GPIF se conecta directamente al FPGA con una tasa de
 transferencia de 96 MB/sec.
@@ -130,30 +131,27 @@ transferencia de 96 MB/sec.
 \end{center}
 \end{table}
 
-El FPGA es el encargado de realizar operaciones de alta velocidad y de reducir
-la tasa de datos en una m\'as adecuada para que la se\~nal pueda ser transferida
+El FPGA se encarga de realizar operaciones de alta velocidad y de reducir
+la tasa de datos a una m\'as adecuada para que la se\~nal pueda ser transferida
 por el puerto USB. Para la etapa de RX, la configuraci\'on b\'asica contiene dos
-convertidores digitales hacia abajo (DDC) implementados con filtros CIC (Peine
-Integradores en Cascada) de 4 etapas y filtros de media banda (\emph{Half-band}
-o HB) de orden 31. El prop\'osito del DDC es transformar la se\~nal pasa bandas a banda base. Esto
-se logra centrando su frencuencia en 0Hz, as\'i eliminando la portadora. La estructura del
-DDC se muestra en la figura \ref{fig:ddcblock}.
+convertidores digitales hacia abajo (DDC) implementados con filtros peine integradores en cascada (CIC por sus siglas en Ingl\'es)
+de 4 etapas y filtros de media banda (\emph{Half-band} o HB) de orden 31. El prop\'osito del DDC es transformar la se\~nal pasa
+bandas a banda base. Esto se logra centrando su frencuencia en 0Hz, as\'i eliminando la portadora. La estructura de un DDC se
+muestra en la figura \ref{fig:ddcblock}.
 
 \begin{figure}[htp]
 \centering
 	\includegraphics[width=5.5in]{figs/ddc}
 	\vspace{0.3in}
-	\caption{Estructura del DDC implementado en el USRP}
+	\caption{Estructura de un DDC implementado en el USRP}
 	\label{fig:ddcblock}
 \end{figure}
 
-EL USRP, en su configuraci\'on b\'asica, usa dos DDCs, cada uno con 2
-entradas. La se\~nal compleja que entregan los ADCs es multiplicada por otra se\~nal con una
-frecuencia intermedia constante generada por un oscilador controlado num\'ericamente (NCO).  La
-se\~nal resultante se encuentra ahora centrada en 0Hz. Despu\'es es introducida al filtro CIC para
-realizar una decimaci\'on por $N$, donde $N$ es especificado por el usuario desde el programa
-del usuario. La funci\'on de transferencia del filtro CIC en el dominio $Z$ es la siguiente
-\cite{cic}:
+EL USRP, en su configuraci\'on b\'asica, usa dos DDCs de dos entradas cada uno. La se\~nal compleja que entregan los ADCs es
+multiplicada por otra se\~nal con una frecuencia intermedia constante generada por un oscilador controlado num\'ericamente (NCO
+por sus siglas en Ingl\'es). La se\~nal resultante se encuentra ahora centrada en 0Hz. Se prosigue a introducirla al filtro CIC
+para realizar una decimaci\'on por $N$, donde $N$ es especificado por el usuario por medio del software. La funci\'on de
+transferencia del filtro CIC en el dominio $Z$ es la siguiente \cite{cic}:
 
 \begin{equation}\label{eq:cic}
 H(z)=H_I^N(z)H_C^N(z)=\frac{(1-z^{-RM})^N}{(1-z^{-1})^N}=\left(\sum_{k=0}^{RM-1}z^{-k}\right)^N
@@ -163,7 +161,7 @@ H(z)=H_I^N(z)H_C^N(z)=\frac{(1-z^{-RM})^N}{(1-z^{-1})^N}=\left(\sum_{k=0}^{RM-1}
 \begin{aligned}
 \text{Donde: }H_I^N&=\text{es la funci\'on de transferencia de la etapa
 integradora}\\
-H_C^N&=\text{es la funci\'on de transferencia de la etapa filtro comb}\\
+H_C^N&=\text{es la funci\'on de transferencia de la etapa filtro peine}\\
 R&=\text{es la tasa de decimaci\'on o interpolaci\'on}\\
 M&=\text{n\'umero de muestras por etapa}\\
 N&=\text{n\'umero de etapas por filtro}
