@@ -168,10 +168,10 @@ N&=\text{n\'umero de etapas por filtro}
 \end{aligned}
 \end{equation*}
 
-Como aclaraci\'on, la variable $Z$ en la ecuaci\'on \ref{eq:cic} no es la misma que la ecuaci\'on \ref{eq:demgauss} ya que en la
-ecuaci\'on anterior se refiere a la transformada Z y en la segunda ecucaci\'on se refiere a un proceso estoc\'astico.
-El USRP implementa este filtro con los siguientes par\'ametros: $R$ = variable (4 m\'inimo), $M$ = 1 y $N$ = 4. La respuesta a la
-frecuencia de esta configuraci\'on se muestra en la figura \ref{fig:cicresp}.
+Es de notarse que, la variable $Z$ en la ecuaci\'on \ref{eq:cic} es distinta a la utilizada en la ecuaci\'on \ref{eq:demgauss} ya
+que en la ecuaci\'on \ref{eq:cic} se refiere a la transformada Z y en la ecucaci\'on \ref{eq:demgauss} se refiere a un proceso
+estoc\'astico. El USRP implementa este filtro con los siguientes par\'ametros: $R$ = $[0,4]$, $M$ = 1 y $N$ = 4. La
+respuesta a la frecuencia de esta configuraci\'on se muestra en la figura \ref{fig:cicresp}.
 
 \begin{figure}[tp]
 \centering
@@ -180,7 +180,7 @@ frecuencia de esta configuraci\'on se muestra en la figura \ref{fig:cicresp}.
 	\label{fig:cicresp}
 \end{figure}
 
-La \'ultima etapa del DDC es el filtro HB el cual realiza una decimaci\'on de 2
+La \'ultima etapa del DDC es el filtro HB el cual realiza una decimaci\'on de dos
 y ayuda a rechazar cualquier banda no deseada por las operaciones previas. La
 funci\'on de transferencia del filtro HB \cite{nguyen} es la
 siguiente:
@@ -204,6 +204,7 @@ H(e^{j\omega})=e^{-j\omega N-1/2}H_0(e^{-j\omega})
 
 donde $H_0(e^{-j\omega})$ representa la respuesta a la amplitud con valor real.
 
+%FIXME: Reacer la imagen con leyendas mas grandes
 \begin{figure}[pt]
 \centering
 	\includegraphics[width=5.9in]{figs/hbresponse}
@@ -224,6 +225,7 @@ Existe simetr\'ia con respecto a la banda $\pi /2$. Esta es una de las
 caracter\'isticas de estos filtros. Debido a esa simetr\'ia la respuesta al
 impulso es
 
+%TODO: Investigar si es n-(N-1)/2 o n=(N-1)/2
 \begin{equation}
 h(n)=\left\{
 \begin{array}{l l}
@@ -232,28 +234,23 @@ h(n)=\left\{
 \end{array}\right.
 \end{equation}
 
-Debido a esta simetr\'ia estos filtros son muy eficientes y f\'aciles de
-implementar ya que aproximadamente el 50\% de sus coeficientes son 0.
+Debido a esta simetr\'ia estos filtros son muy eficientes y f\'aciles de implementar ya que aproximadamente el 50\% de sus
+coeficientes son 0.
 
-La combinaci\'on del filtro CIC y HB dan un factor de decimaci\'on m\'inimo de
-8. El ADC tiene una taza de muestreo de 64Ms/S, por lo tanto, el ancho de banda
-total ser\'a de 32Mhz. Los datos enviados son de 16 bits para I y Q, \'osea, 4
-bytes por muestra compleja. Esto resulta en un ancho de banda efectivo de 8Mhz
-(32Mhz/4bytes). El rango de decimaci\'on que soporta el USRP es [8, 256]. El ancho de banda de la se\~nal no es afectado por la
-operaci\'on de decimaci\'on, unicamente su frecuencia. Conforme el valor de decimaci\'on es mayor la taza de transferencia ser\'a
-menor. El usuario puede ajustar este valor seg\'un las necesidades de su aplicaci\'on.
+La combinaci\'on del filtro CIC y HB dan un factor de decimaci\'on m\'inimo de 8. El ADC tiene una taza de muestreo de 64Ms/S, por
+lo tanto, el ancho de banda total es de de 32Mhz. Los datos enviados son de 16 bits para I y Q, es decir, 4 bytes por muestra
+compleja. Esto resulta en un ancho de banda efectivo de 8Mhz (32Mhz/4bytes). El rango de decimaci\'on que soporta el USRP es [8,
+256]. El ancho de banda de la se\~nal no es afectado por la operaci\'on de decimaci\'on, \'unicamente su frecuencia. Conforme el
+valor de decimaci\'on sea mayor la tasa de transferencia ser\'a menor. El usuario puede ajustar este valor seg\'un las necesidades
+de su aplicaci\'on.
 
-Para la etapa de TX el proceso es el inverso. El FPGA contiene filtros CIC interpoladores que se
-encargan de interpolar la se\~nal, elevarla a la frecuencia intermedia y despu\'es
-enviarla a los DACs. El proceso de conversi\'on digital hacia arriba (DUC)
-est\'a contenido en el chip AD9862 y no en el FPGA como lo es en el proceso de
-RX. Este chip contiene ambos ADCs y DACs pero \'unicamente en la etapa del TX
-realiza alg\'un otro procesamiento sobre la se\~nal. La frecuencia de muestreo
-de los DACs es de 128MS/s de 14 bits cada uno, d\'andonos una frecuencia Nyquist
-de 64MS/s. La salida proporciona 1V pico a una carga diferencial de 50$\Omega$.
-Existe un amplificador de ganancia programable (PGA) que puede proporcionar
-hasta 20dB de ganancia y es programable por software. Las se\~nales del DAC son
-en base a corriente y varean entre 0 y 20mA.
+Para la etapa de TX el proceso es el inverso. El FPGA contiene filtros CIC interpoladores que se encargan de interpolar la
+se\~nal, elevarla a la frecuencia intermedia y despu\'es enviarla a los DACs. El proceso de conversi\'on digital hacia arriba (DUC)
+est\'a contenido en el chip AD9862 y no en el FPGA como lo es en el proceso de RX. Este chip contiene ambos ADCs y DACs pero
+\'unicamente en la etapa del TX realiza alg\'un otro procesamiento sobre la se\~nal. La frecuencia de muestreo de los DACs es de
+128MS/s de 14 bits cada uno, lo cual da una frecuencia Nyquist de 64MS/s. La salida proporciona 1V pico a una carga diferencial
+de 50$\Omega$. Existe un amplificador de ganancia programable (PGA por sus siglas en Ingl\'es) que puede proporcionar hasta 20dB
+de ganancia y es programable por software. Las se\~nales del DAC son en base a corriente y varean entre 0 y 20mA.
 
 % \begin{figure}[hpt]
 % \centering
@@ -265,10 +262,10 @@ en base a corriente y varean entre 0 y 20mA.
 
 % 3.2. GNURadio
 %==========================================================================
-\section{GNURadio}
+\section{\emph{GNURadio}}
 \label{sec:gnuradio}
 
-El USRP fue dise\~nado para ser utilizado principalmente, pero no
+El dispositivo USRP fue dise\~nado para ser utilizado principalmente, pero no
 exclusivamente, por la herramienta de desarrollo \gnuradio. Esta
 herramienta es abierta (\emph{Open Source}) y consiste en un sistema de
 procesamiento de se\~nales implementado a base de bloques que se ligan uno con
