@@ -266,24 +266,23 @@ de ganancia y es programable por software. Las se\~nales del DAC son en base a c
 \label{sec:gnuradio}
 
 El dispositivo USRP fue dise\~nado para ser utilizado principalmente, pero no
-exclusivamente, por la herramienta de desarrollo \gnuradio. Esta
+exclusivamente, por la herramienta de desarrollo \emph{GNURadio}. Esta
 herramienta es abierta (\emph{Open Source}) y consiste en un sistema de
 procesamiento de se\~nales implementado a base de bloques que se ligan uno con
 el otro para formar un sistema completo de comunicaciones. Las aplicaciones que
 se desarrollan son principalmente implementadas con el lenguaje \emph{Python}, mientras
 que las operaciones cr\'iticas de procesamiento de se\~nales son implementadas
-en C++ utilizando las extensiones de punto flotante del CPU si es que est\'an
-presentes. Cabe mencionar que aunque la funci\'on principal de esta herramienta
-no es realizar simulaciones, tiene la capacidad de generar sistemas de
+en C++ utilizando las extensiones de punto flotante del CPU cuando sea posible. Cabe mencionar que aunque la funci\'on principal
+de esta herramienta no es realizar simulaciones, tiene la capacidad de generar sistemas de
 comunicaciones utilizando datos obtenidos previamente por medio de alguna
 simulaci\'on o generador. Esto es \'util cuando no se cuenta con hardware de RF
 para llevar a cabo la aplicaci\'on.
 
-\gnuradio\ no est\'a limitado a trabajar \'unicamente con el USRP. Debido a
-la naturaleza abierta de la herramienta, uno puede dise\~nar su propio bloque
-que encapsule alg\'un hardware especial. La programaci\'on del \emph{driver} se lleva a
-cabo en C, es encapsulada con las clases de C++ para implementar el bloque y
-despu\'es es encapsulada nuevamente en Python para ser utilizado en la
+\gnuradio no est\'a limitado a trabajar \'unicamente con el USRP. Debido a
+la naturaleza abierta de la herramienta, se puede dise\~nar bloques
+que encapsulen alg\'un hardware especial. La programaci\'on del \emph{driver} se lleva a
+cabo en C, es encapsulado con las clases de C++ para implementar el bloque y
+despu\'es es encapsulado nuevamente en \emph{Python} para ser utilizado en la
 aplicaci\'on general. De esta manera el usuario no se preocupa por los detalles
 del funcionamiento del hardware, \'unicamente le proporciona los par\'ametros
 adecuados al bloque y \'este se encarga de establecer la comunicaci\'on adecuada.
@@ -292,48 +291,47 @@ adecuados al bloque y \'este se encarga de establecer la comunicaci\'on adecuada
 %==========================================================================
 \section{Caracter\'isticas del lenguaje \emph{Python}}
 El lenguaje \emph{Python} es un lenguaje din\'amico utilizado mucho en varios tipos de aplicaciones como desarrollo de
-aplicaciones \emph{Web}, bases de datos, procesamiento num\'erico y cient\'ifico, etc. Se dice que es din\'amico porque es un
-lenguaje interpretado, es decir, las instrucciones son interpretadas y ejecutadas por medio del interprete de \emph{Python}. Esto es a diferencia de los
-lenguajes est\'aticos como C y C++ el cual generan programas binarios con instrucciones que el CPU de la computadora entiende
-directamente. A pesar de ser un lenguaje interpretado, \emph{Python} es muy r\'apido en su ejecuci\'on de instrucciones para la
-mayor\'ia de aplicaciones. Algunas de sus caracter\'isticas principales son las siguientes:
+aplicaciones \emph{Web}, bases de datos, procesamiento num\'erico y cient\'ifico, entre otros. Se dice que es din\'amico porque es
+un lenguaje interpretado, es decir, las instrucciones son interpretadas y ejecutadas por medio del interprete de \emph{Python}.
+Esto es a diferencia de los lenguajes est\'aticos como C y C++ los cuales generan programas binarios con instrucciones que el CPU
+entiende directamente. A pesar de ser un lenguaje interpretado, \emph{Python} es muy r\'apido en su ejecuci\'on de instrucciones
+para la mayor\'ia de aplicaciones. Algunas de sus caracter\'isticas principales son:
 
 \begin{itemize}
-  \item Una sintaxis clara y legible.
-  \item Soporte a programaci\'on orientada a objetos.
+  \item Sintaxis clara y legible
+  \item Soporte de programaci\'on orientada a objetos
   \item Soporte para generar estructuras jer\'arquicas de c\'odigo por medio de paquetes.
-  \item Manejo de excepciones.
-  \item Librer\'ia est\'andar y soporte de librer\'ias externas para casi cualquier tipo de tarea.
-  \item M\'odulos y extensiones pueden ser f\'acilmente programados en C y C++.
+  \item Manejo de excepciones
+  \item Librer\'ia est\'andar y soporte de librer\'ias externas para casi cualquier tipo de tarea
+  \item M\'odulos y extensiones pueden ser f\'acilmente programados en C y C++
 \end{itemize}
 
-La p\'agina oficial de \emph{Python} ofrece muy buena documentaci\'on sobre el uso del lenguaje, as\'i como tambi\'en la
-librer\'ia est\'andar. Tambi\'en ofrece tutoriales para iniciar r\'apidamente a desarrollar aplicaciones.
+La p\'agina oficial de \emph{Python} ofrece buena documentaci\'on sobre el uso del lenguaje, y su librer\'ia est\'andar. Tambi\'en
+ofrece tutoriales para iniciar r\'apidamente a desarrollar aplicaciones.
 
 % Programacion en GNURadio con Python
 %==========================================================================
-\section{Programaci\'on en GNURadio con Python}
+\section{Programaci\'on en \emph{GNURadio} con \emph{Python}}
 
 Como se mencion\'o en el cap\'itulo \ref{sec:gnuradio}, la programaci\'on se lleva a
-cabo principalmente en el lenguaje Python. El lenguaje C++ tambi\'en se utiliza
-pero \'unicamente si se desea desarrollar un m\'odulo nuevo o modificar algunos de
-los que ya existen.
+cabo principalmente en el lenguaje \emph{Python}. El lenguaje C++ tambi\'en se utiliza
+pero \'unicamente si se desea desarrollar un m\'odulo nuevo o modificar los ya existentes.
 
-\emph{GNURadio} es un conjunto de m\'odulos de Python con la capacidad de
+\emph{GNURadio} es un conjunto de m\'odulos de \emph{Python} con la capacidad de
 realizar diversas operaciones de procesamiento digital de se\~nales para el desarrollo de
 sistemas de radios configurables por software. Es posible mezclar diferentes
-m\'odulos de otros \emph{frameworks} o bibliotecas junto con los de \emph{GNURadio}\
-para incluir mayor soporte al que se ofrece.
+m\'odulos de otros \emph{frameworks} o bibliotecas junto con las de \emph{GNURadio}\
+para incluir mayor soporte al que ofrece.
 
 El concepto que se aplica para los programas realizados con esta biblioteca es
 el de grafos. Cada aplicaci\'on cuenta con una serie de nodos o bloques
-conectados entre s\'i para crear una cadena completa de RF llamado grafo de
+conectados entre s\'i para crear una cadena completa de RF llamada grafo de
 flujo. Los bloques se encargan de realizar alguna operaci\'on sobre la
-informaci\'on que fluye a trav\'es del grafo y est\'os pueden ser operaciones
+informaci\'on que fluye a trav\'es del grafo los cuales pueden ser operaciones
 matem\'aticas, envi\'o de datos a alg\'un puerto, etc., mientras que las aristas
 transportan la informaci\'on entre los nodos. Cada bloque tiene definido una
-serie de puertos de entradas y salidas las cuales aceptan y entregan un tipo de
-datos espec\'ifico. No es posible realizar una conexi\'on entre dos puertos con
+serie de puertos de entrada y salida las cuales aceptan y entregan un tipo de
+dato espec\'ifico. No es posible realizar una conexi\'on entre dos puertos con
 tipos de datos incompatibles. Un ejemplo de una grafo de flujo sencillo se
 muestra en la figura \ref{fig:radioflow}.
 
@@ -350,25 +348,20 @@ muestra en la figura \ref{fig:radioflow}.
 		edge [<-, very thick] (fft);
 	\end{tikzpicture}
 	\vspace{0.5in}
-	\caption{Ejemplo de una grafo de flujo en \emph{GNURadio}}
+	\caption{Ejemplo de un grafo de flujo en \emph{GNURadio}}
 	\label{fig:radioflow}
 \end{figure}
 
-La informaci\'on que viaja a trav\'es de las aristas puede provenir de una fuente
-externa o interna. Para el caso de las fuentes internas \'estas generan se\~nales
-puramente digitales a trav\'es de m\'etodos de procesamiento digital de
-se\~nales. Las fuentes externas primeramente adquieren una se\~nal an\'aloga por
-medio de alguna interfaz delantera. Esta interfaz se encarga del
-acondicionamiento de la se\~nal y de su digitalizaci\'on por medio de un ADC
-para luego ser procesada por el bloque de \gnuradio. Estos conceptos se
-aplican igualmente para bloques de salidas. Los bloques pueden llevar sus
-datos a alg\'un archivo, desplegarlos en forma de alguna gr\'afica o sacarlos a
-trav\'es de alguna interfaz por medio de un DAC y luego al mundo exterior. Un
-ejemplo de un programa que ilustra estos conceptos se muestra en el listado
-\ref{ex:radioexp}. Este programa utiliza dos bloques que generan dos se\~nales
-senoidales independientes a diferentes frecuencias y las entrega a un bloque de audio que
-representa la tarjeta de sonido de la PC donde se est\'a ejecutando el programa,
-esto en efecto mezcla ambas se\~nales para producir un tono.
+La informaci\'on que viaja a trav\'es de las aristas puede provenir de una fuente externa o interna. Para el caso de las fuentes
+internas, estas generan se\~nales puramente digitales a trav\'es de m\'etodos de procesamiento digital de se\~nales. Las fuentes
+externas primeramente adquieren una se\~nal an\'aloga por medio de alguna interfaz delantera. Esta interfaz se encarga del
+ acondicionamiento de la se\~nal y de su digitalizaci\'on por medio de un ADC para posteriormente ser procesada por el bloque de
+\emph{GNURadio}. Estos conceptos se aplican igualmente para bloques de salidas. Los bloques pueden llevar datos a alg\'un archivo,
+desplegarlos en forma gr\'afica o sacarlos a trav\'es de alguna interfaz por medio de un DAC y luego al mundo exterior.
+Un ejemplo de un programa que ilustra estos conceptos se muestra en el listado \ref{ex:radioexp}. Este programa utiliza dos
+bloques que generan dos se\~nales senoidales independientes a diferentes frecuencias y las entrega a un bloque de audio que
+representa la tarjeta de sonido de la PC donde se est\'a ejecutando el programa, esto en efecto mezcla ambas se\~nales para
+producir un tono.
 
 \begin{lstlisting}[float,frame=single,label=ex:radioexp,caption={Ejemplo de programa utilizando \gnuradio}] 
 from gnuradio import gr 
@@ -397,40 +390,32 @@ if __name__ == '__main__':
 El programa se inicia importando los m\'odulos necesarios para la aplicaci\'on.
 Aqu\'i se importa el modulo \verb|gnuradio| y dos de sus subm\'odulos: \verb|gr| y
 \verb|audio|. Despu\'es se declara una clase que se deriva de \verb|top_block|.
-Todas las clases de \gnuradio\ se tienen que derivar de
+Todas las clases de \gnuradio se deben de derivar de
 \verb|top_block| o de \verb|hier_block2| ya que estas dos clases act\'uan como
 un contenedor para el grafo de flujo. La primera clase act\'ua como un
 contenedor para un \'unico grafo y la segunda soporta el desarrollo de
 grafos jer\'arquicos.
 
-Los bloques y sus conexiones se definen dentro del constructor de la clase, en
-este caso es la funci\'on \verb|__init__|. Esta l\'inea de c\'odigo tambi\'en
-manda llamar la funci\'on \verb|__init__| de la clase de la que se deriva,
-pas\'andole los par\'ametros que sean necesarios (si es que los pide). Esto es
-necesario para llevar a cabo la inicializaci\'on de ambas clases. En las
-siguientes dos l\'ineas se declaran dos variables para llevar el control del
-tiempo de muestro y de la amplitud. Las siguientes dos l\'ineas demuestran la
-manera de c\'omo se declaran los bloques de ejecuci\'on. Cada bloque est\'a
-representado por una clase y su inicializaci\'on consta en mandar llamar su
-constructor con los par\'ametros necesarios para su funcionamiento. Como se
-puede observar, ambos bloques se encuentran dentro del submodulo \verb|gr| y su
-constructor se invoca con los par\'ametros que requieren para generar el tipo de
-se\~nal que deseamos. Para estos bloques los par\'ametros son los siguientes en
-orden: el tiempo de muestreo, una constante que indica el tipo de se\~nal que se
-desea generar (estas constantes tambi\'en se encuentran dentro del submodulo
-\verb|gr|), la frecuencia de la se\~nal y su amplitud. La siguiente l\'inea
-declara un tercer bloque que es el de audio y representa la tarjeta de sonido de
-la PC. Los par\'ametros que necesita son el tiempo de muestreo y el nombre del
-dispositivo de audio (esto es en caso de que se tenga m\'as de uno en la PC).
+Los bloques y sus conexiones se definen dentro del constructor de la clase, en este caso es la funci\'on \verb|__init__|. Esta
+l\'inea de c\'odigo tambi\'en manda llamar la funci\'on \verb|__init__| de la clase de la que se deriva, pas\'andole los
+par\'ametros que sean necesarios (si es que los pide). Esto es necesario para llevar a cabo la inicializaci\'on de ambas clases.
+En las siguientes dos l\'ineas se declaran dos variables para llevar el control del tiempo de muestro y de la amplitud. Las
+siguientes dos l\'ineas demuestran la manera de c\'omo se declaran los bloques de ejecuci\'on. Cada bloque est\'a representado
+por una clase y su inicializaci\'on consta en mandar llamar su constructor con los par\'ametros necesarios para su
+funcionamiento.Como se puede observar, ambos bloques se encuentran dentro del submodulo \verb|gr| y su constructor se invoca con
+los par\'ametros que requieren para generar el tipo de se\~nal que se desea. Para estos bloques los par\'ametros son en orden los
+siguientes: el tiempo de muestreo, una constante que indica el tipo de se\~nal que se desea generar (estas constantes tambi\'en
+se encuentran dentro del submodulo \verb|gr|), la frecuencia de la se\~nal y su amplitud. La siguiente l\'inea declara un tercer
+bloque que es el de audio y representa la tarjeta de sonido de la PC. Los par\'ametros que necesita son el tiempo de muestreo y
+el nombre del dispositivo de audio (esto es en caso de que se tenga m\'as de uno en la PC).
 
-Por \'ultimo las dos siguientes l\'ineas demuestran la manera de c\'omo hacer
-las conexiones entre los bloques. Como la clase fue derivada de \verb|top_block|
-ahora contamos sus funciones para nuestro uso. Una de estas funciones se llama
-\verb|connect| y se utiliza para conectar cada uno de los bloques. Los
-par\'ametros que acepta son clases derivadas de los bloques principales o tuplas
-con dos elementos, el bloque y un entero. El entero especifica que puerto utilizar para la conexi\'on y esto es \'unicamente
-v\'alido para bloques que acepten m\'as de una conexi\'on a la vez. La numeraci\'on de los puertos inicia con cero por lo que la
-primera conexi\'on lleva la primera se\~nal al puerto 0 y la segunda conexi\'on lleva la segunda se\~nal al puerto 1.
+Por \'ultimo las dos siguientes l\'ineas demuestran la manera de c\'omo hacer las conexiones entre los bloques. Como la clase fue
+derivada de \verb|top_block| ahora contamos sus funciones para nuestro uso. Una de estas funciones se llama \verb|connect| y se
+utiliza para conectar cada uno de los bloques. Los par\'ametros que acepta son clases derivadas de los bloques principales o
+tuplas con dos elementos, el bloque y un entero. El entero especifica que puerto utilizar para la conexi\'on y esto es
+\'unicamente v\'alido para bloques que acepten m\'as de una conexi\'on a la vez. La numeraci\'on de los puertos inicia con cero
+por lo que la primera conexi\'on lleva la primera se\~nal al puerto 0 y la segunda conexi\'on lleva la segunda se\~nal al puerto
+1.
 
 \begin{figure}[hptb]
 \vspace{0.3in}
@@ -451,8 +436,8 @@ primera conexi\'on lleva la primera se\~nal al puerto 0 y la segunda conexi\'on 
 \label{fig:gnuradioexam}
 \end{figure}
 
-Despu\'es de la declaraci\'on de nuestro bloque principal, el programa se
-ejecuta declarando una instancia de nuestra clase, y mandando llamar su
+Despu\'es de la declaraci\'on de el bloque principal, el programa se
+ejecuta declarando una instancia de la clase, y mandando llamar su
 funci\'on \verb|run|. Esta funci\'on tambi\'en es proporcionada por la clase
 \verb|top_block|. Cuando este programa se ejecute el resultado debe ser un tono
 emitido a trav\'es de las bocinas de la PC a la frecuencia de las dos se\~nales
@@ -490,9 +475,9 @@ de 90-260VAC @ 50/60Hz lo cual permite que funcione en diferentes paises.
 \subsection{C\'odigo fuente de GNURadio}
 El c\'odigo fuente de \gnuradio proporciona varios ejemplos que implementan varios conceptos de programaci\'on
 utilizando los bloques de procesamiento que proporciona el \emph{framework}. Algunos de estos
-ejemplos son: receptor de FM, decodificador de se\~nales ATSC, captura y an\'alisis de audio,
-modulaci\'on OFDM, etc. La compilaci\'on del c\'odigo fuente genera tambi\'en la documentaci\'on de todos
-los bloques de procesamiento, el cual es muy \'util como referencia mientras se desarrolla cualquier
+ejemplos son: receptor de FM, decodificador de se\~nales ATSC, captura y an\'alisis de audio y
+modulaci\'on OFDM entre otros. La compilaci\'on del c\'odigo fuente genera tambi\'en la documentaci\'on de todos
+los bloques de procesamiento, lo cual es muy \'util como referencia mientras se desarrolla cualquier
 aplicaci\'on. La estructura de los directorios que contienen los ejemplos se muestra en la figura
 \ref{fig:extree}.
 
@@ -532,10 +517,10 @@ aplicaci\'on. La estructura de los directorios que contienen los ejemplos se mue
 	\label{fig:extree}
 \end{figure}
 
-El experimento se bas\'o en el ejemplo del directorio \verb|digital|. Este programa implementa un
-transmisor completo utilizando varias modulaciones digitales como GMSK, BPSK y QPSK y viene en dos
+El experimento est\'a basado en el ejemplo del directorio \verb|digital|. Este programa implementa un
+transmisor completo utilizando varias modulaciones digitales tales como GMSK, BPSK y QPSK y viene en dos
 versiones: una se maneja a trav\'es de una consola de comandos y la otra implementa una interfaz de
-usuario utiliando la biblioteca QT que ayuda a visualizar de manera gr\'afica lo que el sistema est\'a
+usuario utiliando la biblioteca QT que permite a visualizar de manera gr\'afica lo que el sistema est\'a
 recibiendo. El programa utiliza varias t\'ecnicas de programaci\'on orientada a objetos, as\'i como
 tambi\'en estructuraci\'on del c\'odigo de diferentes m\'odulos para separar todos los componentes
 importantes y poder utilizarlos en otras aplicaciones. La figura \ref{fig:relbench} muestra una gr\'afica
@@ -563,9 +548,9 @@ de las principales dependencias entre los m\'odulos de Python que forman parte d
 \label{fig:relbench}
 \end{figure}
 
-El m\'odulo \verb|benchmark_tx| es el principal y el que el usuario ejecuta para arrancar la
+El m\'odulo \verb|benchmark_tx| es el principal y el que es ejecutado por el usuario para arrancar la
 aplicaci\'on. \verb|modulation_utils| contiene una funci\'on que regresa un diccionario con todos los
-esquemas de modulaci\'on registrados en \gnuradio. Este diccionario se utiliza para preparar las
+esquemas de modulaci\'on registrados en \emph{GNURadio}. Este diccionario se utiliza para preparar las
 opciones que se le ofrecen al usario y as\'i impedir que no seleccione una que no exista.
 \verb|usrp_transmit_path| encapsula la operaci\'on de inicializar el USRP y consiste en enviar los
 comandos de selecci\'on de decimaci\'on / interpolaci\'on, frecuencia a la que se deben
@@ -574,37 +559,36 @@ etc. Todas estas operaciones son delegadas a una clase contenida en \verb|usrp_o
 resultado es un objeto de tipo \emph{usrp\_sink} configurado para enviar datos al puerto USB. El
 m\'odulo \verb|pick_tx_bitrate| se utiliza para calcular una tasa de bits \'optima a partir de los
 par\'ametros muestras por s\'imbolo, decimaci\'on / interpolaci\'on y bits por s\'imbolo.
-La tasa de bits se puede especificar tambi\'en y el modulo verificar\'a que se pueda alcanzar con los otros
-par\'ametros especificados. De no ser as\'i entonces har\'a un ajuste a la tasa de bits para poder
+Es posible especificar la tasa de bits tambi\'en y el modulo verificar\'a que sea valido considerando los otros
+par\'ametros especificados. De no ser as\'i entonces se har\'a un ajuste a la tasa de bits para poder
 utilizar correctamente los otros par\'ametros. Si no se especifica ning\'un par\'ametro entonces el
-m\'odulo trabajar\'a con un valor default de 500kb/s.
-El m\'odulo \verb|transmit_path| realiza las operaciones de preparar y crear un objeto que encapsula
-el esquema de modulaci\'on que el usuario seleccion\'o. Los esquemas de modulaci\'on se encuentran
+m\'odulo trabajar\'a con un valor default de 500kb/s. El m\'odulo \verb|transmit_path| realiza las operaciones de preparar y crear
+un objeto que encapsula el esquema de modulaci\'on seleccionado por el usuario. Los esquemas de modulaci\'on se encuentran
 dentro del paquete \verb|blk2impl|, al cual se accede por medio del m\'odulo \verb|blk2| y se
 encarga de importar todo el contenido de \verb|blk2impl| al programa principal. Los dos \'ultimos
 m\'odulos, \verb|mod_pkts| y \verb|packet_utils| se encargan de realizar la operaci\'on de
 empaquetar los bits que se desean transmitir.
 
 La relaci\'on que se muestra en la figura \ref{fig:relbench} es la base para las otras versiones
-del mismo ejemplo. Para el receptor la operaci\'on es la misma solo que utiliza los m\'odulos
+del mismo ejemplo. Para el receptor la operaci\'on es la misma a excepci\'on que utiliza los m\'odulos
 \verb|receive_path| y \verb|usrp_receive_path|. Tambi\'en existen versiones que implementan una
 interfaz gr\'afica utilizando la biblioteca QT que muestra el espectro de la se\~nal, la constelaci\'on
-recibida, etc.
+recibida, entre otras.
 
 % Descripcion del flujo del software
 %==========================================================================
 \section{Descripci\'on del flujo del software}
 La estructura del programa \verb|benchmark_tx.py| muestra un ejemplo de c\'omo desarrollar
 aplicaciones complejas que utilizan varias t\'ecnicas de programaci\'on y herramientas que se pueden
-incorporar al lenguaje Python. El usuario est\'a libre de desarrollar aplicaciones m\'as sencillas
+incorporar al lenguaje \emph{Python}. El usuario es libre de desarrollar aplicaciones m\'as sencillas
 que constan de un solo \emph{script} o de varios asociados unos con el otro. 
 
 \subsection{Estructura del transmisor}
 El programa principal \verb|benchmark_tx.py| genera los datos que se van a enviar de dos formas:
 autom\'aticamente o a partir de un archivo proporcionado por el usuario. En el modo autom\'atico
 (\'este es el modo default) el programa genera una secuencia consecutiva de caracteres ASCII del tama\~no
-que el usuario especific\'o. Esta secuencia es enviada a una funci\'on de Python que a su vez la
-env\'ia a el grafo de RF. La estructura general del transmisor se muestra en la figura
+que el usuario especific\'o. Esta secuencia es enviada a una funci\'on de \emph{Python} que a su vez la
+env\'ia al grafo de RF. La estructura general del transmisor se muestra en la figura
 \ref{fig:grqpsk}.
 
 \begin{figure}[htp]
@@ -642,23 +626,23 @@ class my_top_block(gr.top_block):
      self.connect(self.txpath)
 \end{lstlisting}
 
-Todos los bloques son clases Python que se derivan de la clase \verb|top_block|. Esta clase se
+Todos los bloques son clases \emph{Python} que se derivan de la clase \verb|top_block|. Esta clase se
 encuentra dentro del m\'odulo \verb|gr| y se accede a ella utilizando el operador punto. En el
 constructor se inicializa un nuevo bloque creando una nueva instancia de la clase
 \verb|usrp_transmit_path|. A esta clase se le pasan los mismos par\'ametros que recibi\'o el bloque
-principal y son el tipo de modulador que se va utilizar y las opciones del programa. La clase
+principal y son el tipo de modulador que va a utilizar y las opciones del programa. La clase
 \verb|top_block| define un m\'etodo llamado \emph{connect} para realizar la conexi\'on entre los
-bloques de la cadena de RF. Como este grafo consta \'unicamente de un solo bloque, a este m\'etodo
+bloques de la cadena de RF. Como este grafo consta de un solo bloque, a este m\'etodo
 se le pasa solo un par\'ametro. Este m\'etodo acepta una cantidad variable de par\'ametros ya que
-podemos realizar conexiones entre varios bloques. Esto se mostrar\'a mas adelante.
+podemos realizar conexiones entre varios bloques. Esto se mostrar\'a m\'as adelante.
 
 El grafo de RF est\'a formado por varios bloques jer\'arquicos, es decir, bloques que encapsulan
-otros sub-bloques, que conectados entre si, forman un sub-grafo. Esto permite crear nuevos bloques a
+otros bloques, que conectados entre s\'i, forman un sub-grafo. Esto permite crear nuevos bloques a
 partir de otros que ya existen. El bloque \verb|usrp_transmit_path| es un ejemplo de un bloque
 jer\'arquico. Estas clases se derivan de \verb|gr.hier_block2| y en su constructor se declaran las
 entradas y salidas que pueda tener. Es posible crear un bloque con entradas y ninguna salida o vice
 versa. Esto permite crear bloques que aceptan un flujo de datos para ya sea procesarse dentro de
-ellos unicamente o ser enviados a un puerto de salida o entrada. El constructor de este bloque se
+ellos \'unicamente o ser enviados a un puerto de salida o entrada. El constructor de este bloque se
 muestra en el listado \ref{ex:usrptx}.
 
 \begin{lstlisting}[float, frame=single, label=ex:usrptx, caption={Constructor del bloque transmisor
@@ -666,14 +650,13 @@ del USRP.}]
 class usrp_transmit_path(gr.hier_block2):
   def __init__(self, modulator_class, options):
     gr.hier_block2.__init__(self, "usrp_transmit_path",
-          gr.io_signature(0, 0, 0), # Declaracion de entradas
-          gr.io_signature(0, 0, 0)) # Declaracion de salidas
+          gr.io_signature(0, 0, 0), 
+          gr.io_signature(0, 0, 0)) 
     if options.tx_freq is None:
       sys.stderr.write("-f FREQ or --freq FREQ or 
                        --tx-freq FREQ must be specified")
       raise SystemExit
 
-    #Inicializacion del USRP
     self._modulator_class = modulator_class
     self._setup_usrp_sink(options)
 
@@ -682,17 +665,16 @@ class usrp_transmit_path(gr.hier_block2):
         if not attr.startswith('_') and not hasattr(self, attr):
             setattr(self, attr, getattr(tx_path, attr))
 
-    #conexion de bloques
     self.connect(tx_path, self.u)
 \end{lstlisting}
 
-Lo primero que se tiene que hacer en este tipo de bloques es definir sus entradas y salidas. Esto se
-logra invocando el constructor de la clase base \verb|hier_block2| y pasandole los siguientes
+Lo primero que se debe hacer en este tipo de bloques es definir las entradas y salidas. Esto se
+logra invocando el constructor de la clase base \verb|hier_block2| y pasando los siguientes
 par\'ametros: la clase derivada por medio de la palabra clave \verb|self|, una cadena con el nombre
 del bloque, la definici\'on de entradas y la de salidas. Para definir las entradas y salidas se
-utiliza la funcion \verb|gr.io_signature()| y se le pasan tres par\'ametros: n\'umero m\'inimo de
-puertos, el m\'aximo numero de puertos y el tama\~no de los elementos que entran y salen por los
-puertos. Un ejemplo de como declarar un bloque con puertos de entrada tipo \emph{float} y de salida
+utiliza la funci\'on \verb|gr.io_signature()| y se le pasan tres par\'ametros: n\'umero m\'inimo de
+puertos, el m\'aximo n\'umero de puertos y el tama\~no de los elementos que entran y salen por los
+puertos. Un ejemplo de c\'omo declarar un bloque con puertos de entrada tipo \emph{float} y de salida
 tipo \emph{complex} se muestra en el listado \ref{ex:grports}:
 
 \begin{lstlisting}[float, frame=single, label=ex:grports, caption={Ejemplo de declaraci\'on de
@@ -710,19 +692,19 @@ class HierBlock(gr.hier_block2):
 \end{lstlisting}
 
 Dentro del constructor se crean instancias de los bloques que formar\'an parte del grafo y por
-ultimo se realiza la conexi\'on entre ellos. Todas las clases que se derivan de alguno de los
-bloques, \verb|top_block| o \verb|hier_block2|, etc., contienen un metodo que se llama
-\verb|connect|. Este metodo recibe una cantidad variable de parametros para realizar la conexi\'on
-entre los bloques. En el listado \ref{ex:grports}, la conexi\'on se realiz\'o de esta manera:
+\'ultimo se realiza la conexi\'on entre ellos. Todas las clases que se derivan de alguno de los
+bloques, \verb|top_block| o \verb|hier_block2|, contienen un m\'etodo que se llama
+\verb|connect|. Este m\'etodo recibe una cantidad variable de par\'ametros para realizar la conexi\'on
+entre los bloques. En el listado \ref{ex:grports}, la conexi\'on se realiz\'o de la siguiente manera:
 \verb|entradas->B1->B2->salidas|. Las entradas y salidas son representadas por el par\'ametro
-\verb|self|. Para definir bloques que no tienen entradas o salidas es necesario pasarle ceros a
+\verb|self|. Para definir bloques que no tienen entradas o salidas es necesario pasar ceros a
 todos los par\'ametros de la funci\'on \verb|gr.io_signature()| como se muestra en el listado
 \ref{ex:usrptx}. En este caso el bloque no cuenta con entradas ni salidas, \'unicamente encapsula un
 sub-grafo al cual se le delega el trabajo del transmisor.
 
 El bloque \verb|transmit_path|, del cual se crea una instancia en el listado \ref{ex:usrptx},
-encapsula el grafo que lleva a cabo la modulaci\'on de la informaci\'on que se va transmitir. El
-modulador en si es un bloque que se encuentra dentro del m\'odulo \verb|blks2| como se muestra en la
+encapsula al grafo que lleva a cabo la modulaci\'on de la informaci\'on que se va transmitir. El
+modulador en s\'i es un bloque que se encuentra dentro del m\'odulo \verb|blks2| como se muestra en la
 figura \ref{fig:relbench}. Aunque es posible utilizar los bloques moduladores directamente, la
 aplicaci\'on \verb|benchmark_tx.py| muestra una forma alterna de utilizarlos que consiste en
 codificar y formatear la informaci\'on en paquetes antes de ser modulados. Este proceso se lleva a
@@ -745,31 +727,27 @@ estructura que tienen los paquetes generados con esta clase se muestra en la fig
 \end{figure}
 
 El c\'odigo de acceso es una cadena de unos y ceros que se puede utilizar para aceptar mensajes que
-contengan unicamente el c\'odigo correcto. La clase genera una secuencia pre-definida si no se
-especifica una. La longitud es lo largo del mensaje junto con el codigo CRC. La informaci\'on se
-anexa junto con el c\'odigo CRC de 32 bits. Los paquetes se env\'ian al modulador a trav\'es de una
-cola que almacena lo que se va enviar. La clase moduladora monitorea esta cola y toma el primer
-mensaje que entro para iniciar con la operaci\'on de modulaci\'on.
+contengan \'unicamente el c\'odigo correcto. La clase genera una secuencia pre-definida si no se
+especifica una. La longitud se refiere a lo largo del mensaje junto con el codigo CRC. La informaci\'on se
+anexa junto con el c\'odigo CRC(Comprobaci\'on de redundancia c\'iclica por sus siglas en Ingl\'es) de 32 bits. Los paquetes se
+env\'ian al modulador a trav\'es de una cola que almacena lo que se env\'ia. La clase moduladora monitorea esta cola y toma el
+primer mensaje que entr\'o para iniciar con la modulaci\'on.
 
 Despu\'es de la codificaci\'on los datos son modulados por el esquema DQPSK. La estructura de este
 bloque se explica m\'as a fondo en la siguiente secci\'on. Los datos modulados son enviados por el
 puerto USB hacia el USRP por medio del bloque USRP. Este bloque es representado por la clase
 \verb|usrp_sink_c| y su funci\'on es tomar los datos de entrada y enviarlos al USRP con los
 par\'ametros de interpolaci\'on y frecuencia central especificada. El listado \ref{ex:usrptx}
-muestra el constructor del bloque jer\'arquico que realiza esta configuraci\'on pero, como se puede
-observar, la operaci\'on real es delegada a la funci\'on \verb|_setup_usrp_sink|. Esta funci\'on se
-muestra en el listado \ref{ex:usrptxsetup}.
+muestra al constructor del bloque jer\'arquico que realiza esta configuraci\'on pero, como se muestra, la operaci\'on real es
+delegada a la funci\'on \verb|_setup_usrp_sink|. Esta funci\'on se muestra en el listado \ref{ex:usrptxsetup}.
 
 \begin{lstlisting}[float, label=ex:usrptxsetup, caption={Funci\'on que configura el USRP como
 transmisor}, breaklines=true]
 def _setup_usrp_sink(self, options):
-    """
-    Creates a USRP sink, determines the settings for best bitrate,
-    and attaches to the transmitter's subdevice.
-    """
+
     self.u = usrp_options.create_usrp_sink(options)
     dac_rate = self.u.dac_rate()
-    self.rs_rate = options.bitrate    # Store requested bit rate
+    self.rs_rate = options.bitrate
         
     (self._bitrate, self._samples_per_symbol, self._interp) = \
                     pick_tx_bitrate(options.bitrate, self._modulator_class.bits_per_symbol(),
@@ -792,16 +770,16 @@ def _setup_usrp_sink(self, options):
         raise ValueError, eng_notation.num_to_str(options.tx_freq)
 \end{lstlisting}
 
-La funci\'on calcula el factor de interpolaci\'on para lograr la taza de bits que se est\'a
+La funci\'on calcula el factor de interpolaci\'on para lograr la tasa de bits que se est\'a
 especificando por el usuario. Este factor se entrega al USRP para configurar el DUC y despu\'es se
 sintoniza a la frecuencia central especificada. Si el hardware no puede sintonizar la frecuencia que
-se especifica entonces el programa abortara con un mensaje de error. La aplicaci\'on tambi\'en
+se especifica entonces el programa abortar\'a con un mensaje de error. La aplicaci\'on tambi\'en
 configura al USRP en modo de transmisi\'on autom\'atica lo cual quiere decir que el dispositivo
-estar\'a transmitiendo continuamente lo que se encuentre en sus buffers hasta que la aplicaci\'on
+estar\'a transmitiendo continuamente lo que se encuentre en sus \emph{buffers} hasta que la aplicaci\'on
 termine de ejecutarse.
 
 \subsection{Estructura del modulador DQPSK}\label{subsec:estrucdqpsk}
-\gnuradio contiene varios bloques que definen varios esquemas de modulaci\'on digital. El estudio de
+\gnuradio contiene bloques que definen distintos esquemas de modulaci\'on digital. El estudio de
 este trabajo se enfoca en el bloque DQPSK. La estructura del grafo que implementa este esquema se
 muestra en la figura \ref{fig:dqpsk}.
 
@@ -828,7 +806,7 @@ muestra en la figura \ref{fig:dqpsk}.
   \label{fig:dqpsk}
 \end{figure}
 
-Los bits individuales de cada byte que van entrando al grafo son descompuestos en grupos de dos ya
+Los bits individuales de cada byte que entran al grafo son descompuestos en grupos de dos ya
 que cada s\'imbolo en una transmision DQPSK contiene dos bits. El bloque de mapeo codifica los bits
 en un alfabeto de tama\~no $M$ donde en este caso es 4 para la constelaci\'on QPSK. La
 codificaci\'on utiliza el metodo de Gray y consiste en hacer que cada valor binario sucesivo difiera
@@ -840,11 +818,12 @@ dise\~no del receptor ya que en lugar de tener una referencia exacta de la fase 
 para enviar la informaci\'on, ahora se utiliza la diferencia entre dos bits. Esto nos
 permite realizar una recuperaci\'on \emph{no coherente} de la informaci\'on. La segunda ventaja es que
 ofrece protecci\'on contra la inversi\'on de polaridad. Este m\'etodo nos permite recuperar la
-informaci\'on independientemente si este fen\'omeno sucede o no. Como estamos utilizando dos bits
+informaci\'on independientemente si este fen\'omeno sucede o no. Como se est\'a utilizando dos bits
 para la codifiaci\'on, la desventaja principal es que un error causar\'ia errores en dos bits en
 lugar de uno y por consecuencia aumenta la probabilidad de error de bits. La representaci\'on
-matematica del codificador y decodificador se muestra en las ecuaciones \eqref{eq:difcoder} y
+matem\'atica del codificador y decodificador se muestra en las ecuaciones \eqref{eq:difcoder} y
 \eqref{eq:difdecod}.
+%TODO: Anexar referencia para estas ecuaciones
 \begin{alignat}{2}
 e_k &=e_{k-1}\oplus b_k &\quad &\rightarrow \text{ codificador}\label{eq:difcoder}\\
 b_k &=e_k \oplus e_{k-1} &\quad &\rightarrow \text{ decodificador}\label{eq:difdecod}
