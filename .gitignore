@@ -8,3 +8,5 @@ Tesis_Jesus.synctex.gz
 .tex
 *.swp
 *.aux
+*.bbl
+*.blg

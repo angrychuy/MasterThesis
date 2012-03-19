@@ -823,20 +823,18 @@ para la codifiaci\'on, la desventaja principal es que un error causar\'ia errore
 lugar de uno y por consecuencia aumenta la probabilidad de error de bits. La representaci\'on
 matem\'atica del codificador y decodificador se muestra en las ecuaciones \eqref{eq:difcoder} y
 \eqref{eq:difdecod}.
-%TODO: Anexar referencia para estas ecuaciones
 \begin{alignat}{2}
 e_k &=e_{k-1}\oplus b_k &\quad &\rightarrow \text{ codificador}\label{eq:difcoder}\\
 b_k &=e_k \oplus e_{k-1} &\quad &\rightarrow \text{ decodificador}\label{eq:difdecod}
 \end{alignat}
 donde $e_k$ es el bit codificado, $b_k$ es el bit decodificado y el operador $\oplus$ representa la
-operaci\'on XOR.
+operaci\'on XOR \cite{sklar}.
 
 Los bits son transformados a su representaci\'on compleja dependiendo de la constelaci\'on que se
-especific\'o y luego son introducidos a un filtro de coseno elevado para
-reducir la cantidad de ancho de banda requerida para transmitirlos y eliminar el efecto de ISI
-(Interferencia entre s\'imbolos). La respuesta a la frecuencia de este filtro est\'a caracterizada
-por el par\'ametro $\alpha$ que especifica la cantidad de ancho de banda mas all\'a del l\'imite de
-Nyquist de $1/2T$ \cite{sklar}. A este par\'ametro se le llama exceso de ancho de banda. La
+especific\'o y posteriormente son introducidos a un filtro de coseno elevado para
+reducir la cantidad de ancho de banda requerida para la transmisi\'on y eliminar el efecto de ISI. La respuesta a la frecuencia
+de este filtro est\'a caracterizada por el par\'ametro $\alpha$ que especifica la cantidad de ancho de banda m\'as all\'a del
+l\'imite de Nyquist de $1/2T$ \cite{sklar}. A este par\'ametro se le llama exceso de ancho de banda. La
 respuesta a la frecuencia de este filtro se muestra en la ecuaci\'on \eqref{eq:rrctransfer}.
 
 \begin{equation}\label{eq:rrctransfer}
@@ -863,14 +861,14 @@ h(t)&=\frac{\sin{(\pi t/T_b)}}{\pi t/T_b}\frac{\cos{(\pi\alpha t/T_b)}}{1-4\alph
 El punto medio de la banda de transici\'on $1/2T_b=f_b/2$ se le conoce como la \emph{frecuencia de
 Nyquist}. Cuando $\alpha=0$ el filtro se comporta como un filtro Nyquist ideal, com\'unmente
 conocido como \emph{brick wall} y su respuesta al impulso tiende a decaer muy lentamente por lo
-cual ofrece un mayor nivel de ISI. Cuando $\alpha$ se acerca a 1 su respuesta al impulso decae mas
+cual ofrece un mayor nivel de ISI. Cuando $\alpha$ se acerca a 1 su respuesta al impulso decae m\'as
 r\'apido pero a consecuencia de una mayor cantidad de ancho de banda utilizada. El exceso de ancho
 de banda se interpreta en t\'erminos de porcentaje con referencia a la frecuencia de Nyquist, por
 ejemplo, un valor de $\alpha=0.25$ significa 25\% de exceso de ancho de banda y $\alpha=1$
 significa 100\%. La respuesta a la frecuencia y al impulso de este filtro se muestra en las figuras
-\ref{fig:rrcfreq} y \ref{fig:rrctime}. En estas gr\'aficas se puede observar como el valor de $\alpha$ afecta la forma del
-pulso. A valores cercanos de 1 el filtro se comienza a tomar la forma de la funci\'on coseno mientras que a valores
-cercanos a 0 toma una forma al filtro ideal rectangular. Finalmente los datos procesados por el filtro RRC se colocan en la
+\ref{fig:rrcfreq} y \ref{fig:rrctime}. En estas gr\'aficas se puede observar c\'omo el valor de $\alpha$ afecta la forma del
+pulso. A valores cercanos de 1 el filtro comienza a tomar la forma de la funci\'on coseno mientras que a valores
+cercanos a 0 toma una forma al filtro ideal rectangular. Finalmente, los datos procesados por el filtro RRC se colocan en la
 salida del bloque jer\'arquico para que sean enviados al siguiente bloque del grafo.
 
 
@@ -891,7 +889,7 @@ salida del bloque jer\'arquico para que sean enviados al siguiente bloque del gr
 \end{figure}
 
 La clase \verb|blks2.dqpsk_mod| representa el modulador DQPSK. Un ejemplo de su uso en un programa sencillo se muestra en el
-capitulo \ref{ch:resultados}. La clase se puede configurar de acuerdo a los siguientes par\'ametros de entrada:
+cap\'itulo \ref{ch:resultados}. La clase se puede configurar de acuerdo a los siguientes par\'ametros de entrada:
 
 \begin{itemize}
   \item \textbf{samples\_per\_symbol}: Especifica la tasa de muestras por s\'imbolo. Acepta valores $\geq 2$.
@@ -912,10 +910,10 @@ capitulo \ref{ch:resultados}. La clase se puede configurar de acuerdo a los sigu
 \subsection{Modulador DQPSK con filtros polif\'asicos}
 Durante el desarrollo de este trabajo los autores de \gnuradio incorporaron al c\'odigo fuente una
 versi\'on mejorada del modulador DQPSK que re-implementa algunos bloques del grafo con bancos de
-filtros polif\'asicos. Estos filtros son tambien llamados multi tasa (\emph{multirate}) ya que
-modifican la frecuencia de muestreo (decimacion e interpolacion) y consisten en un filtro
-tradicional (pasa bajas, pasa altas, etc.) y uno o mas componentes que modifican la tasa de muestreo
-(decimador o interpolador) \cite{behrouz}. Un ejemplo de estos filtros se muestra en la figura \ref{fig:multirate}.
+filtros polif\'asicos. Estos filtros son tambi\'en llamados multi tasa (\emph{multirate}) ya que
+modifican la frecuencia de muestreo (decimaci\'on e interpolaci\'on) y consisten en un filtro
+tradicional (pasa bajas, pasa altas, etc.) \cite{behrouz}. Un ejemplo de estos filtros se muestra en la figura
+\ref{fig:multirate}.
 
 %NOTA: Para usar la funcion matrix dentro de una subfigura hay que utilizar la opcion ``ampersand replacement'' y cambiar el
 % uso del ampersand por algun otro macro. Aqui estamos utilizando \& para mantener consistencia.
@@ -978,33 +976,33 @@ tradicional (pasa bajas, pasa altas, etc.) y uno o mas componentes que modifican
   \end{tikzpicture}
   }
   \vspace{0.3in}
-  \caption{Estructuras basicas de filtros multi tasas.}
+  \caption{Estructuras b\'asicas de filtros multi tasa.}
   \label{fig:multirate}
 \end{figure}
 
 La figura \ref{fig:interpol} muestra la estructura de un interpolador simple con factor de
-interpolacion $L$. Este filtro reconstruye una se\~nal $x(n)$ a una taza $L$ veces mas que la taza
+interpolaci\'on $L$. Este filtro reconstruye una se\~nal $x(n)$ a una tasa $L$ veces m\'as que la tasa
 de muestreo original. Esto se logra anexando $L-1$ ceros despues de cada muestra y despues se
-utiliza un filtro pasa bajas para eliminar las imagenes espectrales que se generan alrededor de la
-se\~nal debido a la operacion de \emph{upsampling} \cite{behrouz}.
+utiliza un filtro pasa bajas para eliminar las im\'agenes espectrales que se generan alrededor de la
+se\~nal debido a la operaci\'on de \emph{upsampling} \cite{behrouz}.
 
-La figura \ref{fig:decimat} muestra la estructura de un filtro decimador con factor $M$. Aqui el
+La figura \ref{fig:decimat} muestra la estructura de un filtro decimador con factor $M$. En este caso, el
 filtro pasa bajas se utiliza antes del decimador para reducir el ancho de banda de la se\~nal y
-prevenir que se genere el efecto alias debido a la reduccion de la frecuencia de muestreo. El
-decimador entonces tomara cada $D$ veces muestras e ignorara el resto.
+prevenir que se genere el efecto alias debido a la reducci\'on de la frecuencia de muestreo. El
+decimador entonces tomar\'a cada $D$ veces muestras e ignorar\'a el resto.
 
 Los filtros anteriores utilizan factores enteros y por lo tanto no se puede realizar interpolaci\'on
 o decimaci\'on fraccional \cite{behrouz}. Un tercer filtro combina ambas estructuras para lograr precisamente esto y
-se le denomina filtros factoriales $L/M$. Su estructura se muestra en la figura
+se denominan filtros factoriales $L/M$. Su estructura se muestra en la figura
 \ref{fig:fractional}. Aqu\'i el filtro pasa bajas se encuentre entre el bloque de \emph{upsampling} y
 el bloque decimador para proporcionar interpolaci\'on a la se\~nal y protecci\'on contra el efecto
 alias.
 
 El problema principal con las estructuras anteriores es que no son muy eficientes. El filtro decimador calcula
 muchas muestras que eventualmente ser\'an descartadas y el filtro interpolador procesa las muestras de
-la se\~nal as\'i como tambi\'en los ceros introducidos por la operaci\'on \emph{upsampling}. Para
+la se\~nal as\'i como los ceros introducidos por la operaci\'on \emph{upsampling}. Para
 solucionar esto se utiliza una estructura de filtros polif\'asicos para lograr que el filtro decimador
-e interpolador procesen la se\~nal a la taza de muestreo original y no a la taza modificada. La
+e interpolador procesen la se\~nal a la tasa de muestreo original y no a la tasa modificada. La
 estructura del filtro decimador en su descomposici\'on polif\'asica se muestra en la figura
 \ref{fig:polydecim}.
 
@@ -1044,13 +1042,13 @@ estructura del filtro decimador en su descomposici\'on polif\'asica se muestra e
     	\draw[->] (d-7-4) -- (d-3-5);
   \end{tikzpicture}
   \vspace{0.3in}
-  \caption{Descomposicion del filtro decimador en su representacion polif\'asica.}
+  \caption{Descomposici\'on del filtro decimador en su representaci\'on polif\'asica.}
   \label{fig:polydecim}
 \end{figure}
 
 La estructura del modulador DQPSK fue modificada con la introducci\'on de estos filtros al c\'odigo fuente. La estructura de
 la segunda versi\'on de este bloque jer\'arquico, llamado DQPSK2, se muestra en la figura \ref{fig:dqpsk2}. El bloque
-ilustrado de rojo representa la modificaci\'on que se realizo al grafo del bloque jer\'arquico original.
+ilustrado de rojo representa la modificaci\'on que se realiz\'o al grafo del bloque jer\'arquico original.
 
 \begin{figure}[htp]
   \centering
@@ -1078,18 +1076,18 @@ ilustrado de rojo representa la modificaci\'on que se realizo al grafo del bloqu
 El bloque en rojo de la figura \ref{fig:dqpsk2} implementa un re-muestreador arbitrario utilizando un banco de filtros
 polif\'asicos. La tasa de re-muestreo puede ser cualquier n\'umero real $r$ y realiza la operaci\'on construyendo $N$
 cantidad de filtros donde $N$ es el factor de interpolaci\'on. El factor $D$ se calcula de la siguiente manera: $D=N/r$.
-Utilizando $N$ y $D$ el bloque realiza un muestreo arbitrario con factor $N/D$ que representa un numero racional cercano a
-la tasa especificada $r$ y utilizando $N$ cantidad de filtros que se forman el banco de filtros polif\'asicos.
+Utilizando $N$ y $D$ el bloque realiza un muestreo arbitrario con factor $N/D$ que representa un n\'umero racional cercano a
+la tasa especificada $r$ y utilizando $N$ cantidad de filtros que forman el banco completo de filtros polif\'asicos.
 
 Este modulador se encuentra dentro del mismo paquete \verb|blsk2| que la versi\'on anterior. Los par\'ametros que acepta la
 clase son los mismos que se describieron en el apartado \ref{subsec:estrucdqpsk}.
 
 \subsection{Estructura del receptor}
-El programa principal del receptor se encuentra en el archivo \verb|benchmark_rx.py|. La estructura del programa es muy
-similar a la del transmisor y la diferencia principal es en el uso de una funci\'on auxiliar que maneja el grafo RX y
-se encarga de recibir los paquetes que van recibiendo y desplegar su estatus en la consola. Esta funci\'on se puede
-modificar para realizar cualquier otra operaci\'on con los paquetes de datos. El c\'odigo de esta funci\'on se muestra
-en el listado \ref{ex:callback}. La estructura del receptor se muestra en la figura \ref{fig:grdqpskrx}.
+El programa principal del receptor se encuentra en el archivo \verb|benchmark_rx.py|. La estructura del programa es
+similar a la del transmisor, la diferencia principal es en el uso de una funci\'on auxiliar que maneja el grafo RX, adicionalmente
+se encarga de recibir los paquetes que van recibiendo y desplegar su estatus en la consola. Esta funci\'on se puede modificar
+para realizar cualquier otra operaci\'on con los paquetes de datos. El c\'odigo de esta funci\'on se muestra en el listado
+\ref{ex:callback}. La estructura del receptor se muestra en la figura \ref{fig:grdqpskrx}.
 
 \begin{figure}[htp]
   \centering
@@ -1125,8 +1123,8 @@ diversas operaciones del programa (configuraci\'on del USRP, demodulaci\'on y de
 implementaci\'on se mantiene separado en diversos archivos, cada uno con un prop\'osito exclusivo.
 
 La configuraci\'on del USRP se lleva a cabo dentro del archivo \\ \verb|usrp_receive_path.py|. Las operaciones principales
-que realiza el grafo de este archivo es configurar la frecuencia central y el factor de decimaci\'on que se va utilizar dentro
-del DDC. Igualmente el programa realiza el c\'alculo de la tasa de bits con los par\'ametros que el usuario especifico y si
+que realiza el grafo de este archivo son configurar la frecuencia central y el factor de decimaci\'on que se va utilizar dentro
+del DDC. Igualmente el programa realiza el c\'alculo de la tasa de bits con los par\'ametros que el usuario especific\'o y si
 no se logra la configuraci\'on el programa emite un mensaje de error. Posteriormente, el control se pasa al archivo
 \verb|receive_path.py| para la generaci\'on y configuraci\'on del grafo que crea la instancia del demodulador DQPSK.
 
@@ -1162,7 +1160,7 @@ La estructura del grafo del demodulador DQPSK se muestra en la figura \ref{fig:d
 	\label{fig:dqpskdemod}
 \end{figure}
 
-La se\~nal que entrega el USRP es multiplicada por una constante para escalarla de su rango completo ,$\pm$16384, a $\pm$1.
+La se\~nal que entrega el USRP es multiplicada por una constante para escalarla de su rango completo, $\pm$16384, a $\pm$1.
 Despu\'es se entrega a un controlador autom\'atico de ganancia no causal el cual se encarga de calcular la ganancia requerida en
 base al valor absoluto m\'aximo sobre $n$ muestras.
 
@@ -1177,15 +1175,14 @@ H_{rc}(f) = H_{rrc}(f) \cdot H_{rrc}(f)
 
 El bloque \verb|Receptor MPSK| se encarga de realizar la sincron\'ia de la fase y frecuencia de la se\~nal y del reloj de
 s\'imbolos. Esto lo hace en dos etapas las cuales son por medio de un PLL llamado Lazo de Costas y un algoritmo de sincron\'ia de
-reloj llamado M\&M (Mueller \& Muller por los nombres de sus autores). El Lazo de Costas encuentra el error en la se\~nal recibida
-compar\'andola con su punto de constelaci\'on mas cercano. La frecuencia y la fase de un NCO (Oscilador controlado
-num\'ericamente) son actualizados en base a este error. La sincronizaci\'on de s\'imbolos se realiza por medio de una versi\'on
-modificada del algoritmo de Mueller y Muller descrita en el art\'iculo t\'ecnico \emph{Optimisation of modified Mueller and Muller
-algorithm} publicado el 22 de Junio de 1995. El algoritmo realiza una interpolaci\'on de una muestra (utilizando el NCO del Lazo
-de Costas) cada $\mu$ muestras y luego encuentra el error de muestreo basado en el actual y los pasados s\'imbolos y la decisi\'on
-tomada sobre las muestras. Para los dos, PLL y M\&M, \gnuradio implementa algoritmos optimizados para BPSK y QPSK pero para 8PSK
-utiliza una soluci\'on que los autores le llaman \emph{fuerza bruta} para calcular la distancia m\'inima de los puntos de la
-constelaci\'on.
+reloj llamado M\&M. El Lazo de Costas encuentra el error en la se\~nal recibida compar\'andola con su punto de constelaci\'on mas
+cercano. La frecuencia y la fase de un NCO son actualizados en base a este error. La sincronizaci\'on de s\'imbolos se realiza por
+medio de una versi\'on modificada del algoritmo de Mueller y M\"uller descrita en el art\'iculo t\'ecnico \emph{Optimisation of
+modified Mueller and M\"uller algorithm} publicado el 22 de Junio de 1995. El algoritmo realiza una interpolaci\'on de una muestra
+(utilizando el NCO del Lazo de Costas) cada $\mu$ muestras y luego encuentra el error de muestreo basado en el actual y los
+pasados s\'imbolos y la decisi\'on tomada sobre las muestras. Para los dos, PLL y M\&M, \gnuradio implementa algoritmos
+optimizados para BPSK y QPSK pero para 8PSK utiliza una soluci\'on que los autores le llaman \emph{fuerza bruta} para calcular la
+distancia m\'inima de los puntos de la constelaci\'on.
 
 Antes de iniciar con la decodificaci\'on de la constelaci\'on, los bits son decodificados a trav\'es de un decodificador
 diferencial utilizando la ecuaci\'on \eqref{eq:difdecod}. El resto de los bloques se encargan de convertir los valores
@@ -1222,11 +1219,11 @@ muestran en la figura \ref{fig:dqpsk2demod}. Los bloques mostrados en rojo repre
 	\label{fig:dqpsk2demod}
 \end{figure}
 
-Despu\'es de la etapa de control de ganancia el sistema inicia con un FLL (Bucle de Enganche de Frecuencia) el cual se
-encarga de generar una se\~nal de referencia con la frecuencia correcta de la portadora. El FLL cubre el ancho de banda superior e
-inferior de la se\~nal modulada. Este rango se determina por el factor $\alpha$ (exceso de ancho de banda) de la se\~nal y
-las esquinas superior e inferior del ancho de banda son determinadas por la taza de sobre-muestreo (el numero de muestras
-por s\'imbolo) y el factor $\alpha$.
+Despu\'es de la etapa de control de ganancia el sistema inicia con un FLL (Bucle de Enganche de Frecuencia por sus siglas en
+Ingl\'es) el cual se encarga de generar una se\~nal de referencia con la frecuencia correcta de la portadora. El FLL cubre el
+ancho de banda superior e inferior de la se\~nal modulada. Este rango se determina por el factor $\alpha$ (exceso de ancho de
+banda) de la se\~nal y las esquinas superior e inferior del ancho de banda son determinadas por la tasa de sobre-muestreo (el
+n\'umero de muestras por s\'imbolo) y el factor $\alpha$.
 
 El FLL filtra las bandas superior e inferior en $x_u(t)$ y $x_l(t)$ respectivamente \cite{radio}. Estas se combinan para
 formar
@@ -1248,22 +1245,22 @@ e(t)=Re\{cc(t) \times ss(t)^*\}
 \end{equation}
 
 donde $^*$ es el operador del conjugado complejo. Esta se\~nal error es directamente proporcional a la frecuencia de la
-portadora. Despu\'es se crea un lazo de segundo orden utilizando esta se\~nal. El bloque realiza todos estos c\'alculos
-internamente dentro de una funci\'on llamada \verb|design_filter()|.
+portadora. Posteriormente se crea un lazo de segundo orden utilizando esta se\~nal. El bloque realiza estos c\'alculos
+dentro de una funci\'on llamada \verb|design_filter()|.
 
-El bloque \emph{Sincronizador de s\'imbolos} realiza sincronizaci\'on de tiempo a se\~nales PAM (Modulaci\'on por Amplitud
-de Pulsos) por medio de la minimizaci\'on de la derivada de la se\~nal filtrada, el cual a su vez maximiza el SNR y minimiza el
-efecto ISI \cite{radio}. Para lograr esto el bloque construye dos bancos de filtros polif\'asicos; el primero contiene el
-filtro de forma de pulso (ejemplo: filtro de coseno elevado). El segundo banco contiene la derivada de los filtros del
-primer banco. Si se observa esto desde el dominio del tiempo, el primer banco contiene filtros que tienen una respuesta al impulso
-de forma sinc. El objetivo es alinear la se\~nal de salida de tal forma que sea muestreada justamente en el pico de esta
-funci\'on. La derivada de la funci\'on sinc es cero en su punto m\'aximo, o sea, $sinc(0)=1$, $sinc(0)'=0$. Este hecho se
-utiliza para generar una se\~nal de error $e(n)$. Esta se\~nal entrega un valor proporcional a la distancia con respecto al punto
-cero. El bloque utiliza un PLL de segundo orden para lograr que el error llegue a cero.
+El bloque \emph{Sincronizador de s\'imbolos} realiza sincronizaci\'on de tiempo a se\~nales moduladas por amplitud de pulsos (PAM
+por sus siglas en Ingl\'es) por medio de la minimizaci\'on de la derivada de la se\~nal filtrada, el cual a su vez maximiza el SNR
+y minimiza el efecto ISI \cite{radio}. Para lograr esto el bloque construye dos bancos de filtros polif\'asicos; el primero
+contiene el filtro de forma de pulso (ejemplo: filtro de coseno elevado). El segundo banco contiene la derivada de los filtros
+del primer banco. Si se observa esto desde el dominio del tiempo, el primer banco contiene filtros que tienen una respuesta al
+impulso de forma sinc. El objetivo es alinear la se\~nal de salida de tal forma que sea muestreada justamente en el pico de esta
+funci\'on. La derivada de la funci\'on sinc es cero en su punto m\'aximo, es decir, $sinc(0)=1$, $sinc(0)'=0$. Este hecho se
+utiliza para generar una se\~nal de error $e(n)$. Esta se\~nal entrega un valor proporcional a la distancia con respecto al punto cero.
+El bloque utiliza un PLL de segundo orden para lograr que el error llegue a cero.
 
-El tercer bloque rojo simplemente implementa el Lazo de Costas para la correcci\'on de la fase de la se\~nal por separado
-(anteriormente lo implementaba dentro de un solo bloque junto con la sincronizaci\'on de s\'imbolos). La clase que la
+El tercer bloque rojo implementa el Lazo de Costas para la correcci\'on de la fase de la se\~nal por separado
+(anteriormente se implementaba dentro de un solo bloque junto con la sincronizaci\'on de s\'imbolos). La clase que lo
 implementa se llama \verb|gr.costas_loop_cc|. Con esto, esta versi\'on del demodulador realiza la recuperaci\'on de la
 portadora en tres etapas: correcci\'on de frecuencia, sincronizaci\'on de s\'imbolos y filtro de forma de pulso por medio de
 filtros polif\'asicos y correcci\'on de fase por medio del Lazo de Costas. Una comparaci\'on detallada del rendimiento de
-ambos m\'etodos (con y sin filtros polif\'asicos) de demodulaci\'on QPSK se muestra en el siguiente cap\'itulo.
+ambos m\'etodos (con y sin filtros polif\'asicos) de demodulaci\'on QPSK se presenta en el siguiente cap\'itulo.
