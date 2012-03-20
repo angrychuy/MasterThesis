@@ -7,12 +7,13 @@
 En este cap\'itulo se muestran los resultados del estudio de la plataforma USRP. El experimento
 consisti\'o en transmitir datos generados de una fuente aleatoria por software y de una fuente fija
 que consiste en una imagen entre las tarjetas LFTX y LFRX por medio de un cable coaxial. Estos
-datos son modulados con el esquema DQPSK como esta implementado en \emph{GNURadio}. Despu\'es se
-observaron los resultados utilizando las herramientas proporcionadas por \gnuradio y el lenguaje Python. El c\'odigo base que se
-utiliz\'o fueron los programas \emph{benchmark\_tx} y \emph{benchmark\_rx}. Estos programas son parte de los ejemplos que ofrece
+datos son modulados con el esquema DQPSK como est\'a implementado en \emph{GNURadio}. Posteriormente se
+observ\'o los resultados utilizando las herramientas proporcionadas por \gnuradio y el lenguaje \emph{Python}. El c\'odigo base
+que se utiliz\'o fueron los programas \emph{benchmark\_tx} y \emph{benchmark\_rx}. Estos programas son parte de los ejemplos que ofrece
 el c\'odigo fuente de \emph{GNURadio}. La caracter\'istica principal de estos dos programas es que emplean la gran mayor\'ia de
 los conceptos y t\'ecnicas de modulaci\'on que ofrece el sistema, as\'i como tambi\'en ilustra el uso de las herramientas
-gr\'aficas que se pueden utilizar para crear interfaces de usuario para formar aplicaciones desde sencillas hasta complejas.
+gr\'aficas que se pueden utilizar para crear interfaces de usuario que permitan formar aplicaciones desde sencillas hasta
+complejas.
 
 Como su nombre lo indica, estos programas fueron desarrollados por los autores de \gnuradio con el fin de poder evaluar los
 conceptos y todas las variantes del USRP. La aplicaci\'on consiste en un transmisor y receptor unidireccional. Ambos programas
@@ -38,20 +39,20 @@ El material que se utiliz\'o para realizar el experimento fue el siguiente:
   \end{itemize}
 \end{itemize}
 
-Los programas \verb|benchmark_tx.py| y \verb|benchmark_rx.py| de la carpeta de ejemplos del codigo
+Los programas \verb|benchmark_tx.py| y \verb|benchmark_rx.py| de la carpeta de ejemplos del c\'odigo
 fuente fueron utilizados para realizar la transmisi\'on, ya que estos ejemplos son programas
 completos y maduros que ayudan a ilustrar varias caracter\'isticas de la programaci\'on con
-\gnuradio. Los programas \verb|benckmark_tx2.py| y \verb|benchmark_rx2.py| tienen la misma
+\emph{GNURadio}. Los programas \verb|benckmark_tx2.py| y \verb|benchmark_rx2.py| tienen la misma
 estructura que su versi\'on anterior pero estos implementan el modulador y demodulador utilizando la
 t\'ecnica de filtros polif\'asicos. Esta versi\'on, incluyendo los bloques que implementan estos
 filtros, fueron incluidos en el c\'odigo fuente el 23 de Marzo de 2010 y fueron incluidos en este
 estudio para comparar el rendimiento de ambas versiones.
 
-Se opt\'o por utilizar un cable coaxial entre las tarjetas TX y RX para observar el rendimiento del sistema lo mas cercas posible
-a lo te\'orico, es decir, con la menor cantidad de perdidas en la transmisi\'on. Como trabajo a futuro se puede emplear un
-conector SMA a BNC para conectar una antena. La impedancia del cable es de 50$\Omega$ y soporta una frecuencia m\'axima de
-operaci\'on de 12.4Ghz. Los conectores SMA manejan un rango de frecuencias entre 0 y 18Ghz. La se\~nal viaja a entre del conductor
-central y una capa protectora, com\'unmente aluminio. Este arreglo ofrece una buena protecci\'on contra el ruido externo \cite{coax}.
+Se opt\'o por utilizar un cable coaxial entre las tarjetas TX y RX para observar el rendimiento del sistema lo mas aproximado
+posible a lo te\'orico, es decir, con la menor cantidad de p\'erdidas en la transmisi\'on. La impedancia del cable es de
+50$\Omega$ y soporta una frecuencia m\'axima de operaci\'on de 12.4Ghz. Los conectores SMA manejan un rango de frecuencias entre
+0 y 18Ghz. La se\~nal viaja entre el conductor central y una capa protectora, com\'unmente aluminio. Este arreglo ofrece una
+buena protecci\'on contra el ruido externo \cite{coax}.
 
 
 %Parametros utilizados
@@ -59,13 +60,13 @@ central y una capa protectora, com\'unmente aluminio. Este arreglo ofrece una bu
 \section{Par\'ametros utilizados}
 \label{sec:params}
 
-Para ejecutar los ejemplos \verb|benchmark_tx.py| y \verb|benchmark_rx.py| es neceario moverse al
+Para ejecutar los ejemplos \verb|benchmark_tx.py| y \verb|benchmark_rx.py| es necesario moverse al
 directorio donde se encuentran. La ruta es:
 \begin{center}
-\verb|<dir_donde_esta_el_codigo_fuente>|/\verb|gnuradio-examples|/\verb|python|/\verb|digital|
+\verb|<dir_del_codigo_fuente>|/\verb|gnuradio-examples|/\verb|python|/\verb|digital|
 \end{center}
-Los programas se ejecutan por medio de la consola de texto utilizando la notacion \verb|./| para
-indicar que se va correr un ejecutable. La sintaxis completa es:
+Los programas se ejecutan por medio de la consola de texto utilizando la notaci\'on \verb|./| para
+indicar que se correr\'a un ejecutable. La sintaxis completa es:
 \begin{center}
 \verb|./benchmark_tx.py <opciones>|
 \end{center}
@@ -75,83 +76,79 @@ funcionamiento. Para ver todas las opciones que soporta se puede utilizar el sig
 \verb|./benchmark_tx.py --help|
 \end{center}
 
-Algunos par\'ametros contienen valores por defecto que se puede utilizar como punto de partida para ajustarlos para la
-aplicaci\'on que se esta desarrollando. Estos valores fueron propuestos por los autores de \gnuradio ya que durante el desarrollo
-del c\'odigo fuente les dieron resultados positivos para comprobar el correcto funcionamiento de las diversas funciones del
-c\'odigo. Estos valores no siempre ser\'an los adecuados para todas las aplicaciones pero sirven como una referencia para de ah\'i
-poder optimizarlos. Esta optimizaci\'on es necesaria para lograr una transmisi\'on eficiente con la menor cantidad de errores
-posibles. El an\'alisis matem\'atico para la obtenci\'on de estos valores esta fuera del alcance de este trabajo y se deja como
-propuesta para una investigaci\'on a futuro. Los valores que se utilicen dependen del \emph{hardware} (USRP, tarjetas, capacidad
-de la PC) que se este utilizando para desarrollar la aplicaci\'on. A menos de que se especifique lo contrario, en la mayor\'ia de
-los par\'ametros de los diferentes bloques y aplicaciones que se utilizaron para el experimento se utilizaron los valores por
-defecto ya establecidos y recomendados debido a que dieron buenos resultados y buen rendimiento. Los resultados se muestran a
-trav\'es de las secciones de este cap\'itulo.
+Algunos par\'ametros contienen valores por defecto que se pueden utilizar como punto de partida para ajustarlos a la
+aplicaci\'on que se est\'a desarrollando. Estos valores propuestos por los autores de \gnuradio dieron resultados positivos para
+comprobar el correcto funcionamiento de las diversas funciones del c\'odigo, aunque no siempre ser\'an los adecuados
+para todas las aplicaciones pero sirven como una referencia para de ah\'i poder optimizarlos. Esta optimizaci\'on es necesaria para
+lograr una transmisi\'on eficiente con la menor cantidad de errores posibles. El an\'alisis matem\'atico para la obtenci\'on de
+estos valores est\'a fuera del alcance de este trabajo y se deja como propuesta para una investigaci\'on a futuro. Los valores que
+se utilicen dependen del \emph{hardware} (USRP, tarjetas, capacidad de la PC) que se est\'e utilizando para desarrollar la
+aplicaci\'on. En la mayor\'ia de los par\'ametros de los diferentes bloques y aplicaciones que se emplearon para el experimento
+se utilizaron los valores por defecto ya establecidos y recomendados debido a que dieron buenos resultados y buen rendimiento.
+Los resultados se muestran a trav\'es de las secciones de este cap\'itulo.
 
-Los opciones que se utilizaron para el transmisor y receptor son los siguientes:
+Las opciones que se utilizaron para el transmisor y receptor son las siguientes:
 
 \section*{TRANSMISOR}
 \begin{itemize}
-  \item \textbf{-m}: Especifica el modulador que se va utilizar. La opci\'on que se utilizo fue
-  DQPSK y DBPSK. BPSK se utilizo para realizar la comparaci\'on entre ambos esquemas.
-  \item \textbf{-r}: Especifica la taza de bits. Se utilizaron varios valores desde 100kbps hasta
+  \item \textbf{-m}: Especifica el modulador que se va a utilizar. La opci\'on que se utiliz\'o fue
+  DQPSK y DBPSK. BPSK se utiliz\'o para realizar la comparaci\'on entre ambos esquemas.
+  \item \textbf{-r}: Especifica la tasa de bits. Se utilizaron varios valores desde 100kbps hasta
   10kbps. Este valor depende mucho de la PC que se est\'e utilizando ya que valores muy altos
   dependen del rendimiento del CPU.
   \item \textbf{--tx-amplitude}: Especifica la amplitud de la se\~nal generada por el DAC en el
-  USRP. Sus valores van de 0 a 1. Se utilizo el valor por omosi\'on de 0.25.
+  USRP. Sus valores van de 0 a 1. Se utiliz\'o el valor por defecto de 0.25.
   \item \textbf{--excess-bw}: Especifica el par\'ametro $\alpha$ del filtro acoplador de coseno
   elevado. Su rango de valores es de 0 a 1. Se utilizaron tres valores para el an\'alisis: 0.35,
   0.50 y 0.75.
   \item \textbf{-f}: Especifica la frecuencia con la cual se van a sintonizar las tarjetas
-  auxiliares. Para este estudio se estuvo utilizando la frecuencia m\'axima que soportan las
+  auxiliares. Para este estudio se utiliz\'o la frecuencia m\'axima que soportan las
   tarjetas LFTX y LFRX que es 30Mhz.
   \item \textbf{-S}: Especifica la cantidad de muestras por s\'imbolo. El valo por defecto es de 2. Se
-  observo que se tuvo un mejor rendimiento con un valor de 4.
+  observ\'o que se tuvo un mejor rendimiento con un valor de 4.
 \end{itemize}
 
 \section*{RECEPTOR}
 \begin{itemize}
-  \item \textbf{-m}: Especifica el demodulador que se va utilizar. Igual que en el transmisor se
+  \item \verb|-m|: Especifica el demodulador que se va a utilizar. Igual que en el transmisor se
   utiliz\'o DQPSK y DBPSK.
-  \item \textbf{--gain-mu}: Especifica la ganancia que se utiliza en el lazo de costas para la
-  detecci\'on de la fase. Se utilizo un valor de 0.5.
-  \item \textbf{-f}: Especifica la frecuencia a la que se sintoniza la tarjeta RX. Se utiliz\'o un
+  \item \verb|--gain-mu|: Especifica la ganancia que se utiliza en el lazo de costas para la
+  detecci\'on de la fase. Se utiliz\'o un valor de 0.5.
+  \item \verb|-f|: Especifica la frecuencia a la que se sintoniza la tarjeta RX. Se utiliz\'o un
   valor de 30Mhz.
-  \item \textbf{-S}: Especifica la cantidad de muestras por s\'imbolo utilizada en el demodulador.
-  Igual que en el transmisor se utilizo un valor de 4.
-  \item \textbf{-r}: Especifica la taza de bits. Se utilizaron los mismos valores que en el
+  \item \verb|-S|: Especifica la cantidad de muestras por s\'imbolo utilizada en el demodulador.
+  Igual que en el transmisor se utiliz\'o un valor de 4.
+  \item \verb|-r|: Especifica la tasa de bits. Se utilizaron los mismos valores que en el
   transmisor.
-  \item \textbf{--excess-bw}: Especifica el par\'ametro $\alpha$ del filtro acoplador de coseno
+  \item \verb|--excess-bw|: Especifica el par\'ametro $\alpha$ del filtro acoplador de coseno
   elevado. Se utilizaron los mismos valores que en el transmisor.
-  \item \textbf{--timing-alpha}: Especifica la ganancia del PLL que forma parte del banco de filtros
-  polif\'asicos para la sincronizaci\'on del reloj de s\'imbolos. Se utilizo un valor de 10.
-  \item \textbf{--phase-alpha}: Especifica la ganancia del lazo de costas en la segunda versi\'on
+  \item \verb|--timing-alpha|: Especifica la ganancia del PLL que forma parte del banco de filtros
+  polif\'asicos para la sincronizaci\'on del reloj de s\'imbolos. Se utiliz\'o un valor de 10.
+  \item \verb|--phase-alpha|: Especifica la ganancia del lazo de costas en la segunda versi\'on
   del demodulador DQPSK. Se utilizo un valor de 0.5.
-  \item \textbf{--freq-alpha}: Especifica la ganancia del FLL para realizar compensaci\'on de
-  frecuencia. Se utilizo un valor de 0.001.
+  \item \verb|--freq-alpha|: Especifica la ganancia del FLL para realizar compensaci\'on de
+  frecuencia. Se utiliz\'o un valor de 0.001.
 \end{itemize}
 
-Cabe mencionar que debido a que los dos programas son independientes uno del otro, es necesario
-igualar algunos par\'ametros para lograr una transmisi\'on exitosa. Los par\'ametros \verb|--f|,
-\verb|-S|, \verb|-r| y \verb|--excess-bw| son un ejemplo de estos parametr\'os. Todos los
-par\'ametros tienen valores por defecto si no se desea modificarlos pero uno de ellos es obligatorio
-especificarlo y es el de la frecuencia de sintonizaci\'on \verb|-f|. Si se ejecutan los programas
-sin especificar este par\'ametro, aunque se especifiquen los otros, marcara un error pidiendo que
-se especifique la frecuencia de operacion. Los par\'ametros \verb|--timing-alpha|,
-\verb|--phase-alpha| y \verb|--freq-alpha| son parte de la segunda versi\'on del modulador DQPSK
-mientras que el par\'ametro \verb|gain-mu| pertenece a la primera versi\'on. 
-%Taza de error de bits
+Debido a que los dos programas son independientes uno del otro, es necesario igualar algunos par\'ametros para lograr una
+transmisi\'on exitosa. Los par\'ametros \verb|-f|, \verb|-S|, \verb|-r| y \verb|--excess-bw| son un ejemplo de estos
+par\'ametros. Todos los par\'ametros tienen valores por defecto pero uno de ellos es obligatorio especificar y es el de la
+frecuencia de sintonizaci\'on \verb|-f|. Si se ejecutan los programas sin especificar este par\'ametro, aunque se especifiquen
+los otros, se marcar\'a un error pidiendo que se especifique la frecuencia de operaci\'on. Los par\'ametros \verb|--timing-alpha|,
+\verb|--phase-alpha| y \verb|--freq-alpha| son parte de la segunda versi\'on del modulador DQPSK mientras que el par\'ametro
+\verb|gain-mu| pertenece a la primera versi\'on.
 %==========================================================================
-\section{Taza de error de bits}
+\section{Tasa de error de bits}
 
-El an\'alisis de la tasa de error de bits (Bit error rate o BER por sus siglas en ingles) se realizo
-para ambos modelos de DQPSK proporcionados por \emph{GNURadio}. El programa que se utilizo fue
-basado en un estudio generado y publicado en la pagina de \gnuradio sobre una versi\'on mas optima
+El an\'alisis de la tasa de error de bits (Bit error rate o BER por sus siglas en Ingl\'es) se realiz\'o
+para ambos modelos de DQPSK proporcionados por \emph{GNURadio}. El programa que se utiliz\'o fue
+basado en un estudio generado y publicado en la p\'agina de \gnuradio sobre una versi\'on mejorada
 del modulador GMSK. El programa fue modificado para que pudiera analizar y comparar ambos esquemas
-DBPSK y DQPSK en sus dos versiones: costas/MM y filtros polifasicos.
+DBPSK y DQPSK en sus dos versiones: costas/MM y filtros polif\'asicos.
 
 La estructura del programa est\'a dividida en 3 etapas. La primera etapa genera una se\~nal de una
-fuente de n\'umeros pseudo-aleatorios y luego la modula utilizando el modulador que se va a evaluar.
-Los datos arrojados del modulador son enviados a archivos que se utilizaran como la entrada para las
+fuente de n\'umeros pseudo-aleatorios y despues se modula utilizando el modulador que se va a evaluar.
+Los datos arrojados por el modulador son enviados a archivos que se utilizar\'an como la entrada para las
 siguientes etapas. El programa define una clase llamada \verb|SigGen| derivada de la clase
 \verb|top_block| para definir un grafo de flujo de datos. La estructura del grafo se muestra en la
 figura \ref{fig:siggen}.
@@ -187,22 +184,22 @@ Los bloques se describen de la siguiente manera:
   \item \textbf{Fuente de n\'umeros pseudo-aleatorios}: El bloque se genera por medio de la clase
   \verb|gr.glfsr_source_b|. Esta clase implementa un registro de desplazamiento con
   retroalimentaci\'on lineal en modo Galois. El sufijo ``b'' indica que el generador entrega valores
-  binarios. El par\'ametro que se le especifica es el numero de bits de precisi\'on para generar
+  binarios. El par\'ametro que se le especifica es el n\'umero de bits de precisi\'on para generar
   una secuencia de bits de longitud $2^{N-1}$, el cual expresa la m\'axima cantidad de valores
   que puede generar antes de ciclarse \cite{xilinx}. 
   \item \textbf{Limitador de datos}: Este bloque se genera por medio de la clase \verb|gr_head|, el
   cual su funci\'on es tomar una cierta cantidad de valores en su entrada y descartar todo lo
-  dem\'as. A esta secuencia de valores se le anexa el valor especial \emph{EOF} que especifica el
-  fin del flujo dentro del grafo. Esto causar\'a que el grafo termine su ejecuci\'on una vez que
-  este valor se propague a todos los bloques. Sus par\'ametros el tipo de datos con el que va
-  trabajar y la cantidad de muestras que va dejar pasar de su entrada a su salida.
-  \item \textbf{Source\_bits.dat, Limpio\_bb.dat, Limpio\_oldbb.dat}: Estos bloques utilizan la
+  dem\'as. A esta secuencia de valores se le anexa el valor especial \emph{EOF} (fin de archivo por sus siglas en Ingl\'es) que
+  especifica el fin del flujo dentro del grafo. Esto causa que el grafo termine su ejecuci\'on una vez que
+  este valor se propague a todos los bloques. Sus par\'ametros son el tipo de datos con el que va a
+  trabajar y la cantidad de muestras que va a dejar pasar de su entrada a su salida.
+  \item \textbf{Source\_bits.dat, Limpio\_bb.dat y Limpio\_oldbb.dat}: Estos bloques utilizan la
   clase \verb|gr.file_sink| para enviar el flujo de datos a un archivo. En este grafo se generan tres
   archivos para guardar los bits originales y los bits modulados con los dos tipos de moduladores
-  de \emph{GNURadio}. Sus par\'ametros son el tipo de datos que van a escribir y el nombre del
+  de \emph{GNURadio}. Sus par\'ametros son el tipo de datos que se van a escribir y el nombre del
   archivo.
   \item \textbf{Empaquetado de bits}: Este bloque se implementa utilizando la clase \\
-  \verb|gr.unpacked_to_packed_bb|. Se encarga en juntar los bits que entrar y formar bytes completos
+  \verb|gr.unpacked_to_packed_bb|. Su funcion es agrupar los bits que entran y formar bytes completos
   en la salida. Estos bytes representan la informaci\'on original.
   \item \textbf{Mod\_Demod Poly y Mod\_Demod Costas\_MM}: Estos bloques representan los moduladores
   que se evaluaron durante el experimento y se implementan con las clases \verb|blks2.dqpsk_mod| y
@@ -232,7 +229,7 @@ class SigGen(gr.top_block):
     self.connect(src_limiter, bit_packer_old, mod_old, gr.file_sink(gr.sizeof_gr_complex, 'limpio_old_bb.dat'))
 \end{lstlisting}
 
-La segunda etapa toma la se\~nal modulada de los archivos y los pasa a trav\'es de un grafo que
+La segunda etapa toma la se\~nal modulada de los archivos y la pasa a trav\'es de un grafo que
 aplica ruido Gaussiano para simular un canal de transmisi\'on AWGN. El grafo se muestra en la figura
 \ref{fig:noisegen}.
 
@@ -256,7 +253,7 @@ aplica ruido Gaussiano para simular un canal de transmisi\'on AWGN. El grafo se 
 \end{figure}
 
 El grafo toma como entrada caracter\'istica el valor de la relaci\'on de energ\'ia de bit a ruido
-$E_b/N_0$ que se va utilizar en el an\'alisis. Los bloques se implementan de la siguiente manera:
+$E_b/N_0$ que se va a utilizar en el an\'alisis. Los bloques se implementan de la siguiente manera:
 
 \begin{itemize}
   \item \textbf{Fuente de datos de archivo}: Este bloque se implementa con la clase
@@ -275,13 +272,13 @@ $E_b/N_0$ que se va utilizar en el an\'alisis. Los bloques se implementan de la 
   Para simular el canal AWGN se utiliz\'o la constante \verb|GR_GAUSSIAN|.
   \item \textbf{Archivo ruido\_bb.dat y Archivo ruido.dat}: Este bloque usa la clase
   \verb|file_sink_c| para guardar los datos complejos que representan la se\~nal mezclada con el
-  ruido. El archivo ruido.dat guarda los datos que representan el puro ruido sin la se\~nal
+  ruido. El archivo \emph{ruido.dat} guarda los datos que representan el puro ruido sin la se\~nal
   modulada.
 \end{itemize}
 
 Para determinar la magnitud del ruido el programa primero calcula la potencia promedio del archivo
-que contiene la se\~nal modulada sin ruido, la energ\'ia por bit y por \'ultimo la magnitud del
-ruido. La potencia se calcula utilizando la siguiente expresi\'on:
+que contiene la se\~nal modulada sin ruido, la energ\'ia por bit y la magnitud del ruido. La potencia se calcula utilizando la
+siguiente expresi\'on:
 
 \begin{equation}\label{eq:bitpower}
 P_{prom}=\frac{1}{N}\sum_{n=1}^{N}{x^2(n)}
@@ -293,12 +290,12 @@ expresi\'on:
 \begin{equation}\label{eq:bitenergy}
 E_b=\frac{P_{prom}}{f_b}
 \end{equation}
-donde $f_b$ es la taza de bits en bits por segundo.
+donde $f_b$ es la tasa de bits en bits por segundo.
 
-El listado \ref{ex:powenerprogram} muestra dos funciones en Python que calculan estos dos
+El listado \ref{ex:powenerprogram} muestra dos funciones en \emph{Python} que calculan estos dos
 par\'ametros.
 
-\begin{lstlisting}[float, label=ex:powenerprogram, caption={Funciones en Python para calcular la
+\begin{lstlisting}[float, label=ex:powenerprogram, caption={Funciones en \emph{Python} para calcular la
 potencia y la energia promedio de una se\~nal}]
 def get_p_avg_watts(fn, is_complex=False):
 
@@ -342,7 +339,7 @@ class NoiseGen(gr.top_block):
 
 La tercera etapa realiza la demodulaci\'on de las se\~nales capturadas por los grafos anteriores.
 Esta etapa consiste en leer la se\~nal mezclada con ruido, aplicar un filtro pasa bajas pre-selector
-para seleccionar la porci\'on del canal que nos interesa, demodular la se\~nal recibida y guardar los
+para seleccionar la porci\'on del canal de inter\'es, demodular la se\~nal recibida y guardar los
 datos generados en un archivo para realizar la comparaci\'on. La estructura del grafo que realiza esta
 etapa se muestra en la figura \ref{fig:analizer}.
 
@@ -363,8 +360,8 @@ etapa se muestra en la figura \ref{fig:analizer}.
   \label{fig:analizer}
 \end{figure}
 
-El grafo tiene un par\'ametro obligatorio y es el demodulador que se va utilizar para el an\'alisis.
-Los dem\'as son opcionales y establecen los par\'ametros de muestras por s\'imbolos, s\'imbolos
+El grafo tiene un par\'ametro obligatorio, el demodulador que se va a utilizar para el an\'alisis.
+Los dem\'as par\'ametros son opcionales y establecen las de muestras por s\'imbolos, s\'imbolos
 por segundo y los par\'ametros de ancho de banda para el filtro pre-selector. Para este an\'alisis
 se utilizaron los valores por defecto. Los resultados del filtro se muestran en la figura
 \ref{fig:predetect}.
@@ -383,25 +380,25 @@ Los bloques del grafo se implementan de la siguiente manera:
   \item \textbf{Archivo con se\~nal y ruido}: La clase \verb|gr.file_source_c| se encarga de leer el
   archivo generado por el grafo \verb|NoiseGen| para enviarlo al filtro pre-selector.
   \item \textbf{Filtro pre-selector}: El filtro pasa bajas se implementa con una combinacion de dos
-  clases: \verb|gr.firdes.low_pass| y \verb|gr.fir_filter_ccf|. El primero se utiliza para generar
+  clases: \verb|gr.firdes.low_pass| y \verb|gr.fir_filter_ccf|. La primera se utiliza para generar
   los coeficientes del filtro a partir de los par\'ametros de entrada que se le especifiquen. Se
   utilizaron los valores por defecto del ejemplo a excepci\'on de la ventana. Originalmente utilizaba
   una ventana de tipo Hamming y se cambio a una ventana Kaizer ya que esta tuvo mejor rendimiento y
-  ayudo a generar una curva de BER m\'as suave. Los par\'ametros que acepta la clase son la
+  ayud\'o a generar una curva de BER m\'as suave. Los par\'ametros que acepta la clase son la
   ganancia, la frecuencia de muestreo, la frecuencia de corte, el ancho de la banda de transici\'on
-  y el tipo de ventana. La segunda clase implementa en si el filtro fir a partir de los coeficientes
-  generados por la clase \verb|gr.firdes.low_pass|. Sus par\'ametros de entrada son el factor de
+  y el tipo de ventana. La segunda clase implementa el filtro FIR (Respuesta finita al impulso por sus siglas en Ingl\'es) a
+  partir de los coeficientes generados por la clase \verb|gr.firdes.low_pass|. Sus par\'ametros de entrada son el factor de
   decimaci\'on y los coeficientes del filtro.
   \item \textbf{Demodulador}: Este bloque representa el demodulador que se est\'a evaluando. En este
   caso fueron ambos DQPSK y DBPSK en sus dos versiones. Las clases que los implementan se encuentran
   dentro del paquete \verb|blks2|. Su uso se muestra en el listado \ref{ex:mainber}. La clase toma
   la se\~nal filtrada e inicia el proceso de demodulaci\'on y detecci\'on. Los resultados son una serie de bits
-  desempaquetados, osea, bits individuales.
+  desempaquetados, es decir, bits individuales.
   \item \textbf{Archivo bits\_demod\_bb.dat}: Este bloque usa la clase \verb|gr.file_sink| para
   escribir a un archivo los bits resultantes del bloque demodulador.
 \end{itemize}
 
-El codigo que implementa el tercer grafo se muestra en el listado \ref{ex:analizer}.
+El c\'odigo que implementa el tercer grafo se muestra en el listado \ref{ex:analizer}.
 
 \begin{lstlisting}[float, label=ex:analizer, caption={C\'odigo que implementa el grafo demodulador
 para el analisis del BER.}, breaklines=true]
@@ -435,15 +432,16 @@ resultados se van guardando en un arreglo y posteriormente se grafican. Los par\
 utilizaron para la simulaci\'on fueron los siguientes:
 
 \begin{itemize}
-  \item \textbf{Numero de bits}: 20000
+  \item \textbf{N\'umero de bits}: 20000
   \item \textbf{Muestras por s\'imbolo}: 7
   \item \textbf{S\'imbolos por segundo}: $1e6$
   \item \textbf{Exceso de ancho de banda}: 0.75
 \end{itemize}
 
 El c\'odigo del programa principal se muestra en el listado \ref{ex:mainber}. El programa original
-se modifico para que pueda evaluar ambos esquemas a la vez.
+se modific\'o para que pueda evaluar ambos esquemas a la vez.
 
+%TODO: Buscar como poner acentos en lstlisting
 \begin{lstlisting}[float=hp, breaklines=true]
 if __name__ == "__main__":
     num_bits = 20000
@@ -491,8 +489,8 @@ if __name__ == "__main__":
         dqpsk2_demod_bers.append(ber_stats[0])
 \end{lstlisting}
 
-\begin{lstlisting}[float=hp, label=ex:mainber, caption={C\'odigo Python de la rutina principal del
-analisis del BER.}, breaklines=true]
+\begin{lstlisting}[float=hp, label=ex:mainber, caption={C\'odigo \emph{Python} de la rutina principal del
+an\'alisis del BER.}, breaklines=true]
         #========================
         # Analisis de DBPSK
         #========================
@@ -548,13 +546,13 @@ Los resultados de la primera versi\'on de los esquemas DQPSK y DBPSK se muestran
 Los resultados muestran el rendimiento entre los dos esquemas de modulaci\'on a diferentes niveles
 de SNR. Debido a que DQPSK utiliza dos bits por s\'imbolo tiene m\'as probabilidades de generar
 errores a niveles muy altos de ruido. Para poder lograr niveles confiables de transmisi\'on se
-requiere mas potencia que DBPSK.
+requiere m\'as potencia que DBPSK.
 
 La segunda versi\'on de estos esquemas intenta mejorar el BER por medio de la implementaci\'on de
 bancos de filtros polif\'asicos. La misma metodolog\'ia se sigui\'o para su an\'alisis y los
 resultados se muestran en la figura \ref{fig:berpoly}. Como se puede observar, los filtros
 polif\'asicos ofrecen una mejora en el rendimiento de ambos esquemas. A niveles bajos de SNR DQPSK
-tiene un poco mas de tolerancia que la versi\'on anterior para generar errores. 
+tiene mayor tolerancia que la versi\'on anterior para generar errores. 
 
 \begin{figure}[t]
   \centering
@@ -563,8 +561,8 @@ tiene un poco mas de tolerancia que la versi\'on anterior para generar errores.
   \label{fig:berpoly}
 \end{figure}
 
-Por ultimo se genero una simulaci\'on en Matlab utilizando la herramienta \emph{BERTool} para generar un estudio te\'orico y
-comparar los resultados con la teor\'ia. La herramienta fue configurada lo mas cercano posible a los par\'ametros que se
+Por \'ultimo se gener\'o una simulaci\'on en Matlab utilizando la herramienta \emph{BERTool} para generar un estudio te\'orico y
+comparar los resultados con la pr\'actica. La herramienta fue configurada lo m\'as cercano posible a los par\'ametros que se
 utilizaron en el experimento. Se generaron dos estudios, uno para DBPSK y otro para DQPSK, con un canal de transmisi\'on AWGN. El
 resultado de esta simulaci\'on se muestra en la siguiente figura \ref{fig:berteor}.
 
@@ -575,13 +573,11 @@ resultado de esta simulaci\'on se muestra en la siguiente figura \ref{fig:berteo
   \label{fig:berteor}
 \end{figure}
 
-Al comparar los resultados de la simulaci\'on con los del experimento se observo que a menor $E_bN_0$ los algoritmos de \gnuradio
-logran un mejor rendimiento que la teor\'ia, sobre todo el esquema DBPSK. Esto se debe a los diversos m\'etodos de recuepaci\'on
-de la informaci\'on que emplean ambos algoritmos ya que constantemente han estado siendo optimizados por los autores. Con esto se
-demuestra el rendimiento del c\'odigo fuente actual de \emph{GNURadio}.
+Al comparar los resultados de la simulaci\'on con los del experimento se observ\'o que a menor $E_bN_0$ los algoritmos de
+\gnuradio logran un mejor rendimiento que la teor\'ia, sobre todo el esquema DBPSK. Esto se debe a los diversos m\'etodos de
+recuperaci\'on de la informaci\'on que emplean ambos algoritmos ya que constantemente han estado siendo optimizados por los
+autores. Con esto se demuestra el rendimiento del c\'odigo fuente actual de \emph{GNURadio}.
 
-
-%Espectrograma de la transmision
 %==========================================================================
 \section{Espectrograma de la transmisi\'on}
 
@@ -591,30 +587,30 @@ m\'as complejos. Una de estas herramientas visuales es un espectrograma que perm
 espectral de potencia de una se\~nal que se est\'a recibiendo. La compilaci\'on del c\'odigo fuente
 instala este programa en \verb|/usr/bin/| para que se pueda acceder a ella de manera global. El
 programa se llama \verb|usrp_fft.py| y se encuentra originalmente en la carpeta \verb|gr-utils| del
-c\'odigo fuente. Este programa se puede acceder desde aqui o bien desde su lugar global por medio de
+c\'odigo fuente. Este programa se puede acceder desde esa carpeta o bien desde su lugar global por medio de
 la consola de comandos. El programa proporciona varios par\'ametros que permiten que se configure de
 diferentes maneras dependiendo del uso que se le va dar. Estos par\'ametros son los siguientes:
 
 \begin{itemize}
-  \item \textbf{-w}: Selecciona el USRP que se va utilizar en caso de haber mas de uno conectado a
+  \item \verb|-w|: Selecciona el USRP que se va a utilizar en caso de haber m\'as de uno conectado a
   la PC.
-  \item \textbf{-R}: Selecciona el lado RX que se va utilizar en el USRP: Lado A o Lado B. Esto lo
-  determina el lugar donde este conectada la tarjeta auxiliar que se va utilizar.
-  \item \textbf{-A}: Selecciona la antena que se va utilizar. Esto solo se utiliza con las tarjetas
+  \item \verb|-R|: Selecciona el lado RX que se va a utilizar en el USRP: Lado A o Lado B. Esto lo
+  determina el lugar donde est\'e conectada la tarjeta auxiliar.
+  \item \verb|-A|: Selecciona la antena que se va a utilizar. Esto solo se utiliza con las tarjetas
   de la serie RFX.
-  \item \textbf{-d}: Selecciona el valor de decimacion con el que se configurar\'a el DDC del FPGA.
-  Por omsi\'on lo configura a 16.
-  \item \textbf{-f}: Especifica la frecuencia con la que se sintoniza la tarjeta auxiliar.
-  \item \textbf{-g}: Especifica la ganancia con la que se programa el amplificador programable. Los
+  \item \verb|-d|: Selecciona el valor de decimaci\'on con el que se configurar\'a el DDC del FPGA.
+  Por defecto lo configura a 16.
+  \item \verb|-f|: Especifica la frecuencia con la que se sintoniza la tarjeta auxiliar.
+  \item \verb|-g|: Especifica la ganancia con la que se programa el amplificador programable. Los
   valores son en decibeles.
-  \item \textbf{-W}: Activa la opcion de utilizar el espectrograma. Por defecto la aplicacion actua
+  \item \verb|-W|: Activa la opci\'on de utilizar el espectrograma. Por defecto la aplicaci\'on actua
   como un analizador de espectros, desplegando la FFT de la se\~nal recibida.
-  \item \textbf{-S}: Activa la opcion de utilizar el osciloscopio.
-  \item \textbf{--fft-size}: Especifica el tama\~no de muestras que utiliza la FFT. Por defecto
+  \item \verb|-S|: Activa la opci\'on de utilizar el osciloscopio.
+  \item \verb|--fft-size|: Especifica el tama\~no de muestras que utiliza la FFT. Por defecto
   utiliza 1024 muestras.
 \end{itemize} 
 
-Este programa se utilizo durante la transmisi\'on de los datos generados por los programas
+Este programa se utiliz\'o durante la transmisi\'on de los datos generados por los programas
 \verb|benchmark_tx.py| y \verb|benchmark_rx.py| para observar la densidad espectral de potencia de
 la portadora. Las opciones que se utilizaron para configurar el programa fueron las siguientes:
 
@@ -628,39 +624,39 @@ El espectrograma se muestra en la figura \ref{fig:spectrogramgui}.
   \centering
   \includegraphics[scale=0.7]{figs/spectrogramgui}
   \vspace{0.3in}
-  \caption{Aplicaci\'on en Python que muestra el espectrograma de lo que el USRP est\'a recibiendo.}
+  \caption{Aplicaci\'on en \emph{Python} que muestra el espectrograma de lo que el USRP est\'a capturando.}
   \label{fig:spectrogramgui}
 \end{figure}
 
-El espectrograma consiste en una grafica de cascada (waterfall en ingl\'es) que se despliega en
+El espectrograma consiste en una grafica de cascada (waterfall en Ingl\'es) que se despliega en
 forma vertical (algunos autores la despliegan en forma horizontal). El eje Y es el tiempo medido en
-segundos y la grafica se desplaza de abajo hacia arriba. El eje X representa el espectro en Hz. La
+segundos y la grafic\'a se desplaza de abajo hacia arriba. El eje X representa el espectro en Hz. La
 figura \ref{fig:spectrogramgui} muestra la intensidad de la portadora de 30Mhz centrada en la
 grafica. Los colores tenues a un lado de la barra verde representan las bandas laterales de la
 portadora. Desde esta aplicaci\'on es posible modificar varios par\'ametros del USRP como la
 ganancia, la frecuencia y el valor de decimaci\'on del DDC. Los ejes tambi\'en se pueden ajustar por
 medio de las opciones que aparecen en la derecha de la pantalla (Time Scale, Dyn Range, Ref Level).
-En este ejemplo la portadora se puede apreciar claramente debido a la minima cantidad de ruido ya que se
-utilizo un cable coaxial para la transmisi\'on el cual introduce una cantidad despreciable de ruido.
+En este ejemplo la portadora se puede apreciar claramente debido a la m\'inima cantidad de ruido ya que se
+utiliz\'o un cable coaxial para la transmisi\'on, el cual introduce una cantidad despreciable de ruido.
 %Diagrama de ojo
 %==========================================================================
 \section{Diagrama de ojo}
 
-Para poder observar la calidad de la se\~nal antes de que sea demodulada se utiliz\'o el diagrama de
-ojo. Esta herramienta nos permite ver las distorsiones que ocurren en la transmisi\'on y nos ayuda a
-poder tomar mejores decisiones sobre el dise\~no del receptor. \gnuradio no contiene esta
-herramienta aun por lo que se opto por crear un programa en Python que pueda realizar el diagrama en
+Para observar la calidad de la se\~nal antes de que sea demodulada se utiliz\'o el diagrama de
+ojo. Esta herramienta permite ver las distorsiones que ocurren en la transmisi\'on y ayuda a
+tomar mejores decisiones sobre el dise\~no del receptor. \gnuradio no contiene esta
+herramienta aun por lo que se opt\'o por crear un programa en \emph{Python} que pueda realizar el diagrama en
 base a muestras capturadas por el USRP.
 
-La captura de datos se realizo utilizando una de las herramientas de la carpeta \verb|gr-utils|
+La captura de datos se realiz\'o utilizando una de las herramientas de la carpeta \verb|gr-utils|
 llamada \verb|usrp_rx_cfile.py|. Este programa acepta como par\'ametro principal el nombre que se le
-asignar\'a al archivo que va almacenar las muestras. Los dem\'as par\'ametros se utilizan para
+asignar\'a al archivo que va a almacenar las muestras. Los dem\'as par\'ametros se utilizan para
 configurar el DDC y sintonizar la tarjeta auxiliar a la frecuencia deseada. Los par\'ametros que
 soporta el programa son los siguientes:
 
 \begin{itemize}
-  \item \textbf{-R}: Selecciona el lado del USRP que se va utilizar: A o B.
-  \item \textbf{-d}: Selecciona la taza de decimaci\'on. El valor por defecto es 16.
+  \item \textbf{-R}: Selecciona el lado del USRP que se va a utilizar: A o B.
+  \item \textbf{-d}: Selecciona la tasa de decimaci\'on. El valor por defecto es 16.
   \item \textbf{-f}: Establece la frecuencia.
   \item \textbf{-g}: Establece la ganancia en dB.
   \item \textbf{-8}: Configura el USRP para que env\'ie muestras de 8 bits en lugar de 16 bits.
@@ -674,9 +670,10 @@ El programa se configur\'o para que capture muestras a una frecuencia central de
 muestras son n\'umeros complejos de tipo \emph{float} ya que por defecto es con el que trabaja el USRP.
 
 El experimento consisti\'o en capturar muestras de tres transmisiones a diferentes valores de exceso
-de ancho de banda ($\alpha$) para observar los efectros del filtro de coseno elevado en la se\~nal.
+de ancho de banda ($\alpha$) para observar los efectos del filtro de coseno elevado en la se\~nal.
 Los resultados se muestran en la figura \ref{fig:rrcsignals}.
 
+%TODO: Hacer estas graficas con leyendas mas grandes
 \begin{figure}[htp]
   \centering
   \subfloat[$\alpha=0.35$]{\label{fig:eye35}\includegraphics[scale=0.36]{figs/ojo35}}
@@ -687,20 +684,20 @@ Los resultados se muestran en la figura \ref{fig:rrcsignals}.
   \label{fig:rrcsignals}
 \end{figure}
 
-La figura \ref{fig:eye35} muestra que a menor $\alpha$ la se\~nal se distorciona mas y esto causa mas
-dificultades para detectar los s\'imbolos correctamente pero tambien resulta en un filtro mas rapido
-sencillo de implementarse debido a que su respuesta al impulso es mas corta. La figura
-\ref{fig:eye75} muestra menos distorcion en la se\~nal a consecuencia de un filtro mas complicado de
-procesar eficientemente. El uso de mas ancho de banda tambien implica que se puede introducir mas
+La figura \ref{fig:eye35} muestra que a menor $\alpha$ la se\~nal se distorciona m\'as y esto causa mayores
+dificultades para detectar los s\'imbolos correctamente pero tambien resulta en un filtro m\'as r\'apido y
+sencillo de implementar debido a que su respuesta al impulso es m\'as corta. La figura
+\ref{fig:eye75} muestra menos distorci\'on en la se\~nal a consecuencia de un filtro m\'as complicado de
+procesar eficientemente. El uso de un mayor ancho de banda tambi\'en implica que se puede introducir m\'as
 ruido en la etapa de captura de RF (front end) y por lo tanto es necesario considerar las
 compensaciones entre el exceso de ancho de banda, la inmunidad contra el ruido, la complejidad de
-la etapa de recuperacion del reloj de simbolos y la eficiencia de procesamiento por parte del CPU
-\cite{lee}. El CPU Core 2 Duo que se utilizo fue suficiente para procesar filtros con $\alpha$ de
+la etapa de recuperaci\'on del reloj de s\'imbolos y la eficiencia de procesamiento por parte del CPU
+\cite{lee}. El CPU Core 2 Duo que se utiliz\'o fue suficiente para procesar filtros con $\alpha$ de
 0.75. Estos filtros son internamente implementados con una mezcla de lenguaje C y ensamblador utilizando
 instrucciones como SSE (\emph{streaming SIMD extensions}) para incrementar la velocidad y eficiencia
 de procesamiento.
 
-El programa que genera el diagrama de ojo apartir de un archivo con muestras del USRP se muestra en
+El programa que genera el diagrama de ojo a partir de un archivo con muestras del USRP se muestra en
 el listado \ref{ex:eyeprog}.
 %TODO: Explicar la funcion get_traces.
 \begin{lstlisting}[float, label=ex:eyeprog, caption={Programa que genera el diagrama de ojo a partir
@@ -737,35 +734,35 @@ p.ylabel('Amplitud')
 p.show()
 \end{lstlisting}
 
-Una observaci\'on importante es que los valores de tipo \emph{float} en Python equivalen al tipo
-\emph{double} en C el cual puede variar dependiendo el CPU que se este utilizando pero en casos
-tipicos la presicion es de 64 bits: 1 bit para el signo, 11 para el exponente y 52 para la mantisa.
-\cite{python} El USRP configurado con el \emph{source} o \emph{sink} que utiliza el prefijo ``c''
-utiliza la constante \verb|gr_complex| el cual equivale en lenguaje C a \emph{float}. Este tipo de
-dato es de 32 bits: 1 bit para el signo, 8 bits para el exponente y 23 bits para la mantisa. Python
+Una observaci\'on importante es que los valores de tipo \emph{float} en \emph{Python} equivalen al tipo
+\emph{double} en C el cual puede variar dependiendo el CPU que se est\'e utilizando pero en casos
+t\'ipicos la precisi\'on es de 64 bits: 1 bit para el signo, 11 para el exponente y 52 para la mantisa
+\cite{python}. El USRP configurado con el \emph{source} o \emph{sink} que utiliza el prefijo ``c''
+utiliza la constante \verb|gr_complex| la cual equivale en lenguaje C a \emph{float}. Este tipo de
+dato es de 32 bits: 1 bit para el signo, 8 bits para el exponente y 23 bits para la mantisa. \emph{Python}
 por defecto no tiene soporte para representar el tipo \emph{float} de C lo cual introduce errores en la
-representacion de las muestras del USRP. La biblioteca \emph{Numpy} y \emph{Scipy} de Python encapsula
-varias representaciones de numeros flotantes \cite{scipy} lo cual es necesario utilizar la correcta
+representaci\'on de las muestras del USRP. La biblioteca \emph{Numpy} y \emph{Scipy} de \emph{Python} encapsula
+varias representaciones de n\'umeros flotantes \cite{scipy} lo cual es necesario utilizar la correcta
 cuando se trabaja con muestras que genera el USRP de manera independiente de los programas de
 \emph{GNURadio}. Cada muestra compleja que transmite o recive el USRP es representado por dos
-numeros flotantes de 32 bits por lo que es necesario utilizar el tipo de dato \emph{complex64} como
+n\'umeros flotantes de 32 bits por lo que es necesario utilizar el tipo de dato \emph{complex64} como
 se muestra en el listado \ref{ex:eyeprog}.
 
 %Constelacion observada
 %==========================================================================
 \section{Constelaci\'on observada}
 
-Para poder observar la constelaci\'on recibida se utilizo la versi\'on que utiliza la biblioteca QT
+Para observar la constelaci\'on recibida se utiliz\'o la versi\'on que utiliza la biblioteca QT
 del programa benchmark. El programa RX contiene dos versiones en el c\'odigo fuente, una que utiliza
 la consola y otra que genera una interfaz de usuario para monitorear la se\~nal de manera gr\'afica.
 Esta aplicaci\'on tambi\'en es un buen ejemplo para ilustrar el uso de los controles gr\'aficos de
 \gnuradio que utilizan esta biblioteca. Su diferencia con los controles que utilizan la biblioteca
-\emph{wxWidgets} es que el c\'odigo de los controles QT ya esta optimizado para realizar gr\'aficas
+\emph{wxWidgets} es que el c\'odigo de los controles QT ya est\'a optimizado para realizar gr\'aficas
 con la ayuda de la extensi\'on \emph{QWT} el cual es una biblioteca madura mientras que los
 controles que utilizan \emph{wxWidgets} fueron creados desde cero por los autores de \gnuradio y no
-est\'an optimizados en su totalidad. \emph{QWT} es necesario que se instale correctamente para poder
+est\'an optimizados en su totalidad. \emph{QWT} es necesario que se instale correctamente para
 utilizar los controles de QT. La instalaci\'on se explica a detalle en el ap\'endice \ref{AppA}. Los
-controles QT forman un solo bloque para uso en los grafos de \gnuradio. Este bloque se llama
+controles QT forman un solo bloque para uso en los grafos de \emph{GNURadio}. Este bloque se llama
 \verb|qtgui.sink_c| para datos complejos y \verb|qtgui.sink_f| para datos de punto flotante. El
 constructor de estos bloques tiene la forma descrita en el listado \ref{ex:qtguiconst}.
 
@@ -793,36 +790,34 @@ Los par\'ametros del constructor se describen de la siguiente manera:
   \end{itemize}
   \item \textbf{fc}: Frecuencia central para el eje X.
   \item \textbf{bandwidth}: Especifica el rango alrededor de la frecuencia central para el eje X.
-  \item \textbf{name}: Especifica el titulo del GUI.
+  \item \textbf{name}: Especifica el t\'itulo del GUI.
   \item \textbf{plotfreq}: Despliega el analizador de espectros.
   \item \textbf{plotwaterfall}: Despliega el espectrograma.
   \item \textbf{plotwaterfall3d}: Despliega el espectrograma en 3D.
   \item \textbf{plottime}: Despliega el osciloscopio.
-  \item \textbf{plotconst}: Despliega el diagrama de constelacion.
-  \item \textbf{use\_openGL}: Utiliza extensiones para acelerar el despliege de las graficas.
+  \item \textbf{plotconst}: Despliega el diagrama de constelaci\'on.
+  \item \textbf{use\_openGL}: Utiliza extensiones para acelerar el despliege de las gr\'aficas.
   \item \textbf{parent}: Especifica un objeto el cual se utiliza como ventana principal para
   desplegar los controles.
 \end{itemize}
 
-El programa RX que se utilizo se llama \verb|benchmark_qt_rx.py|. Utiliza los mismos comandos que la
+El programa RX que se utiliz\'o se llama \verb|benchmark_qt_rx.py|. Utiliza los mismos comandos que la
 versi\'on de consola para su configuraci\'on pero tambi\'en agrega uno nuevo que es la opci\'on
-\emph{-G}. Esta opci\'on habilita el GUI (interfaz grafica de usuario) que consiste en una
-aplicacion QT que muestra el rendimiento del receptor. Tambi\'en permite modificar los par\'ametros
-del receptor como los del lazo de costas y el sincronizador M\&M. Si no se utiliza la opci\'on
+\emph{-G}. Esta opci\'on habilita el GUI que consiste en una aplicaci\'on QT que muestra el rendimiento del receptor y que
+permite modificar los par\'ametros del receptor como los del lazo de costas y el sincronizador M\&M. Si no se utiliza la opci\'on
 \emph{-G} el programa se comportar\'a igual que la versi\'on de consola.
 
 Todos los programas \verb|benchmark_xx.py| tienen la opci\'on \emph{--from-file} que especifica que
 los datos que se van a transmitir vienen de un archivo binario. Si esta opci\'on no se especifica
 entonces el programa por defecto transmite los 8 bits menos significativos del n\'umero de paquete
-en una cadena de caracteres ASCII. El usuario est\'a libre de modificar el ejemplo para transmitir
-alg\'un otro tipo de secuencias.
+en una cadena de caracteres ASCII. El usuario es libre de modificar el ejemplo para transmitir
+alg\'un otro tipo de secuencia.
 
-El experimento inicial consisti\'o en transmitir la secuencia de numero de paquetes y
+El experimento inicial consisti\'o en transmitir la secuencia de n\'umeros de paquetes y
 observar la constelaci\'on recibida. Utilizando los valores por defecto de los par\'ametros descritos en
 el apartado \ref{sec:params} y anexando la opci\'on \emph{-G} se ejecuto primeramente el programa
-\verb|benchmark_qt_rx.py| y luego el programa \verb|benchmark_tx.py| se obtuvieron los resultados
-mostrados en la figura \ref{fig:dqpsktrans} para una transmisi\'on con una taza de bits de
-100kbits/s.
+\verb|benchmark_qt_rx.py| y despues el programa \verb|benchmark_tx.py|. Los resultados obtenidos para una transmisi\'on con una
+tasa de bits de 100kbits/s se mostran en la figura \ref{fig:dqpsktrans}.
 
 \begin{figure}[htp]
   \centering
@@ -834,11 +829,11 @@ mostrados en la figura \ref{fig:dqpsktrans} para una transmisi\'on con una taza 
 
 El GUI que muestra la figura \ref{fig:dqpsktrans} es una aplicaci\'on completa con la biblioteca QT.
 El usuario puede modificar toda la interfaz a su gusto o bien generar una totalmente diferente aunque
-esto requiere conocimientos de programaci\'on con esta biblioteca. La aportaci\'on de \gnuradio a
+esto requiere conocimientos de programaci\'on con esta biblioteca. Las aportaci\'ones de \gnuradio a
 esta aplicaci\'on son los dos bloques QT que muestran los controles con las graficas. Los controles
-de la izquierda muestran la se\~nal antes de ser demodulada en software, o sea, despu\'es de la
+de la izquierda muestran la se\~nal antes de ser demodulada en software, es decir, despu\'es de la
 etapa DDC del USRP. Los controles de la derecha muestran la se\~nal despu\'es de la etapa de
-demodulaci\'on. En la parte de abajo se muestran algunas opciones para modificar los par\'ametros
+demodulaci\'on. En la parte inferior se muestran algunas opciones para modificar los par\'ametros
 del receptor como la decimaci\'on, la ganancia, y los par\'ametros del PLL y el sincronizador de
 reloj de s\'imbolos.
 
@@ -849,11 +844,11 @@ del punto de convergencia por lo que la transmisi\'on mostraba una probabilidad 
 Estos programas utilizan la primera versi\'on de la modulaci\'on DQPSK (lazo de costas y sincronizador
 M\&M).
 
+%TODO: Preguntar al doc si es necesario especificar cuantas transmisiones se realizaron.
 Los par\'ametros se ajustaron manualmente y se realizaron varias transmisiones hasta encontrar
-los adecuados. Los par\'ametros y valores mencionados en el apartado \ref{sec:params} fueron los que
-finalmente lograron una transmisi\'on exitosa logrando una recepci\'on 100\% de todos los paquetes
-enviados. La constelaci\'on que se logro utilizando los par\'ametros del apartado \ref{sec:params}
-se muestra en la figura \ref{fig:firstgoodconst}. Se puede observar que los s\'imbolos recibidos
+los adecuados. Los par\'ametros y valores mencionados en el apartado \ref{sec:params} lograron una transmisi\'on exitosa dando
+una recepci\'on de todos los paquetes enviados. La constelaci\'on que se logr\'o utilizando los par\'ametros del apartado
+\ref{sec:params} se muestra en la figura \ref{fig:firstgoodconst}. Se puede observar que los s\'imbolos recibidos
 convergen correctamente en los cuatro puntos de la constelaci\'on DQPSK.
 
 \begin{figure}[htp]
