@@ -859,11 +859,12 @@ convergen correctamente en los cuatro puntos de la constelaci\'on DQPSK.
   \label{fig:firstgoodconst}
 \end{figure}
 
-Sin no se utiliza la opci\'on \emph{-G} el programa mostrara su actividad en la consola. Este es el
+Sin la opci\'on \emph{-G} el programa mostrar\'a su actividad en la consola. Este es el
 comportamiento por defecto y es tambi\'en el comportamiento para los programas que no implementan el
 GUI. La transmisi\'on de la figura \ref{fig:firstgoodconst} sin utilizar el GUI se muestra en la
 figura \ref{fig:benchcli}.
 
+%TODO: Quitarle el cursor a la imagen (fotoshop)
 \begin{figure}[htp]
   \centering
   \subfloat[Transmisor]{\label{fig:txcli}\includegraphics[width=5.5in]{figs/txcli}}\\
@@ -873,23 +874,23 @@ figura \ref{fig:benchcli}.
   \label{fig:benchcli}
 \end{figure}
 
-El dise\~no original del programa muestra si los paquetes que fueron transmitidos son recividos
+El dise\~no original del programa muestra si los paquetes transmitidos son recividos
 correctamente pero no despliega el contenido de ellos. Cada l\'inea que muestra la figura
-\ref{fig:rxcli} dice si paquete se decodifico correctamente, el numero del paquete decodificado, la
+\ref{fig:rxcli} indica paquete se decodifico correctamente, el n\'umero del paquete decodificado, la
 cantidad total de paquetes recibidos y la cantidad total de paquetes decodificados correctamente. La
-figura \ref{fig:txcli} muestra la configuraci\'on del transmisor y los puntos en la parte de
+figura \ref{fig:txcli} muestra la configuraci\'on del transmisor y los puntos en la parte
 inferior emulan una barra de progreso indicando que el programa est\'a actualmente transmitiendo
 informaci\'on al USRP.
 
-Para demostrar el uso del bloque grafico de QT en un programa de consola se modifico el programa
+Para demostrar el uso del bloque gr\'afico de QT en un programa de consola se modific\'o el programa
 original para incluir este bloque dentro del grafo y poder observar la constelaci\'on sin tener que
-desarrollar todo el GUI. La modificaci\'on se realizo en el archivo \verb|usrp_receive_path2.py|
+desarrollar todo el GUI. La modificaci\'on se realiz\'o en el archivo \verb|usrp_receive_path2.py|
 dentro del constructor de la clase \verb|usrp_receive_path| despu\'es de la etapa de configuraci\'on
-del USRP y en el archivo principal \verb|benchmark_rx2.py| en la funcion \verb|main()|. Esta
+del USRP y en el archivo principal \verb|benchmark_rx2.py| en la funci\'on \verb|main()|. Esta
 modificaci\'on se muestra en el listado \ref{ex:qtsink}.
 
 \begin{lstlisting}[float, label=ex:qtsink, caption={Modificaci\'on del programa \emph{benchmark} para
-desplegar el bloque grafico de QT.}, breaklines=true] 
+desplegar el bloque gr\'afico de QT.}, breaklines=true] 
 class usrp_receive_path(gr.hier_block2):
     def __init__(self, demod_class, rx_callback, options):
         gr.hier_block2.__init__(self, "usrp_receive_path",
@@ -926,41 +927,38 @@ class usrp_receive_path(gr.hier_block2):
         self.pyobj.show()
 \end{lstlisting}
 
-De acuerdo con la documentacion de \gnuradio para poder utilizar el bloque QT es necesario seguir
+De acuerdo con la documentaci\'on de \emph{GNURadio}, para poder utilizar el bloque QT es necesario seguir
 los siguientes pasos:
 \begin{itemize}
-  \item Crear un apuntador a una aplicacion de QT. Para esto se utiliza la clase
+  \item Crear un apuntador a una aplicaci\'on de QT. Para esto se utiliza la clase
   \verb|QApplication|.
   \item Crear el bloque sink de QT y conectarlo.
-  \item Utilizar la utileria SIP (es parte de los requerimientos de la instalcion de QT) para
-  convertir el apuntador del objeto C++ que representa el sink a un objeto Python. Esto se hace con
-  el fin de poder tener acceso directo a los metodos del objeto desde Python.
-  \item Mandar llamar el metodo \verb|show()| del objeto creado.
-  \item Mandar llamar el metodo \verb|start()| del bloque jerarquico en lugar del metodo
-  \verb|run()|. El metodo \verb|start()| no causa la aplicacion que se detenga hasta que el grafo
-  termine de ejecutarse debido a que no manda llamar el metodo \verb|wait()|.
-  \item Mandar llamar el metodo \verb|_exec()| del apuntador de la apliacion QT para poder desplegar
-  los controles graficos. 
+  \item Utilizar la utileria SIP (parte de los requerimientos de la instalci\'on de QT) para
+  convertir el apuntador del objeto C++ que representa el sink a un objeto \emph{Python}. Esto se hace con
+  el fin de poder tener acceso directo a los m\'etodos del objeto desde \emph{Python}.
+  \item Mandar llamar el m\'etodo \verb|show()| del objeto creado.
+  \item Mandar llamar el m\'etodo \verb|start()| del bloque jer\'arquico en lugar del m\'etodo
+  \verb|run()|. El m\'etodo \verb|start()| no causa la aplicaci\'on que se detenga hasta que el grafo
+  termine de ejecutarse debido a que no manda llamar el m\'etodo \verb|wait()|.
+  \item Mandar llamar el m\'etodo \verb|_exec()| del apuntador de la apliaci\'on QT para poder desplegar
+  los controles gr\'aficos. 
 \end{itemize}
 
-Para poder llegar a los bloques del grafo del demodulador DQPSK fue necesario pasar por varias capas
+Para llegar a los bloques del grafo del demodulador DQPSK fue necesario pasar por varias capas
 del c\'odigo hasta llegar al bloque que se va monitorear. Esto es debido al dise\~no modular del
-programa. El bloque del demodulador que se monitoreo fue el del sincronizador de fase (lazo de
+programa. El bloque del demodulador que se monitore\'o fue el del sincronizador de fase (lazo de
 costas) antes del decodificador diferencial. La conexi\'on se puede modificar para monitorear
 cualquier parte del grafo.
 
-%Transmision de un archivo
 \section{Transmisi\'on de un archivo}
-Para poder transmitir datos de cualquier archivo es necesario utilizar la opci\'on
-\verb|--from-file| del programa \emph{benchmark}. El programa no hace ninguna distinci\'on del tipo
-de archivo que se debe utilizar, para la aplicacion lo que importa son los bits contenidos en el
-archivo. Esto quiere decir que el archivo puede ser cualquier cosa como una imagen, un archivo de
-audio mp3, texto, etc. El programa original puede realizar este tipo de transmisi\'on pero como se
-ilustro en la figura \ref{fig:rxcli} solo despliega si el paquete enviado se decodifico o no. Para
-poder escribir los datos del paquete a un archivo destino fue necesario modificar la funci\'on que
-despliega las lineas en la consola del receptor.
+Para transmitir datos de cualquier archivo es necesario utilizar la opci\'on \verb|--from-file| del programa \emph{benchmark}. El
+programa no hace ninguna distinci\'on del tipo de archivo que se debe utilizar, para la aplicaci\'on lo que importa son los bits
+contenidos en el archivo. Esto quiere decir que el archivo puede ser una imagen, un archivo de audio mp3, texto, etc. El programa
+original puede realizar este tipo de transmisi\'on pero como se ilustr\'o en la figura \ref{fig:rxcli} solo despliega si el
+paquete enviado se decodific\'o o no. Para poder escribir los datos del paquete a un archivo destino fue necesario modificar la
+funci\'on que despliega las lineas en la consola del receptor.
 
-Primeramente se inicio por crear un archivo nuevo cada que se ejecuta la funci\'on \verb|main()|
+Primeramente se inici\'o por crear un archivo nuevo cada que se ejecuta la funci\'on \verb|main()|
 como se muestra en el listado \ref{ex:fileopen}.
 
 \begin{lstlisting}[float, label=ex:fileopen, caption={C\'odigo anexo a la funci\'on main del
@@ -976,8 +974,8 @@ def main():
 \end{lstlisting}
 
 El programa inicia creando un nuevo archivo en modo escritura como parte de la inicializaci\'on. La
-segunda modificaci\'on se realizo en la funci\'on \verb|rx_callback|. Esta funci\'on es
-especial ya que el grafo es quien la ejecuta de manera autom\'aticamente cada vez que llega un
+segunda modificaci\'on se realiz\'o en la funci\'on \verb|rx_callback|. Esta funci\'on es
+especial ya que el grafo es quien la ejecuta de manera autom\'atica cada vez que llega un
 paquete. Su funci\'on es desplegar los resultados de la demodulaci\'on. La funci\'on recibe como
 entrada dos par\'ametros: una bandera indicando si el paquete es v\'alido y la informaci\'on del
 paquete. Por defecto el c\'odigo \'unicamente trabaja con la bandera y los dos primeros bytes del
@@ -986,7 +984,7 @@ transmiti\'o. Para poder escribir esta informaci\'on al archivo destino se anexo
 escriba los bytes a partir del segundo en adelante al archivo que se inicializo. La modificaci\'on
 se muestra en el listado \ref{ex:rxcallback}.
 
-\begin{lstlisting}[float, label=ex:rxcallback, caption={Funcion que recive los datos demodulados y
+\begin{lstlisting}[float, label=ex:rxcallback, caption={Funci\'on que recive los datos demodulados y
 los escribe a un archivo.}, breaklines=true]
 def rx_callback(ok, payload):
    global n_rcvd, n_right
@@ -1003,12 +1001,12 @@ def rx_callback(ok, payload):
 
 \end{lstlisting}
 
-Por ultimo se agrego codigo despues de la funcion main, antes de que termine el programa, para que
+Por \'ultimo se agreg\'o c\'odigo despues de la funci\'on \emph{main}, antes de que termine el programa, para que
 cierre el arhivo destino y los datos no se pierdan. Esto se muestra en el listado
 \ref{ex:closefile}.
 
 \begin{lstlisting}[float, label=ex:closefile, caption={C\'odigo anexo al final del programa
-benchmark para cerrar el archivo destino.}, breaklines=true]
+\emph{benchmark} para cerrar el archivo destino.}, breaklines=true]
 if __name__ == '__main__':
     global dest_file
     try:
@@ -1022,15 +1020,15 @@ if __name__ == '__main__':
 
 \end{lstlisting}
 
-Durante el experimento se observo que el ultimo paquete nunca llegaba por lo cual la transmision
+Durante el experimento se observ\'o que el \'ultimo paquete nunca llegaba por lo cual la transmisi\'on
 siempre se estaba cortando. Esto fue debido a que el transmisor se cierra completamente cuando envia
-el ultimo paquete al USRP. Este ultimo paquete se queda en el USRP y no se logra transmitir ya que
-el control del dispositivo se perdio. Para corregir este comportamiento fue necesario realizar un
-cambio al codigo del transmisor para que no se cierre. Este cambio se muestra en el listado
+el \'ultimo paquete al USRP. Este \'ultimo paquete se queda en el USRP y no se logra transmitir ya que
+el control del dispositivo se perdi\'o. Para corregir este comportamiento fue necesario realizar un
+cambio al c\'odigo del transmisor para que no se cierre. Este cambio se muestra en el listado
 \ref{ex:txfix}.
 
-\begin{lstlisting}[float, label=ex:txfix, caption={Correccion al codigo TX para poder enviar el
-ultimo paquete.}, breaklines=true]
+\begin{lstlisting}[float, label=ex:txfix, caption={Correcci\'on al c\'odigo TX para enviar el
+\'ultimo paquete.}, breaklines=true]
     while n < nbytes:
         if options.from_file is None:
             data = (pkt_size - 2) * chr(pktno & 0xff) 
@@ -1047,7 +1045,7 @@ ultimo paquete.}, breaklines=true]
             time.sleep(1)
         pktno += 1
         
-    #send_pkt(eof=True) #Comentar esta linea
+    #send_pkt(eof=True) #No enviar mensaje de EOF
 
     tb.wait()                 
 \end{lstlisting}
@@ -1055,17 +1053,17 @@ ultimo paquete.}, breaklines=true]
 La modificaci\'on consisti\'o en comentar la l\'inea que env\'ia el mensaje EOF (End Of File) al
 grafo. Este mensaje causa que todos los bloques terminen su ejecuci\'on despu\'es de terminar de
 procesar el \'ultimo byte que se encuentra en sus entradas. Esta modificaci\'on tiene el efecto de
-que el grafo nunca terminara de ejecutarse aun despu\'es de haber enviado todos los datos al USRP.
+que el grafo nunca terminar\'a de ejecutarse aun despu\'es de haber enviado todos los datos al USRP.
 El usuario tiene que cerrar el programa manualmente.
 
 Una observaci\'on importante es que los programas est\'an dise\~nados como ejemplos ilustrativos de
 las capacidades de \gnuradio y por esta raz\'on no ofrecen alguna manera de saber si el paquete
 logro llegar o no. Si un paquete no llega bien el archivo no podr\'a escribirse correctamente. Esto
-se observo en la imagen que se transmiti\'o al observar que el archivo estaba corrompido
-despues de que termino la transmisi\'on debido a que algunos paquetes no llegaban bien. La
-constelacion observada de esta transmision a 30kbits/s se muestra en la figura \ref{fig:fileconst}.
-Esta velocidad se utilizo para lograr una transmisi\'on confiable y poder observar la imagen
-correctamente. Tambi\'en permiti\'o poder utilizar los valores por defecto de los filtros polif\'asicos
+se observ\'o en la imagen que se transmiti\'o al observar que el archivo estaba corrompido
+despues de que termino la transmisi\'on debido a que algunos paquetes no llegaban. La
+constelaci\'on observada de esta transmisi\'on a 30kbits/s se muestra en la figura \ref{fig:fileconst}.
+Esta velocidad se utiliz\'o para lograr una transmisi\'on confiable y poder observar la imagen
+correctamente. Tambi\'en permiti\'o utilizar los valores por defecto de los filtros polif\'asicos
 ya que a velocidades m\'as altas es necesario optimizarlos.
 
 \begin{figure}[htp]
