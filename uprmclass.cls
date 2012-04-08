@@ -575,10 +575,10 @@
     \GoSingle%
     \vspace*{\fill}
     \begin{RS@Cent}
-      \addcontentsline{toc}{extrachapter}{APENDICES}
+      \addcontentsline{toc}{extrachapter}{AP\'ENDICES}
 			\bfseries	
 			\begin{center}
-			\LARGE{APENDICES}
+			\LARGE{AP\'ENDICES}
 			\end{center}
     \end{RS@Cent}
     \vfill%
