@@ -4,34 +4,21 @@
 \chapter{Instalaci\'on del ambiente de desarrollo}
 \label{AppA}
 
-El desarrollo de aplicaciones basadas en \emph{GNURadio} en el ambiente Linux es
-m\'as sencillo y m\'as vers\'atil ya que la mayor\'ia de las librer\'ias
-externas de las que depende esta herramienta fueron desarrolladas para Linux.
-Aunque \emph{GNURadio} proporciona soporte parcial/total para otros sistemas
-operativos como \emph{Windows} y \emph{Mac OSX}, el experimento se realizo en el
-sistema operativo \emph{Ubuntu}, que es una distribuci\'on del sistema operativo
-Linux basado en una distribuci\'on llamada \emph{Debian}. Se opto por esta
-versi\'on de Linux ya que es la m\'as amigable y f\'acil de usar pero
-principalmente se escogi\'o por su habilidad de poder ser instalado dentro de
-\emph{Windows} como una aplicaci\'on normal. Esto evita tener que hacer una
-partici\'on separada para instalar el sistema operativo. Si se desea quitar es
-solo cuestion de ir al panel de control de \emph{Windows} y desinstalar
-\emph{Ubuntu}. Estar\'a en la lista de aplicaciones instaladas.
+El desarrollo de aplicaciones basadas en \emph{GNURadio} en el ambiente Linux es m\'as sencillo y m\'as vers\'atil ya que la
+mayor\'ia de las librer\'ias externas de las que depende esta herramienta fueron desarrolladas para Linux.
+Aunque \emph{GNURadio} proporciona soporte parcial/total para otros sistemas operativos como \emph{Windows} y \emph{Mac OSX}, el
+experimento se realiz\'o en el sistema operativo \emph{Ubuntu}, que es una distribuci\'on del sistema operativo
+Linux basada en \emph{Debian}. Se opt\'o por esta versi\'on de Linux ya que es amigable y f\'acil de usar pero principalmente se
+escogi\'o por su habilidad de poder ser instalado dentro de \emph{Windows} como una aplicaci\'on normal. Esto evita tener que
+hacer una partici\'on separada para instalar el sistema operativo. Si se desea quitar es solo cuestion de ir al panel de control
+de \emph{Windows} y desinstalar \emph{Ubuntu}. Estar\'a en la lista de aplicaciones instaladas.
 
-Para poder llevar a cabo este procedimiento se utilizo un programa especial
-llamado \emph{Wubi} \cite{russo}. Esta aplicaci\'on instala el sistema operativo
-dentro de un solo archivo y agrega una nueva opci\'on al men\'u de arranque de
-la PC para poder seleccionarlo aparte del sistema operativo primario. Cuando se
-ejecuta el programa \emph{Wubi}, se deben especificar las opciones que se
-muestran en la figura \ref{fig:wubi}. Se puede dejar el tama\~no del archivo
-generado en su opci\'on default pero se recomienda que m\'inimo se le asigne 10 gigabytes para
-tener suficiente espacio para la instalaci\'on de librer\'ias que se vallan a
-requerir para la aplicaci\'on, aunque si el usuario desea instalar otras
-aplicaciones que no son parte de este tema entonces ser\'a necesario incrementar
-este valor. Se debe especificar un nombre de usuario y la clave para esta cuenta
-ya que esta ser\'a la cuenta principal donde se realizara todo el trabajo.
-Posteriormente una vez terminando la instalaci\'on se pueden crear m\'as
-usuarios si uno lo desea.
+Para llevar a cabo este procedimiento se utiliz\'o un programa especial llamado \emph{Wubi} \cite{russo}. Esta aplicaci\'on
+instala el sistema operativo dentro de un solo archivo y agrega una nueva opci\'on al men\'u de arranque de la PC para
+seleccionarlo aparte del sistema operativo primario. Cuando se ejecuta el programa \emph{Wubi}, se deben especificar las opciones
+que se muestran en la figura \ref{fig:wubi}. Se puede dejar el tama\~no del archivo generado en su opci\'on por defecto pero se
+recomienda que m\'inimo se le asigne 10 gigabytes para tener suficiente espacio para la instalaci\'on de librer\'ias. Se debe
+especificar un nombre de usuario y la clave para esta cuenta ya que ser\'a la cuenta principal donde se realizar\'a todo el trabajo.
 
 \begin{figure}[hpt]
 \centering
@@ -41,30 +28,25 @@ usuarios si uno lo desea.
 	\label{fig:wubi}
 \end{figure}
 
-Una vez que se halla especificado las opciones anteriores se puede entonces
-iniciar con la instalaci\'on. \emph{Wubi} comenzar\'a a bajar de internet la
-imagen del DVD correspondiente a la distribuci\'on de \emph{Ubuntu} que se
-especifico.
+Una vez que se halla especificado las opciones anteriores se puede iniciar con la instalaci\'on. \emph{Wubi} comenzar\'a a
+descarga la imagen del DVD correspondiente a la distribuci\'on de \emph{Ubuntu} que se especific\'o.
 
 Cabe mencionar que la instalaci\'on puede ser de 32 o 64 bits, dependiendo del
-tipo de instalaci\'on de \emph{Windows} donde se va instalar \emph{Ubuntu}. Si
+tipo de instalaci\'on de \emph{Windows} en que se instalar\'a \emph{Ubuntu}. Si
 el sistema operativo principal es de 32 bits entonces la instalaci\'on tambi\'en
 ser\'a de 32 bits. Esto se debe tener presente cuando se inicie la instalaci\'on
 de \emph{GNURadio} ya que las librer\'ias de las cuales depende vienen en
 versiones de 32 y 64 bits.
 
-La imagen mide aproximadamente 700MB. Cuando termine de bajarlo la aplicaci\'on
-comenzar\'a a crear el archivo del sistema operativo y agregara la opci\'on para
+La imagen mide aproximadamente 700MB. Cuando termine la descarga la aplicaci\'on
+comenzar\'a a crear el archivo del sistema operativo y agregar\'a la opci\'on para
 seleccionarlo en el men\'u de arranque como se muestra en la figura
 \ref{fig:bootmenu}. Una vez terminado este procedimiento la aplicaci\'on le
-pedir\'a al usuario que reinicie la PC. Ahora necesitamos seleccionar la nueva opci\'on del men\'u
-de arranque para poder ingresar al sistema operativo \emph{Ubuntu}. El usuario no tiene que hacer
-nada por su parte ya que la instalaci\'on del sistema operativo se lleva a cabo
-de modo autom\'atico. Al terminar se le presentara al usuario que ingrese el
-nombre de la cuenta y la clave. Esta es la que se especifico en el instalador
-\emph{Wubi}. Realizando esto nos encontraremos en el escritorio \emph{GNOME} (o
-\emph{KDE} si se especific\'o otra distribuci\'on como \emph{Kubuntu}) como se
-muestra en la figura \ref{fig:desktop}.
+pedir\'a al usuario que reinicie la PC. Se debe seleccionar la nueva opci\'on del men\'u
+de arranque para ingresar al sistema operativo \emph{Ubuntu}. Al terminar se le presentar\'a al usuario que ingrese el
+nombre de la cuenta y la clave. Esta es la que se especific\'o en el instalador
+\emph{Wubi}. Al ingresar se presenta el escritorio \emph{GNOME} (o \emph{KDE} si se especific\'o otra distribuci\'on como
+\emph{Kubuntu}) como se muestra en la figura \ref{fig:desktop}.
 
 \begin{figure}[htp]
 \centering
@@ -82,13 +64,9 @@ muestra en la figura \ref{fig:desktop}.
 	\label{fig:desktop}
 \end{figure}
 
-El siguiente paso es instalar \emph{GNURadio} y sus dependencias. Todas
-las dependencias se pueden conseguir utilizando el sistema de instalaci\'on de
-software de \emph{Ubuntu} lo cual hace la instalaci\'on m\'as f\'acil. En
-versiones anteriores a 9.04 uno ten\'ia que bajar manual mente el c\'odigo
-fuente de varias p\'aginas de internet y compilarlo manualmente. Utilizando el
-sistema Synaptic del sistema operativo se deben instalar las dependencias que se
-especifican en la tabla \ref{tbl:radioreqs}.
+El siguiente paso es instalar \emph{GNURadio} y sus dependencias. Todas las dependencias se pueden conseguir utilizando el sistema
+de instalaci\'on de software de \emph{Ubuntu}. Utilizando el sistema Synaptic del sistema operativo se deben instalar las
+dependencias que se especifican en la tabla \ref{tbl:radioreqs}.
 
 \begin{table}[htp]
 \begin{center}
@@ -142,40 +120,31 @@ especifican en la tabla \ref{tbl:radioreqs}.
 \end{center}
 \end{table}
 
-La \'unica librer\'ia que se recomienda que se instale manualmente es
-\emph{Boost} ya que la m\'as reciente es la versi\'un 1.43 y ofrece muchas
-mejoras contra la versi\'on 1.38 de Ubuntu. Para instalarla es cuesti\'on de bajar
-el c\'odigo fuente de la p\'agina \url{www.Boost.org} y seguir los siguientes
+La \'unica librer\'ia que se recomienda que instalar manualmente es \emph{Boost} ya que la m\'as reciente es la versi\'un 1.43 y
+ofrece muchas mejoras contra la versi\'on 1.38 de Ubuntu. Para instalarla es cuesti\'on de bajar el c\'odigo fuente de la p\'agina \url{www.Boost.org} y seguir los siguientes
 pasos:
 
 \begin{enumerate}
   \item Descargar el c\'odigo fuente a un lugar adecuado, abrir una consola e
-  ir al directorio donde se descargo el archivo.
+  ir al directorio donde se descarg\'o el archivo.
   \item Descomprimir el archivo con el siguiente comando:\\
   \verb|tar xfz boost_1_43_0.tar.gz|
   \item Entrar al directorio nuevo que se cre\'o al descomprimir el archivo y
   ejecutar el siguiente comando: \verb|./bootstrap.sh|
-  \item Ejecutar el siguiente comando: \verb|sudo ./bjam install| Se debe
-  proporcionar la clave de la cuenta que estamos usando ya que la instalaci\'on
-  requiere privilegios de administrador.
+  \item Ejecutar el siguiente comando: \verb|sudo ./bjam install|\\ Se debe
+  proporcionar la clave de la cuenta de administrador ya que la instalaci\'on
+  requiere privilegios elevados.
 \end{enumerate}
 
-La compilaci\'on e instalaci\'on puede durar entre 20 y 30 minutos dependiendo
-de la velocidad de la PC. Este procedimiento compilara e instalara todas las
-librer\'ias que forman parte del conjunto de \emph{Boost}. Este proceso se puede
-controlar m\'as detalladamente para que \'unicamente instale un subconjunto de
-librer\'ias y as\'i reducir m\'as el tiempo de instalaci\'on ya que
-\emph{GNURadio} no utiliza todo el conjunto completo.
+La compilaci\'on e instalaci\'on puede demorarse entre 20 y 30 minutos dependiendo de la velocidad de la PC. Este procedimiento
+compilar\'a e instalar\'a todas las librer\'ias que forman parte del conjunto de \emph{Boost}. Este proceso se puede controlar
+detalladamente para que \'unicamente instale un subconjunto de librer\'ias y as\'i reducir el tiempo de instalaci\'on ya
+que \emph{GNURadio} no utiliza el conjunto completo.
 
-Despu\'es de instalar \emph{Boost} se necesita utilizar el sistema
-\emph{Synaptic} para instalar el resto de las dependencias como se menciono
-anteriormente. Esta herramienta se encuentra en el men\'u
-\emph{System\ding{219}Administration\ding{219}Synaptic Package Manager} y se
-muestra en la figura \ref{fig:synaptic}. En la caja de texto que dice search se
-puede escribir el nombre de las dependencias para que la b\'usqueda sea m\'as r\'apida. Cada que se
-seleccione una el administrador de paquetes puede notificarle que es necesario
-instalar otras sub-dependencias. Esto es autom\'atico y el usuario no tiene que
-seleccionarlas manualmente.
+Despu\'es de instalar \emph{Boost} se necesita utilizar el sistema \emph{Synaptic} para instalar el resto de las dependencias
+como se mencion\'o anteriormente. Esta herramienta se encuentra en el men\'u\emph{System\ding{219}Administration\ding{219}Synaptic
+Package Manager} y se muestra en la figura \ref{fig:synaptic}. En la caja de texto \emph{search} se puede escribir el nombre
+de las dependencias.
 
 \begin{figure}
 \centering
@@ -190,18 +159,20 @@ Para llevar a cabo este procedimiento se deben seguir los siguientes pasos:
 \begin{enumerate}
   \item Abrir una consola e ir a un directorio adecuado para descargar el
   c\'odigo fuente.
-  \item Ejecutar el siguiente comando para obtener el codigo fuente del repositorio \emph{git}:\\
+  \item Ejecutar el siguiente comando para obtener el c\'odigo fuente del repositorio \emph{git}:\\
   \verb|git clone http://gnuradio.org/git/gnuradio.git|. Esto crear\'a un nuevo
   directorio llamado \emph{gnuradio}.
   \item Entrar al nuevo directorio y ejecutar el siguiente comando:\\
   \verb|./bootstrap|
   \item Ejecutar el siguiente comando para configurar la instalaci\'on:\\
   \verb|./configure|
-  \item Iniciar la compilaci\'on con el siguiente comando: \verb|make|
+  \item Iniciar la compilaci\'on con el siguiente comando: \\
+  \verb|make|
   \item Realizar una serie de pruebas para asegurar que la compilaci\'on fue
   exitosa:\\
   \verb|make check|
-  \item Instalar \emph{GNURadio}: \verb|sudo make install|
+  \item Instalar \emph{GNURadio}: \\
+  \verb|sudo make install|
 \end{enumerate}
 
 De acuerdo a la documentaci\'on de \emph{GNURadio}, antes de realizar las
@@ -222,17 +193,16 @@ de comandos:
 
 La raz\'on del procedimiento anterior es que \emph{Ubuntu} utiliza una
 implementaci\'on diferente de la herramienta \emph{libtool} y si la ruta de las
-librer\'ias no est\'a especificada en el archivo de configuraci\'on las pruebas
-de \emph{GNURadio} van a fallar con errores de que no se encuentran dichas
+librer\'ias no se especifica en el archivo de configuraci\'on, las pruebas
+de \emph{GNURadio} fallan con errores de que no se encuentran dichas
 librer\'ias \cite{radio}.
 
 
 Para el uso \'optimo del USRP es necesario realizar una modificaci\'on en el
 servicio \emph{udev} ya que \'unicamente permite acceso directo del dispositivo
 a cuentas con privilegios de administrador. Esto quiere decir que cada que
-necesitemos ejecutar alg\'un programa que utilice el puerto USB va ver necesidad
-de elevar el ejecutable con el comando sudo. Para evitar hacer esto cada que se
-ejecute la aplicaci\'on del usuario se aplican los siguientes pasos:
+se necesite ejecutar alg\'un programa que utilice el puerto USB es necesario
+elevar el ejecutable con el comando \verb|sudo|. Para evitar esto se aplican los siguientes pasos:
 
 \begin{enumerate}
   \item Crear un nuevo grupo de usuarios:\\
@@ -256,14 +226,14 @@ Es posible aplicar los cambios al ejecutar el siguiente comando:\\
 \verb|sudo udevadm control--reload-rules|. Si esto no funciona entonces se necesita reiniciar la PC
 para que los cambios tengan efecto.
 
-Para poder actualizar el c\'odigo fuente con los cambios mas recientes del repositorio \emph{git}, se deben seguir los siguientes
-pasos:
+Para poder actualizar el c\'odigo fuente con los cambios m\'as recientes del repositorio \emph{git}, se deben seguir los
+siguientes pasos:
 
 \begin{enumerate}
   \item Desinstalar la versi\'on actual con el siguiente comando: \verb|make uninstall|
-  \item Bajar las actualizaciones e integrarlas al c\'odigo fuente que ya se tiene con el siguiente comando:
-  \verb|git pull|. De esta manera no es necesario tener que bajar todo el c\'odigo fuente ya que \'unicamente se integraran las
-  diferencias entre el c\'odigo que ya se tiene y el que se encuentra en el repositorio.
+  \item Descargar las actualizaciones e integrarlas al c\'odigo fuente que ya se tiene con el siguiente comando:
+  \verb|git pull|. De esta manera no es necesario tener que descargar todo el c\'odigo fuente ya que \'unicamente se integraran
+  las diferencias entre el c\'odigo que ya se tiene y el que se encuentra en el repositorio.
   \item Realizar los pasos para compilar el nuevo c\'odigo:
   \begin{enumerate}
     \item \verb|./bootstrap|
@@ -274,9 +244,9 @@ pasos:
    \end{enumerate}
 \end{enumerate}
 
-Si por alguna raz\'on el proceso de actualizaci\'on arroja algun error del cual no se pueda recuperar entonces es posible corregir
-el repositorio local (el c\'odigo fuente que ya se hab\'ia bajado) sin tener que iniciar desde cero y bajar todo de nuevo. Para
+Si por el proceso de actualizaci\'on marca algun error del cual no se pueda recuperar, entonces es posible corregir
+el repositorio local (el c\'odigo fuente que se descarg\'o) sin tener que iniciar desde cero. Para
 lograr esto es necesario ejecutar el siguiente comando: \verb|git clean -d -x -f|. Este comando vuelve a establecer el repositorio a su
-estado original desde la ultima vez que se bajo de la pagina de \emph{GNURadio}, aunque se debe tomar en cuenta que si se
-realizaron cambios en el c\'odigo fuente por parte del usuario estos se van a perder. Una vez realizado esto se puede volver a
+estado original desde la \'ultima vez que se descarg\'o de la p\'agina de \emph{GNURadio}, aunque se debe tomar en cuenta que si
+se realizaron cambios en el c\'odigo fuente por parte del usuario, estos se van a perder. Una vez realizado esto se puede volver a
 intentar el proceso de actualizaci\'on.
