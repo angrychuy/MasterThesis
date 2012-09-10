@@ -673,15 +673,20 @@ El experimento consisti\'o en capturar muestras de tres transmisiones a diferent
 de ancho de banda ($\alpha$) para observar los efectos del filtro de coseno elevado en la se\~nal.
 Los resultados se muestran en la figura \ref{fig:rrcsignals}.
 
-%TODO: Hacer estas graficas con leyendas mas grandes
+%ContinuedFloat se usa para hacer que las figuras sean un solo grupo pero se exandan a diferentes paginas.
 \begin{figure}[htp]
   \centering
-  \subfloat[$\alpha=0.35$]{\label{fig:eye35}\includegraphics[scale=0.36]{figs/ojo35}}
-  \subfloat[$\alpha=0.50$]{\label{fig:eye50}\includegraphics[scale=0.36]{figs/ojo50}}\\
-  \subfloat[$\alpha=0.75$]{\label{fig:eye75}\includegraphics[scale=0.36]{figs/ojo75}}
-  \vspace{0.3in}
-  \caption{Se\~nales QPSK con filtrado de coseno elevado a diferentes valores de $\alpha$.}
-  \label{fig:rrcsignals}
+  \subfloat[$\alpha=0.35$]{\label{fig:eye35}\includegraphics[scale=0.65]{figs/ojo35}}\\
+  \subfloat[$\alpha=0.50$]{\label{fig:eye50}\includegraphics[scale=0.65]{figs/ojo50}}
+\end{figure}
+
+\begin{figure}[htp]
+    \ContinuedFloat
+    \centering
+    \subfloat[$\alpha=0.75$]{\label{fig:eye75}\includegraphics[scale=0.65]{figs/ojo75}}
+    \vspace{0.3in}
+    \caption{Se\~nales QPSK con filtrado de coseno elevado a diferentes valores de $\alpha$.}
+    \label{fig:rrcsignals}
 \end{figure}
 
 La figura \ref{fig:eye35} muestra que a menor $\alpha$ la se\~nal se distorciona m\'as y esto causa mayores
@@ -699,7 +704,7 @@ de procesamiento.
 
 El programa que genera el diagrama de ojo a partir de un archivo con muestras del USRP se muestra en
 el listado \ref{ex:eyeprog}.
-%TODO: Explicar la funcion get_traces.
+
 \begin{lstlisting}[float, label=ex:eyeprog, caption={Programa que genera el diagrama de ojo a partir
 de muestras tomadas del USRP.}, breaklines=true]
 
@@ -844,7 +849,6 @@ del punto de convergencia por lo que la transmisi\'on mostraba una probabilidad 
 Estos programas utilizan la primera versi\'on de la modulaci\'on DQPSK (lazo de costas y sincronizador
 M\&M).
 
-%TODO: Preguntar al doc si es necesario especificar cuantas transmisiones se realizaron.
 Los par\'ametros se ajustaron manualmente y se realizaron varias transmisiones hasta encontrar
 los adecuados. Los par\'ametros y valores mencionados en el apartado \ref{sec:params} lograron una transmisi\'on exitosa dando
 una recepci\'on de todos los paquetes enviados. La constelaci\'on que se logr\'o utilizando los par\'ametros del apartado
@@ -864,7 +868,6 @@ comportamiento por defecto y es tambi\'en el comportamiento para los programas q
 GUI. La transmisi\'on de la figura \ref{fig:firstgoodconst} sin utilizar el GUI se muestra en la
 figura \ref{fig:benchcli}.
 
-%TODO: Quitarle el cursor a la imagen (fotoshop)
 \begin{figure}[htp]
   \centering
   \subfloat[Transmisor]{\label{fig:txcli}\includegraphics[width=5.5in]{figs/txcli}}\\

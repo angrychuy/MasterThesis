@@ -204,7 +204,6 @@ H(e^{j\omega})=e^{-j\omega N-1/2}H_0(e^{-j\omega})
 
 donde $H_0(e^{-j\omega})$ representa la respuesta a la amplitud con valor real.
 
-%FIXME: Reacer la imagen con leyendas mas grandes
 \begin{figure}[pt]
 \centering
 	\includegraphics[width=5.9in]{figs/hbresponse}
@@ -222,10 +221,8 @@ Las caracter\'isticas del filtro HB de acuerdo al USRP son las siguientes:
 
 En la figura \ref{fig:hbresp} se muestra la respuesta a la frecuencia del filtro HB.
 Existe simetr\'ia con respecto a la banda $\pi /2$. Esta es una de las
-caracter\'isticas de estos filtros. Debido a esa simetr\'ia la respuesta al
-impulso es
+caracter\'isticas de estos filtros. La respuesta al impulso es \cite{nguyen}:
 
-%TODO: Investigar si es n-(N-1)/2 o n=(N-1)/2
 \begin{equation}
 h(n)=\left\{
 \begin{array}{l l}
@@ -469,8 +466,6 @@ cable coaxial se utiliz\'o para minimizar p\'erdidas en la transmisi\'on durante
 del sistema. El cable USB es un cable tipo A-B (conectar estandar A a B). Las especificaciones de la
 fuente de alimentaci\'on para el USRP son 6V @ 4A AC/DC. El sistema es capaz de operar en el rango
 de 90-260VAC @ 50/60Hz lo cual permite que funcione en diferentes paises.
-
-%TODO: Agregar imagen de las conecciones internas del usrp aqui. Tambien anexar expliacion.
 
 \subsection{C\'odigo fuente de GNURadio}
 El c\'odigo fuente de \gnuradio proporciona varios ejemplos que implementan varios conceptos de programaci\'on
