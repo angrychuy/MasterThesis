@@ -121,8 +121,8 @@ dependencias que se especifican en la tabla \ref{tbl:radioreqs}.
 \end{center}
 \end{table}
 
-La \'unica librer\'ia que se recomienda que instalar manualmente es \emph{Boost} ya que la m\'as reciente es la versi\'un 1.43 y
-ofrece muchas mejoras contra la versi\'on 1.38 de Ubuntu. Para instalarla es cuesti\'on de bajar el c\'odigo fuente de la p\'agina \url{www.Boost.org} y seguir los siguientes
+La \'unica librer\'ia que se recomienda instalar manualmente es \emph{Boost} ya que la m\'as reciente que ofrece la pagina oficial
+ofrece muchas mejoras contra la versi\'on de Ubuntu. Para instalarla es cuesti\'on de bajar el c\'odigo fuente de la p\'agina \url{www.Boost.org} y seguir los siguientes
 pasos:
 
 \begin{enumerate}
@@ -157,13 +157,32 @@ de las dependencias.
 
 Para llevar a cabo este procedimiento se deben seguir los siguientes pasos:
 
+% \begin{enumerate}
+%   \item Abrir una consola e ir a un directorio adecuado para descargar el
+%   c\'odigo fuente.
+%   \item Ejecutar el siguiente comando para obtener el c\'odigo fuente del repositorio \emph{git}:\\
+%   \verb|git clone http://gnuradio.org/git/gnuradio.git|. Esto crear\'a un nuevo
+%   directorio llamado \emph{gnuradio}.
+%   \item Entrar al nuevo directorio y ejecutar el siguiente comando:\\
+%   \verb|./bootstrap|
+%   \item Ejecutar el siguiente comando para configurar la instalaci\'on:\\
+%   \verb|./configure|
+%   \item Iniciar la compilaci\'on con el siguiente comando: \\
+%   \verb|make|
+%   \item Realizar una serie de pruebas para asegurar que la compilaci\'on fue
+%   exitosa:\\
+%   \verb|make check|
+%   \item Instalar \emph{GNURadio}: \\
+%   \verb|sudo make install|
+% \end{enumerate}
+
 \begin{enumerate}
+  \item Color en alguna carpeta el archivo \emph{gnuradio-3.3.0.tar.gz} que se proporciona en el CD.
   \item Abrir una consola e ir a un directorio adecuado para descargar el
   c\'odigo fuente.
-  \item Ejecutar el siguiente comando para obtener el c\'odigo fuente del repositorio \emph{git}:\\
-  \verb|git clone http://gnuradio.org/git/gnuradio.git|. Esto crear\'a un nuevo
-  directorio llamado \emph{gnuradio}.
-  \item Entrar al nuevo directorio y ejecutar el siguiente comando:\\
+  \item Ejecutar el siguiente comando descomprimir el archivo \emph{tar}:\\
+  \verb|tar xfz gnuradio-3.3.0.tar.gz|.
+  \item Entrar al nuevo directorio \verb|gnuradio-3.3.0| y ejecutar el siguiente comando:\\
   \verb|./bootstrap|
   \item Ejecutar el siguiente comando para configurar la instalaci\'on:\\
   \verb|./configure|
@@ -227,27 +246,27 @@ Es posible aplicar los cambios al ejecutar el siguiente comando:\\
 \verb|sudo udevadm control--reload-rules|. Si esto no funciona entonces se necesita reiniciar la PC
 para que los cambios tengan efecto.
 
-Para poder actualizar el c\'odigo fuente con los cambios m\'as recientes del repositorio \emph{git}, se deben seguir los
-siguientes pasos:
-
-\begin{enumerate}
-  \item Desinstalar la versi\'on actual con el siguiente comando: \verb|make uninstall|
-  \item Descargar las actualizaciones e integrarlas al c\'odigo fuente que ya se tiene con el siguiente comando:
-  \verb|git pull|. De esta manera no es necesario tener que descargar todo el c\'odigo fuente ya que \'unicamente se integraran
-  las diferencias entre el c\'odigo que ya se tiene y el que se encuentra en el repositorio.
-  \item Realizar los pasos para compilar el nuevo c\'odigo:
-  \begin{enumerate}
-    \item \verb|./bootstrap|
-    \item \verb|./configure|
-    \item \verb|make|
-    \item \verb|make check|
-    \item \verb|sudo make install|
-   \end{enumerate}
-\end{enumerate}
-
-Si por el proceso de actualizaci\'on marca algun error del cual no se pueda recuperar, entonces es posible corregir
-el repositorio local (el c\'odigo fuente que se descarg\'o) sin tener que iniciar desde cero. Para
-lograr esto es necesario ejecutar el siguiente comando: \verb|git clean -d -x -f|. Este comando vuelve a establecer el repositorio a su
-estado original desde la \'ultima vez que se descarg\'o de la p\'agina de \emph{GNURadio}, aunque se debe tomar en cuenta que si
-se realizaron cambios en el c\'odigo fuente por parte del usuario, estos se van a perder. Una vez realizado esto se puede volver a
-intentar el proceso de actualizaci\'on.
+% Para poder actualizar el c\'odigo fuente con los cambios m\'as recientes del repositorio \emph{git}, se deben seguir los
+% siguientes pasos:
+% 
+% \begin{enumerate}
+%   \item Desinstalar la versi\'on actual con el siguiente comando: \verb|make uninstall|
+%   \item Descargar las actualizaciones e integrarlas al c\'odigo fuente que ya se tiene con el siguiente comando:
+%   \verb|git pull|. De esta manera no es necesario tener que descargar todo el c\'odigo fuente ya que \'unicamente se integraran
+%   las diferencias entre el c\'odigo que ya se tiene y el que se encuentra en el repositorio.
+%   \item Realizar los pasos para compilar el nuevo c\'odigo:
+%   \begin{enumerate}
+%     \item \verb|./bootstrap|
+%     \item \verb|./configure|
+%     \item \verb|make|
+%     \item \verb|make check|
+%     \item \verb|sudo make install|
+%    \end{enumerate}
+% \end{enumerate}
+% 
+% Si por el proceso de actualizaci\'on marca algun error del cual no se pueda recuperar, entonces es posible corregir
+% el repositorio local (el c\'odigo fuente que se descarg\'o) sin tener que iniciar desde cero. Para
+% lograr esto es necesario ejecutar el siguiente comando: \verb|git clean -d -x -f|. Este comando vuelve a establecer el repositorio a su
+% estado original desde la \'ultima vez que se descarg\'o de la p\'agina de \emph{GNURadio}, aunque se debe tomar en cuenta que si
+% se realizaron cambios en el c\'odigo fuente por parte del usuario, estos se van a perder. Una vez realizado esto se puede volver a
+% intentar el proceso de actualizaci\'on.
