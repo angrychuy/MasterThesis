@@ -515,7 +515,7 @@ an\'alisis del BER.}, breaklines=true]
     dqpsk2_demod_bers.reverse()
 
     fig = p.figure()
-    p.title(u'Desempeño de DQPSK y DBPSK')
+    p.title(u'Rendimiento de DQPSK y DBPSK')
     ax = fig.add_subplot(111)
     ax.semilogy(ebn0s_dB, dqpsk2_demod_bers, 'b', label = 'DQPSK')
     ax.hold(True)
@@ -637,7 +637,7 @@ ganancia, la frecuencia y el valor de decimaci\'on del DDC. Los ejes tambi\'en s
 medio de las opciones que aparecen en la derecha de la pantalla (Time Scale, Dyn Range, Ref Level).
 En este ejemplo la portadora se puede apreciar claramente debido a la m\'inima cantidad de ruido ya que se
 utiliz\'o un cable coaxial para la transmisi\'on, el cual introduce una cantidad despreciable de ruido.
-%Diagrama de ojo
+
 %==========================================================================
 \section{Diagrama de ojo}
 
@@ -896,8 +896,8 @@ desplegar el bloque gr\'afico de QT.}, breaklines=true]
 class usrp_receive_path(gr.hier_block2):
     def __init__(self, demod_class, rx_callback, options):
         gr.hier_block2.__init__(self, "usrp_receive_path",
-                gr.io_signature(0, 0, 0), # Input signature
-                gr.io_signature(0, 0, 0)) # Output signature
+                gr.io_signature(0, 0, 0), # Entradas
+                gr.io_signature(0, 0, 0)) # Salidas
         if options.rx_freq is None:
             sys.stderr.write("-f FREQ or --freq FREQ or --rx-freq FREQ must be specified\n")
             raise SystemExit
@@ -911,7 +911,7 @@ class usrp_receive_path(gr.hier_block2):
             if not attr.startswith('_') and not hasattr(self, attr):
                 setattr(self, attr, getattr(rx_path, attr))
 
-        #QT sink para monitorear la recepcion en el USRP.
+        #QT sink para monitorear la captura en el USRP.
         fftsize = 2048
         window = gr.firdes.WIN_BLACKMAN_hARRIS
         fc = 0
@@ -972,7 +972,7 @@ def main():
     n_right = 0
 
 	#Codigo que se anexo
-    dest_file = open('/home/haysoos/workspace/Tesis/src/test.png', 'w')
+    dest_file = open('/home/jesus/workspace/Tesis/src/test.png', 'w')
 \end{lstlisting}
 
 El programa inicia creando un nuevo archivo en modo escritura como parte de la inicializaci\'on. La
@@ -996,7 +996,7 @@ def rx_callback(ok, payload):
       n_right += 1
       dest_file.write(payload[2:]) #Codigo que se anexo
    else:
-      print 'Dropped packet', payload[2:]
+      print 'Paquete descartado', payload[2:]
 
       print "ok = %5s  pktno = %4d  n_rcvd = %4d  n_right = %4d" % (
           ok, pktno, n_rcvd, n_right)
