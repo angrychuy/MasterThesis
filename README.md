@@ -1,5 +1,4 @@
-Análisis del desempeño de la modulación QPSK en el USRP como herramienta didáctica 
-en la enseñanza de telecomunicaciones
+Análisis del desempeño de la modulación QPSK en el USRP como herramienta didáctica en la enseñanza de telecomunicaciones
 =======================================================================
 
 Resumen
