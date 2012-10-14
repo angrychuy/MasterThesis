@@ -5,7 +5,7 @@
 \label{ch:estudio}
 
 En este cap\'itulo se aplican los conceptos de la modulaci\'on QPSK para
-analizar el rendimiento de la plataforma USRP. El experimento consiti\'o en elaborar
+analizar el rendimiento de la plataforma USRP. El experimento consisti\'o en elaborar
 un programa que realice la modulaci\'on utilizando el lenguaje \emph{Python} y
 \gnuradio\ bajo el ambiente Linux. Este programa interact\'ua con el USRP
 por medio de un puerto USB, intercambiando la informaci\'on que se transmite y
@@ -234,7 +234,7 @@ h(n)=\left\{
 Debido a esta simetr\'ia estos filtros son muy eficientes y f\'aciles de implementar ya que aproximadamente el 50\% de sus
 coeficientes son 0.
 
-La combinaci\'on del filtro CIC y HB dan un factor de decimaci\'on m\'inimo de 8. El ADC tiene una taza de muestreo de 64Ms/S, por
+La combinaci\'on del filtro CIC y HB dan un factor de decimaci\'on m\'inimo de 8. El ADC tiene una tasa de muestreo de 64Ms/S, por
 lo tanto, el ancho de banda total es de de 32Mhz. Los datos enviados son de 16 bits para I y Q, es decir, 4 bytes por muestra
 compleja. Esto resulta en un ancho de banda efectivo de 8Mhz (32Mhz/4bytes). El rango de decimaci\'on que soporta el USRP es [8,
 256]. El ancho de banda de la se\~nal no es afectado por la operaci\'on de decimaci\'on, \'unicamente su frecuencia. Conforme el
@@ -289,7 +289,7 @@ adecuados al bloque y \'este se encarga de establecer la comunicaci\'on adecuada
 \section{Caracter\'isticas del lenguaje \emph{Python}}
 El lenguaje \emph{Python} es un lenguaje din\'amico utilizado mucho en varios tipos de aplicaciones como desarrollo de
 aplicaciones \emph{Web}, bases de datos, procesamiento num\'erico y cient\'ifico, entre otros. Se dice que es din\'amico porque es
-un lenguaje interpretado, es decir, las instrucciones son interpretadas y ejecutadas por medio del interprete de \emph{Python}.
+un lenguaje interpretado, es decir, las instrucciones son interpretadas y ejecutadas por medio del int\'erprete de \emph{Python}.
 Esto es a diferencia de los lenguajes est\'aticos como C y C++ los cuales generan programas binarios con instrucciones que el CPU
 entiende directamente. A pesar de ser un lenguaje interpretado, \emph{Python} es muy r\'apido en su ejecuci\'on de instrucciones
 para la mayor\'ia de aplicaciones. Algunas de sus caracter\'isticas principales son:
@@ -396,7 +396,7 @@ grafos jer\'arquicos.
 Los bloques y sus conexiones se definen dentro del constructor de la clase, en este caso es la funci\'on \verb|__init__|. Esta
 l\'inea de c\'odigo tambi\'en manda llamar la funci\'on \verb|__init__| de la clase de la que se deriva, pas\'andole los
 par\'ametros que sean necesarios (si es que los pide). Esto es necesario para llevar a cabo la inicializaci\'on de ambas clases.
-En las siguientes dos l\'ineas se declaran dos variables para llevar el control del tiempo de muestro y de la amplitud. Las
+En las siguientes dos l\'ineas se declaran dos variables para llevar el control del tiempo de muestreo y de la amplitud. Las
 siguientes dos l\'ineas demuestran la manera de c\'omo se declaran los bloques de ejecuci\'on. Cada bloque est\'a representado
 por una clase y su inicializaci\'on consta en mandar llamar su constructor con los par\'ametros necesarios para su
 funcionamiento.Como se puede observar, ambos bloques se encuentran dentro del submodulo \verb|gr| y su constructor se invoca con
@@ -515,7 +515,7 @@ aplicaci\'on. La estructura de los directorios que contienen los ejemplos se mue
 El experimento est\'a basado en el ejemplo del directorio \verb|digital|. Este programa implementa un
 transmisor completo utilizando varias modulaciones digitales tales como GMSK, BPSK y QPSK y viene en dos
 versiones: una se maneja a trav\'es de una consola de comandos y la otra implementa una interfaz de
-usuario utiliando la biblioteca QT que permite a visualizar de manera gr\'afica lo que el sistema est\'a
+usuario utilizando la biblioteca QT que permite visualizar de manera gr\'afica lo que el sistema est\'a
 recibiendo. El programa utiliza varias t\'ecnicas de programaci\'on orientada a objetos, as\'i como
 tambi\'en estructuraci\'on del c\'odigo de diferentes m\'odulos para separar todos los componentes
 importantes y poder utilizarlos en otras aplicaciones. La figura \ref{fig:relbench} muestra una gr\'afica
@@ -670,7 +670,7 @@ del bloque, la definici\'on de entradas y la de salidas. Para definir las entrad
 utiliza la funci\'on \verb|gr.io_signature()| y se le pasan tres par\'ametros: n\'umero m\'inimo de
 puertos, el m\'aximo n\'umero de puertos y el tama\~no de los elementos que entran y salen por los
 puertos. Un ejemplo de c\'omo declarar un bloque con puertos de entrada tipo \emph{float} y de salida
-tipo \emph{complex} se muestra en el listado \ref{ex:grports}:
+tipo \emph{complex} se muestra en el listado \ref{ex:grports}.
 
 \begin{lstlisting}[float, frame=single, label=ex:grports, caption={Ejemplo de declaraci\'on de
 entradas y salidas para un bloque jer\'arquico.}]
@@ -814,7 +814,7 @@ para enviar la informaci\'on, ahora se utiliza la diferencia entre dos bits. Est
 permite realizar una recuperaci\'on \emph{no coherente} de la informaci\'on. La segunda ventaja es que
 ofrece protecci\'on contra la inversi\'on de polaridad. Este m\'etodo nos permite recuperar la
 informaci\'on independientemente si este fen\'omeno sucede o no. Como se est\'a utilizando dos bits
-para la codifiaci\'on, la desventaja principal es que un error causar\'ia errores en dos bits en
+para la codificaci\'on, la desventaja principal es que un error causar\'ia errores en dos bits en
 lugar de uno y por consecuencia aumenta la probabilidad de error de bits. La representaci\'on
 matem\'atica del codificador y decodificador se muestra en las ecuaciones \eqref{eq:difcoder} y
 \eqref{eq:difdecod}.
@@ -892,7 +892,7 @@ cap\'itulo \ref{ch:resultados}. La clase se puede configurar de acuerdo a los si
   \item \textbf{gray\_code}: Bandera booleana que activa o desactiva la codificaci\'on Gray para la generaci\'on de la
   constelaci\'on.
   \item \textbf{verbose}: Especifica si el modulador va imprimir su informaci\'on de configuraci\'on a la consola.
-  \item \textbf{log}: Activa la generaci\'on de archivos con los datos que viajan atravez de las aristas del grafo.
+  \item \textbf{log}: Activa la generaci\'on de archivos con los datos que viajan a traves de las aristas del grafo.
 \end{itemize} 
 
 % Una vez que los s\'imbolos han sido procesados por el filtro de coseno elevado son enviados al USRP
@@ -971,7 +971,7 @@ tradicional (pasa bajas, pasa altas, etc.) \cite{behrouz}. Un ejemplo de estos f
   \end{tikzpicture}
   }
   \vspace{0.3in}
-  \caption{Estructuras b\'asicas de filtros multi tasa.}
+  \caption{Estructuras b\'asicas de filtros multi tasa \protect\cite{behrouz}.}
   \label{fig:multirate}
 \end{figure}
 
@@ -979,23 +979,23 @@ La figura \ref{fig:interpol} muestra la estructura de un interpolador simple con
 interpolaci\'on $L$. Este filtro reconstruye una se\~nal $x(n)$ a una tasa $L$ veces m\'as que la tasa
 de muestreo original. Esto se logra anexando $L-1$ ceros despues de cada muestra y despues se
 utiliza un filtro pasa bajas para eliminar las im\'agenes espectrales que se generan alrededor de la
-se\~nal debido a la operaci\'on de \emph{upsampling} \cite{behrouz}.
+se\~nal debido a la operaci\'on de sobremuestreo \cite{behrouz}.
 
 La figura \ref{fig:decimat} muestra la estructura de un filtro decimador con factor $M$. En este caso, el
 filtro pasa bajas se utiliza antes del decimador para reducir el ancho de banda de la se\~nal y
 prevenir que se genere el efecto alias debido a la reducci\'on de la frecuencia de muestreo. El
-decimador entonces tomar\'a cada $D$ veces muestras e ignorar\'a el resto.
+decimador entonces tomar\'a cada $M$ veces muestras e ignorar\'a el resto.
 
 Los filtros anteriores utilizan factores enteros y por lo tanto no se puede realizar interpolaci\'on
 o decimaci\'on fraccional \cite{behrouz}. Un tercer filtro combina ambas estructuras para lograr precisamente esto y
 se denominan filtros factoriales $L/M$. Su estructura se muestra en la figura
-\ref{fig:fractional}. Aqu\'i el filtro pasa bajas se encuentre entre el bloque de \emph{upsampling} y
+\ref{fig:fractional}. Aqu\'i el filtro pasa bajas se encuentre entre el bloque de sobremuestreo y
 el bloque decimador para proporcionar interpolaci\'on a la se\~nal y protecci\'on contra el efecto
 alias.
 
 El problema principal con las estructuras anteriores es que no son muy eficientes. El filtro decimador calcula
 muchas muestras que eventualmente ser\'an descartadas y el filtro interpolador procesa las muestras de
-la se\~nal as\'i como los ceros introducidos por la operaci\'on \emph{upsampling}. Para
+la se\~nal as\'i como los ceros introducidos por la operaci\'on de sobremuestreo. Para
 solucionar esto se utiliza una estructura de filtros polif\'asicos para lograr que el filtro decimador
 e interpolador procesen la se\~nal a la tasa de muestreo original y no a la tasa modificada. La
 estructura del filtro decimador en su descomposici\'on polif\'asica se muestra en la figura
@@ -1037,7 +1037,7 @@ estructura del filtro decimador en su descomposici\'on polif\'asica se muestra e
     	\draw[->] (d-7-4) -- (d-3-5);
   \end{tikzpicture}
   \vspace{0.3in}
-  \caption{Descomposici\'on del filtro decimador en su representaci\'on polif\'asica.}
+  \caption{Descomposici\'on del filtro decimador en su representaci\'on polif\'asica \protect\cite{behrouz}.}
   \label{fig:polydecim}
 \end{figure}
 
@@ -1080,7 +1080,7 @@ clase son los mismos que se describieron en el apartado \ref{subsec:estrucdqpsk}
 \subsection{Estructura del receptor}
 El programa principal del receptor se encuentra en el archivo \verb|benchmark_rx.py|. La estructura del programa es
 similar a la del transmisor, la diferencia principal es en el uso de una funci\'on auxiliar que maneja el grafo RX, adicionalmente
-se encarga de recibir los paquetes que van recibiendo y desplegar su estatus en la consola. Esta funci\'on se puede modificar
+se encarga de recibir los paquetes que van llegando y desplegar su estatus en la consola. Esta funci\'on se puede modificar
 para realizar cualquier otra operaci\'on con los paquetes de datos. El c\'odigo de esta funci\'on se muestra en el listado
 \ref{ex:callback}. La estructura del receptor se muestra en la figura \ref{fig:grdqpskrx}.
 

@@ -406,7 +406,7 @@ dos posibles valores separados por 180 grados. Estos valores se pueden observar
 claramente en el diagrama de constelaci\'on mostrado en la figura
 \ref{fig:bpskconst}. Este diagrama muestra la se\~nal en forma vectorial,
 proyectada en el plano complejo. La parte real se le denomina I, o componente ``en fase'' y
-la parte imaginaria se le denomina Q, o componente en ``quadratura''. La se\~nal
+la parte imaginaria se le denomina Q, o componente en ``cuadratura''. La se\~nal
 BPSK se observa como una se\~nal unidimensional, es decir, \'unicamente tiene
 proyecci\'on en el eje X. Cada s\'imbolo puede modular \'unicamente un bit, lo
 cual hace esta modulaci\'on ineficiente para aplicaciones que requieran una tasa
@@ -537,12 +537,13 @@ arriba. Un ejemplo de un espectrograma se muestra en la figura \ref{fig:spectrog
 
 %==========================================================================
 \section{Sincronizaci\'on}
-El proposito de un receptor es tomar la se\~nal transmitida y recuperar el mensaje que se transmiti\'o. Para lograr esto el
-receptor tiene que muestrear la se\~nal para convertirla en un formato digital. Como se observa en los parametros del diagrama de
+El prop\'osito de un receptor es tomar la se\~nal transmitida y recuperar el mensaje que se transmiti\'o. Para lograr esto el
+receptor tiene que muestrear la se\~nal para convertirla en un formato digital. Como se observa en los par\'ametros del diagrama de
 ojo \ref{fig:eyeparams}, el punto \'optimo para muestrear un s\'imbolo es en la zona m\'as abierta que corresponde al punto medio
 de cada s\'imbolo. Si el muestreo se realiza en la transici\'on de un s\'imbolo a otro los valores resultantes pueden llegar a ser
 erroneos.
 
+%TODO: Agregar referencia a esta explicacion
 Si asumimos que $T$ es la tasa de muestreo, $\tau$ es el tiempo que tarda en llegar el primer s\'imbolo y $\delta$ el tiempo que
 tarda la se\~nal en viajar del transmisor al receptor entonces el s\'imbolo $(k+1)$ empieza en $\tau+kT$ y tarda $\tau+kT+\delta$
 en llegar a su destino. El receptor comienza a muestrear en el momento $n$ y a partir de ese punto muestrea cada $n+kT$. Si el
@@ -553,7 +554,7 @@ n=\tau+\delta+T/2
 \end{equation}
 
 y de esta manera se logra recuperar el mensaje transmitido sin ning\'un problema. Mas sin embargo, al observar bien la ecuaci\'on
-\ref{eq:sampling} se puede ver dos problemas inmediatamente: el receptor no sabe en qu\'e tiempo se inici\'o la transmici\'on y
+\ref{eq:sampling} se puede ver dos problemas inmediatamente: el receptor no sabe en qu\'e tiempo se inici\'o la transmisi\'on y
 adicionalmente, no sabe cuanto tarda en llegar la se\~nal. Por lo tanto la ecucaci\'on \ref{eq:sampling} contiene dos
 variables desconocidas. Para resolver este problema se requiere emplear m\'etodos de sincronizaci\'on que permitan extraer la
 frecuencia y el reloj de la se\~nal recibida.
@@ -561,8 +562,8 @@ frecuencia y el reloj de la se\~nal recibida.
 Existen varios m\'etodos de sincronizaci\'on en receptores digitales, tales como:
 
 \begin{itemize}
-  \item Sincronizaci\'on de fase de s\'imbolos: Escoger el momento adecaudo para tomar la muestra (Escoger $T$).
-  \item Sincronizaci\'on de frecuencia de s\'imbolos: Compenzar por las diferencias en frecuencia de ambos osciladores (TX y RX).
+  \item Sincronizaci\'on de fase de s\'imbolos: Escoger el momento adecuado para tomar la muestra (Escoger $T$).
+  \item Sincronizaci\'on de frecuencia de s\'imbolos: Compensar por las diferencias en frecuencia de ambos osciladores (TX y RX).
   \item Sincronizaci\'on de fase de portadora: Alinear la fase de la portadora en el receptor con la portadora del transmisor.
   \item Sincronizaci\'on de frecuencia de portadora: Compenzar la frecuencia de la portadora en el receptor con la del
   transmisor.
@@ -700,10 +701,9 @@ error se calcula de la siguiente manera
 e_n=(y_n \cdot \hat{y}_{n-1}) - (\hat{y}_n \cdot y_{n-1})
 \end{equation}
 
-%TODO: Explicar que significa y with hat. Get this sorted out with the Doc
 donde $y_n$ es la muestra del s\'imbolo actual y $y_{n-1}$ es la muestra del s\'imbolo previo. El s\'imbolo actual y previo producido por el sincronizador
 dirigido por decisiones esta representado por $\hat{y}_n$ y $\hat{y}_{n-1}$ respectivamente.
-El sincronizador requiere que previamente se haya realizado la recuperacion de la fase ya que el algoritmo es muy sencible a offsets en la portadora. La
+El sincronizador requiere que previamente se haya realizado la recuperacion de la fase ya que el algoritmo es muy sensible a offsets en la portadora. La
 discusi\'on matem\'atica de este sincronizador esta fuera del alcance de este trabajo pero se invita al lector a consultar la
 bibliograf\'ia si desea aprender mas sobre la composici\'on y funcionamiento interno de este y otros sincronizadores. 
 
@@ -759,8 +759,7 @@ cualquier radio.
 \begin{figure}[pt]
 \centering
 	\includegraphics[scale=0.7]{figs/jtrs}
-	\caption{Hardware proporcionado por Rockwell Collins para el cluster JTRS
-	(Mchale, 2004)}
+	\caption{Hardware proporcionado por Rockwell Collins para el cluster JTRS \protect\cite{mchale}}
 	\label{fig:jtrs}
 \end{figure}
 

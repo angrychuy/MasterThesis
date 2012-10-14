@@ -69,7 +69,7 @@ indicar que se correr\'a un ejecutable. La sintaxis completa es:
 \begin{center}
 \verb|./benchmark_tx.py <opciones>|
 \end{center}
-donde opciones son algunas opciones que se pueden pasar al programa para controlar su
+donde \verb|<opciones>| son configuraciones que se pueden pasar al programa para controlar su
 funcionamiento. Para ver todas las opciones que soporta se puede utilizar el siguiente comando:
 \begin{center}
 \verb|./benchmark_tx.py --help|
@@ -103,7 +103,7 @@ Las opciones que se utilizaron para el transmisor y receptor son las siguientes:
   \item \textbf{-f}: Especifica la frecuencia con la cual se van a sintonizar las tarjetas
   auxiliares. Para este estudio se utiliz\'o la frecuencia m\'axima que soportan las
   tarjetas LFTX y LFRX que es 30Mhz.
-  \item \textbf{-S}: Especifica la cantidad de muestras por s\'imbolo. El valo por defecto es de 2. Se
+  \item \textbf{-S}: Especifica la cantidad de muestras por s\'imbolo. El valor por defecto es de 2. Se
   observ\'o que se tuvo un mejor rendimiento con un valor de 4.
 \end{itemize}
 
@@ -179,6 +179,7 @@ figura \ref{fig:siggen}.
 
 Los bloques se describen de la siguiente manera:
 
+%TODO: Explicar el metodo Galois para generar numeros pseudo-aleatorios
 \begin{itemize}
   \item \textbf{Fuente de n\'umeros pseudo-aleatorios}: El bloque se genera por medio de la clase
   \verb|gr.glfsr_source_b|. Esta clase implementa un registro de desplazamiento con
@@ -382,7 +383,7 @@ Los bloques del grafo se implementan de la siguiente manera:
   clases: \verb|gr.firdes.low_pass| y \verb|gr.fir_filter_ccf|. La primera se utiliza para generar
   los coeficientes del filtro a partir de los par\'ametros de entrada que se le especifiquen. Se
   utilizaron los valores por defecto del ejemplo a excepci\'on de la ventana. Originalmente utilizaba
-  una ventana de tipo Hamming y se cambio a una ventana Kaizer ya que esta tuvo mejor rendimiento y
+  una ventana de tipo Hamming y se cambi\'o a una ventana Kaizer ya que esta tuvo mejor rendimiento y
   ayud\'o a generar una curva de BER m\'as suave. Los par\'ametros que acepta la clase son la
   ganancia, la frecuencia de muestreo, la frecuencia de corte, el ancho de la banda de transici\'on
   y el tipo de ventana. La segunda clase implementa el filtro FIR (Respuesta finita al impulso por sus siglas en Ingl\'es) a
@@ -628,7 +629,7 @@ El espectrograma se muestra en la figura \ref{fig:spectrogramgui}.
 
 El espectrograma consiste en una grafica de cascada (waterfall en Ingl\'es) que se despliega en
 forma vertical (algunos autores la despliegan en forma horizontal). El eje Y es el tiempo medido en
-segundos y la grafic\'a se desplaza de abajo hacia arriba. El eje X representa el espectro en Hz. La
+segundos y la grafica se desplaza de abajo hacia arriba. El eje X representa el espectro en Hz. La
 figura \ref{fig:spectrogramgui} muestra la intensidad de la portadora de 30Mhz centrada en la
 grafica. Los colores tenues a un lado de la barra verde representan las bandas laterales de la
 portadora. Desde esta aplicaci\'on es posible modificar varios par\'ametros del USRP como la
@@ -687,7 +688,7 @@ Los resultados se muestran en la figura \ref{fig:rrcsignals}.
     \label{fig:rrcsignals}
 \end{figure}
 
-La figura \ref{fig:eye35} muestra que a menor $\alpha$ la se\~nal se distorciona m\'as y esto causa mayores
+La figura \ref{fig:eye35} muestra que a menor $\alpha$ la se\~nal se distorsiona m\'as y esto causa mayores
 dificultades para detectar los s\'imbolos correctamente pero tambien resulta en un filtro m\'as r\'apido y
 sencillo de implementar debido a que su respuesta al impulso es m\'as corta. La figura
 \ref{fig:eye75} muestra menos distorci\'on en la se\~nal a consecuencia de un filtro m\'as complicado de
@@ -747,7 +748,7 @@ por defecto no tiene soporte para representar el tipo \emph{float} de C lo cual 
 representaci\'on de las muestras del USRP. La biblioteca \emph{Numpy} y \emph{Scipy} de \emph{Python} encapsula
 varias representaciones de n\'umeros flotantes \cite{scipy} lo cual es necesario utilizar la correcta
 cuando se trabaja con muestras que genera el USRP de manera independiente de los programas de
-\emph{GNURadio}. Cada muestra compleja que transmite o recive el USRP es representado por dos
+\emph{GNURadio}. Cada muestra compleja que transmite o recibe el USRP es representado por dos
 n\'umeros flotantes de 32 bits por lo que es necesario utilizar el tipo de dato \emph{complex64} como
 se muestra en el listado \ref{ex:eyeprog}.
 
@@ -875,7 +876,7 @@ figura \ref{fig:benchcli}.
   \label{fig:benchcli}
 \end{figure}
 
-El dise\~no original del programa muestra si los paquetes transmitidos son recividos
+El dise\~no original del programa muestra si los paquetes transmitidos son recibidos
 correctamente pero no despliega el contenido de ellos. Cada l\'inea que muestra la figura
 \ref{fig:rxcli} indica paquete se decodifico correctamente, el n\'umero del paquete decodificado, la
 cantidad total de paquetes recibidos y la cantidad total de paquetes decodificados correctamente. La
@@ -934,14 +935,14 @@ los siguientes pasos:
   \item Crear un apuntador a una aplicaci\'on de QT. Para esto se utiliza la clase
   \verb|QApplication|.
   \item Crear el bloque sink de QT y conectarlo.
-  \item Utilizar la utileria SIP (parte de los requerimientos de la instalci\'on de QT) para
+  \item Utilizar la utileria SIP (parte de los requerimientos de la instalaci\'on de QT) para
   convertir el apuntador del objeto C++ que representa el sink a un objeto \emph{Python}. Esto se hace con
   el fin de poder tener acceso directo a los m\'etodos del objeto desde \emph{Python}.
   \item Mandar llamar el m\'etodo \verb|show()| del objeto creado.
   \item Mandar llamar el m\'etodo \verb|start()| del bloque jer\'arquico en lugar del m\'etodo
   \verb|run()|. El m\'etodo \verb|start()| no causa la aplicaci\'on que se detenga hasta que el grafo
   termine de ejecutarse debido a que no manda llamar el m\'etodo \verb|wait()|.
-  \item Mandar llamar el m\'etodo \verb|_exec()| del apuntador de la apliaci\'on QT para poder desplegar
+  \item Mandar llamar el m\'etodo \verb|_exec()| del apuntador de la aplicaci\'on QT para poder desplegar
   los controles gr\'aficos. 
 \end{itemize}
 
