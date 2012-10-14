@@ -632,7 +632,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%        Abstract  English                        %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\abstractengname}{ABSTRACT ENGLISH}%
+\newcommand{\abstractengname}{ABSTRACT}%
 \newcommand{\abstracte}{
 	\phantomsection %Bug fix
 	\addcontentsline{toc}{extrachapter}{\abstractengname}
@@ -684,7 +684,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%        Abstract Spanish                         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\abstractespname}{RESUMEN EN ESPA\~NOL}%
+\newcommand{\abstractespname}{RESUMEN}%
 \newcommand{\abstracts}{
 	\phantomsection %Bug fix
 	\addcontentsline{toc}{extrachapter}{\abstractespname}
