@@ -17,4 +17,5 @@ Tesis_Jesus.synctex.gz
 *.out
 *.toc
 *.log
+*.synctex.gz
 main.pdf
