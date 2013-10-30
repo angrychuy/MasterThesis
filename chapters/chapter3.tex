@@ -335,14 +335,16 @@ muestra en la figura \ref{fig:radioflow}.
 \begin{figure}[hpt]
   \centering
   \vspace{0.3in}
-	\begin{tikzpicture}
+	\begin{tikzpicture}[pin distance=20mm]
 		\node (sg) [grblock] {\small{Generador de se\~nales}};
+		\path (sg.west)+(-2.2,1.5) node (nodo) {Nodo};
 		\node (os) [grblock, right=of sg] {\small{Osciloscopio}}
 		edge [<-, very thick] (sg);
 		\node (fft) [grblock, below=of os] {FFT};
-		\draw[->, very thick] (sg) |- (fft);
+		\draw[->, very thick] (sg) |- (fft) node[midway, pin={[pin edge={<-,black, very thick, dashed}]below left:Arista}]{};
 		\node (os2) [grblock, right =of fft] {\small{Osciloscopio}}
 		edge [<-, very thick] (fft);
+		\path[draw,->,dashed,very thick] (nodo.east) -- node {} (sg.160);
 	\end{tikzpicture}
 	\vspace{0.5in}
 	\caption{Ejemplo de un grafo de flujo en \emph{GNURadio}}

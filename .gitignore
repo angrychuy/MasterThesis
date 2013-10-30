@@ -10,3 +10,12 @@ Tesis_Jesus.synctex.gz
 *.aux
 *.bbl
 *.blg
+*.tcp
+*.tps
+*.lof
+*.lot
+*.out
+*.toc
+*.log
+*.synctex.gz
+main.pdf
