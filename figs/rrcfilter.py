@@ -2,8 +2,7 @@
 """
 Spyder Editor
 
-This temporary script file is located here:
-C:\Users\Haysoos\.spyder\.temp.py
+Caracterizacion del filtro RRC. Traducido a python de matlab.
 """
 from __future__ import division
 from numpy import *
