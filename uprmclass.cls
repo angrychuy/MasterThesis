@@ -537,6 +537,9 @@
     UNIVERSIDAD AUT\'ONOMA DE BAJA CALIFORNIA \\%    
     \vspace{0.2in}%
     \MakeUppercase{\Departamento}\\*[\BaseDiff\baselineskip]%
+    \vspace{0.5in}%
+    \MakeUppercase{\DegreeType}\\*[\BaseDiff\baselineskip]%
+    \vspace{0.2in}%
     \GradMes, \GradYear%
     \end{RS@Cent}%
     \vfill%
