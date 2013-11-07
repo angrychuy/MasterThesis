@@ -529,8 +529,6 @@
     \vspace{1.0in}
     Tesis sometida en cumplimiento parcial de los requerimientos para el grado de\\*[\BaseDiff\baselineskip]%
     \MakeUppercase{\DegreeTypes} \\*[\BaseDiff\baselineskip]%
-    en\\*[\BaseDiff\baselineskip]%
-    \MakeUppercase{\Specialty}\\*[\BaseDiff\baselineskip]%
     \vspace{0.2in}%
     \includegraphics[width=1.2in]{uabc-logo}\\ %
     \vspace{0.2in}%
